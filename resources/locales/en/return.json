@@ -1,0 +1,16 @@
+{
+  "return_voucher" : "Postal Return",
+  "info" : "Infomation",
+  "total_discount" : "Total discount",
+  "return" : "Return",
+  "pay_daily" : "Pay daily ",
+  "identity_card" : "Identity card",
+  "receiver_phone" : "Receiver phone",
+  "receiver_fullname" : "Receiver fullname",
+  "sender_fullname" : "Sender fullname",
+  "sender_phone" : "Sender phone",
+  "sender" : "Sender",
+  "sender1" : "Sender",
+  "receiver" : "Receiver",
+  "code" : "Code goods sender"
+}

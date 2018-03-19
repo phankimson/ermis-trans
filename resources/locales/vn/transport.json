@@ -1,0 +1,12 @@
+{
+    "title": "Phương tiện",
+    "number_plates" : "Biển số",
+    "weight" : "Tải trọng",
+    "image" : "Hình ảnh phương tiện",
+    "registry" : "Đăng kiểm",
+    "size" : "Kích thước xe",
+    "owner" : "Chủ xe",
+    "suplier" : "Ncc xe",
+    "rental_fees" : "Phí thuê xe",
+    "hire_surcharge" : "Phụ phí thuê xe"
+}

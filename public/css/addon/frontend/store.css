@@ -1,0 +1,140 @@
+
+#time_shift{
+  color : white;
+  font-size:  20px ! important;
+  text-align: center;
+  line-height: 2;
+}
+#action_button{
+  margin-top: 30px;
+  margin-left: 150px;
+}
+#action_button_return{
+  margin-bottom: 15px;
+}
+#form-action{
+  margin-bottom: 10px;
+}
+.hidden {
+  display: none;
+}
+.md-input{
+  padding: 9px 4px ! important;
+}
+.uk-tab-responsive{
+  margin-top: -7px!important;
+}
+
+.row-label-responsive {
+    width: 100px;
+}
+.row-label {
+    width: 200px
+}
+.row-label-medium {
+    width: 300px
+}
+input.disabled{
+  background: #f2f2f2
+}
+.k-textbox ,.droplist,.k-dropdown-wrap .k-input,.k-dropdown .k-state-default,.k-multiselect.k-header,.k-input{
+    border-color: darkgrey;
+}
+
+.xxsmall{
+    width : 50px!important;
+}
+.xsmall{
+    width : 100px!important;
+}
+.small{
+    width :150px!important;
+}
+.medium{
+    width : 300px!important;
+}
+.large{
+    width : 400px!important;
+}
+.xlarge{
+    width : 500px!important;
+}
+.xxlarge{
+    width : 600px!important;
+}
+.xxxlarge{
+    width : 900px!important;
+}
+
+.xxsmall-responsive{
+    width : 20px!important;
+}
+.xsmall-responsive{
+    width : 50px!important;
+}
+.small-responsive{
+    width :100px!important;
+}
+.medium-responsive{
+    width : 200px!important;
+}
+.large-responsive{
+    width : 300px!important;
+}
+.xlarge-responsive{
+    width : 400px!important;
+}
+.xxlarge-responsive{
+    width : 500px!important;
+}
+.xxxlarge-responsive{
+    width : 900px!important;
+}
+.margin-left-5 {
+  margin-left: 5px;
+}
+#tabs_response_mobile{
+  display: none;
+}
+#tabs_response{
+  display: inline-block;
+}
+
+@media screen and (max-width: 1400px) {
+  #tabs_response_mobile{
+    display: inline-block;
+  }
+  #tabs_response{
+    display: none;
+  }
+  .main_logo_top{
+      min-width: 160px!important;
+  }
+  .xxsmall-responsive{
+      width : 30px!important;
+  }
+  .xsmall-responsive{
+      width : 50px!important;
+  }
+  .small-responsive{
+      width :80px!important;
+  }
+  .medium-responsive{
+      width : 120px!important;
+  }
+  .large-responsive{
+      width : 180px!important;
+  }
+  .xlarge-responsive{
+      width : 220px!important;
+  }
+  .xxlarge-responsive{
+      width : 280px!important;
+  }
+  .xxxlarge-responsive{
+      width : 320px!important;
+  }
+  .row-label {
+    width : 100px!important;
+  }
+}

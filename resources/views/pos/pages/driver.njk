@@ -1,0 +1,90 @@
+
+{% extends 'manage.layouts.ermisform4' %}
+{% block content_add %}
+    <div class="uk-grid uk-margin-left-10 uk-grid-medium">
+        <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim', animation:'slide-left', swiping: false}">
+            <li class="uk-active"><a href="javascript:;">{{ antl.get('global.info') }}</a></li>
+            <li><a href="javascript:;">{{ antl.get('global.expand') }}</a></li>
+        </ul>
+        <ul id="tabs_anim" class="uk-switcher uk-margin">
+            <li>
+                <table>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('global.code') }}</label></td>
+                        <td><input type="text" class="k-textbox medium" data-position="3" data-title="{{ antl.get('global.code') }}" data-width="200px" data-type="string" name="code" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('global.name') }}</label></td>
+                        <td><input type="text" class="k-textbox large" data-position="4" data-title="{{ antl.get('global.name') }}" data-width="200px" data-type="string" name="name" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('global.name_en') }}</label></td>
+                        <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('global.name_en') }}" data-width="200px" data-type="string" name="name_en" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('driver.address') }}</label></td>
+                        <td><input type="text" class="k-textbox large" data-position="6" data-title="{{ antl.get('driver.address') }}" data-width="200px" data-type="string" name="address" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('driver.identity_card') }}</label></td>
+                        <td><input type="text" class="k-textbox large" data-position="6" data-title="{{ antl.get('driver.identity_card') }}" data-width="200px" data-type="string" name="identity_card" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('driver.date_identity_card') }}</label></td>
+                        <td><input type="text" class="k-datepicker date" data-position="8" data-title="{{ antl.get('driver.date_identity_card') }}" data-width="200px" data-type="date" data-template="#= kendo.toString(kendo.parseDate(date_identity_card, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" name="date_identity_card" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('driver.place_identity_card') }}</label></td>
+                        <td><input type="text" class="k-textbox large" data-position="6" data-title="{{ antl.get('driver.place_identity_card') }}" data-width="200px" data-type="string" name="place_identity_card" /></td>
+                    </tr>
+
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('driver.phone') }}</label></td>
+                        <td><input type="text" class="k-textbox medium" data-position="8" data-title="{{ antl.get('driver.phone') }}" data-width="200px" data-type="string" name="phone" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('driver.email') }}</label></td>
+                        <td><input type="text" class="k-textbox medium" data-position="8" data-title="{{ antl.get('driver.email') }}" data-width="200px" data-type="string" name="email" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('driver.birthday') }}</label></td>
+                        <td><input type="text" class="k-datepicker date" data-position="8" data-title="{{ antl.get('driver.birthday') }}" data-width="200px" data-type="date" data-template="#= kendo.toString(kendo.parseDate(birthday, 'yyyy-MM-dd'), 'dd/MM/yyyy') #" name="birthday" /></td>
+                    </tr>
+                    <tr>
+                        <td class="row-label"><label>{{ antl.get('driver.general') }}</label></td>
+                        <td class="row-height">
+                                    <input type="radio" name="general" id="radio0" data-position="8" data-title="{{ antl.get('driver.general') }}" data-width="200px" class="k-radio" data-template="#= FormatRadio(general,'general') #"  value="0" checked="checked">
+                                    <label class="k-radio-label" for="radio0">Nam</label>
+
+                                    <input type="radio" name="general" data-remove="true" id="radio1" value="1" class="k-radio">
+                                    <label class="k-radio-label" for="radio1">Nữ</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>{{ antl.get('action.active') }}</label></td>
+                        <td class="row-height"><input type="checkbox" data-md-icheck="" data-position="10" data-title="{{ antl.get('action.active') }}" data-value="1" data-width="100px" data-type="string" data-template="#= FormatCheckBox(active) #" name="active" /></td>
+                    </tr>
+                </table>
+            </li>
+            <li>
+
+            </li>
+        </ul>
+    </div>
+    <div class="uk-margin" style="float : right">
+        <a href="javascript:;" class="k-button k-primary save" data-uk-tooltip title="{{ antl.get('action.save') }} (Alt+Ctrl+S)"><i class="md-18 material-icons md-color-white">save</i>{{ antl.get('action.save') }}</a>
+        <a href="javascript:;" class="k-button k-primary cancel" data-uk-tooltip title="{{ antl.get('action.cancel') }} (Alt+Ctrl+C)"><i class="md-18 material-icons md-color-white">cancel</i>{{ antl.get('action.cancel') }}</a>
+    </div>
+
+{% endblock %}
+{% block scripts_add %}
+    <script>
+    jQuery(document).ready(function () {
+        Ermis.data = {{ data | json | safe }};
+        Ermis.per = JSON.parse('{{ permission | safe }}');
+        Ermis.flag = 1;
+        Ermis.link = "{{ key }}";
+        Ermis.room = "{{ room }}";
+    });
+    </script>
+{% endblock %}

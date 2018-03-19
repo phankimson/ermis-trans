@@ -1,0 +1,11 @@
+{
+    "title": "Tài xế",
+    "address": "Địa chỉ",
+    "identity_card": "CMND",
+    "date_identity_card": "Ngày CMND",
+    "place_identity_card": "Địa chỉ CMND",
+    "phone": "Điện thoại",
+    "email": "Email",
+    "birthday": "Ngày sinh",
+    "general": "Giới tính"
+}

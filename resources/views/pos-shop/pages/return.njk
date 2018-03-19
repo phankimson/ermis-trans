@@ -1,0 +1,283 @@
+{% extends 'pos-shop.layouts.default' %}
+{% block css %}
+<title>{{ inventory.name + ' - ' + company.name }}</title>
+
+{% endblock %}
+
+{% block content %}
+<div id="page_content">
+    <div id="page_content_inner">
+    <div class="uk-grid">
+            <div class="uk-width-medium-3-5">
+                <div class="md-card md-card-warning">
+                    <div class="md-card-toolbar">
+                        <div class="md-card-toolbar-actions">
+                            <a href="javascript:;" data-type="1" class="search_barcode"><i class="md-icon material-icons">search</i></a>
+                            <i class="md-icon material-icons md-card-fullscreen-activate toolbar_fixed"></i>
+                            <i class="md-icon material-icons"></i>
+                        </div>
+                        <div class="uk-input-group uk-float-right" style="width : 30%">
+                          <div class="md-input-wrapper"><label>{{ antl.get('return.code') }}</label><input type="text" id="barcode" class="md-input"><span class="md-input-bar "></span></div>
+                        </div>
+                        <h3 class="md-card-toolbar-heading-text">
+                              <i class="md-icon material-icons md-color-orange-A700">local_offer</i> <span class="title_hide">{{ antl.get('return.return_voucher') }}</span>
+                        </h3>
+                    </div>
+                    <div class="md-card-content">
+                    <div id="action_button_return">
+                    <a class="md-btn md-btn-primary md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light payment" href="javascript:void(0)">
+                        <i class="material-icons">attach_money</i>
+                        {{ antl.get('return.return') }}
+                    </a>
+                    <a class="md-btn md-btn-warning md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light print" href="javascript:void(0)">
+                        <i class="material-icons">print</i>
+                        {{ antl.get('action.print') }}
+                    </a>
+                    <a class="md-btn md-btn-danger md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light cancel" href="javascript:void(0)">
+                        <i class="material-icons">block</i>
+                        {{ antl.get('action.cancel') }}
+                    </a>
+                    </div>
+                        <div id="grid"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-width-medium-2-5" id="form-action">
+            <div class="md-card md-card-primary">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <i class="md-icon material-icons md-card-fullscreen-activate toolbar_fixed"></i>
+                        <i class="md-icon material-icons"></i>
+                        <div class="md-card-dropdown" id="tabs_response_mobile" data-uk-dropdown="{pos:'bottom-right'}" aria-haspopup="true" aria-expanded="false">
+                            <i class="md-icon material-icons"></i>
+                            <div class="uk-dropdown uk-dropdown-bottom">
+                                <ul class="uk-nav" data-uk-switcher="{connect:'#tabs_anim6', animation:'slide-bottom'}">
+                                  <li class="uk-active"><a href="javascript:;">{{ antl.get('return.return') }}</a></li>
+                                  <li ><a href="javascript:;">{{ antl.get('return.info') }}</a></li>
+                                  <li ><a href="javascript:;">{{ antl.get('return.sender1') }}</a></li>
+                                  <li ><a href="javascript:;">{{ antl.get('return.receiver') }}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ul class="uk-tab uk-tab-flip uk-float-left" id="tabs_response" data-uk-tab="{connect:'#tabs_anim6', animation:'slide-bottom'}">
+                                    <li class="uk-active" aria-expanded="true"><a href="javascript:;">{{ antl.get('return.return') }}</a></li>
+                                    <li aria-expanded="false"><a href="javascript:;">{{ antl.get('return.info') }}</a></li>
+                                    <li aria-expanded="false"><a href="javascript:;">{{ antl.get('return.sender1') }}</a></li>
+                                    <li aria-expanded="false"><a href="javascript:;">{{ antl.get('return.receiver') }}</a></li>
+                          </ul>
+
+                    </div>
+                    <h3 class="md-card-toolbar-heading-text">
+                        <i class="md-icon material-icons md-color-light-blue-500">attach_file</i><span class="title_hide">{{ antl.get('return.info') }}</span>
+                    </h3>
+                </div>
+                        <div class="md-card-content">
+                        <ul id="tabs_anim6" class="uk-switcher uk-margin">
+                                <li aria-hidden="false" class="uk-active">
+                                <!-- Tabs 1 -->
+                                <table id="form-action-2">
+                                <tr>
+                                    <td class="row-label"><label>{{ antl.get('inventory_voucher.voucher') }}</label></td>
+                                    <td><input type="text" class="voucher k-textbox xlarge-responsive disabled not_load" readonly name="voucher"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="row-label"><label>{{ antl.get('inventory_voucher.date_voucher') }}</label></td>
+                                    <td ><input type="text" value="" name="date_voucher" readonly class="k-textbox xlarge-responsive disabled date not_load" /></td>
+                                </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('inventory_voucher.description') }}</label></td>
+                                        <td ><input type="text" value="" name="description" class="k-textbox xlarge-responsive not_load" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('return.receiver_fullname') }}</label></td>
+                                        <td ><input type="text" value="" name="receiver_fullname" class="k-textbox xlarge-responsive" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('return.receiver_phone') }}</label></td>
+                                        <td ><input type="text" value="" name="receiver_phone" class="k-textbox xlarge-responsive" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('return.identity_card') }}</label></td>
+                                        <td ><input type="text" value="" name="identity_card" class="k-textbox xlarge-responsive" /></td>
+                                    </tr>
+                                </table>
+                                </li>
+                                <li aria-hidden="true">
+                                <!-- Tabs 2 -->
+                                <table id="form-load" >
+                                <tr>
+                                    <td class="row-label"><label>{{ antl.get('store.voucher') }}</label></td>
+                                    <td><input type="text" class="voucher k-textbox xlarge-responsive disabled" readonly name="code"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="row-label"><label>{{ antl.get('store.date_voucher') }}</label></td>
+                                    <td ><input type="text" value="" name="date_voucher" readonly class="k-textbox xlarge-responsive disabled date" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="row-label"><label>{{ antl.get('store.transport_station_send') }}</label></td>
+                                    <td ><input type="text" value="" name="transport_station_send" readonly class="k-textbox xlarge-responsive disabled" /></td>
+                                </tr>
+                                <tr>
+                                    <td class="row-label"><label>{{ antl.get('store.transport_station_receive') }}</label></td>
+                                    <td ><input type="text" value="" name="transport_station_receive" readonly class="k-textbox xlarge-responsive disabled" /></td>
+                                </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('store.parcel_volumes') }}</label></td>
+                                        <td ><input type="text" value="" name="parcel_volumes" readonly class="k-textbox xlarge-responsive disabled" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('store.size') }}</label></td>
+                                        <td ><input type="text" value="" name="size" readonly class="k-textbox xlarge-responsive disabled" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('store.name') }}</label></td>
+                                        <td ><input type="text" value="" name="name" readonly class="k-textbox xlarge-responsive disabled" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('store.lot_number') }}</label></td>
+                                        <td ><input type="text" value="" name="lot_number" readonly class="k-textbox xlarge-responsive disabled" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label"><label>{{ antl.get('store.note') }}</label></td>
+                                        <td ><input type="text" value="" name="note" readonly class="k-textbox xlarge-responsive disabled" /></td>
+                                    </tr>
+                                </table>
+                                </li>
+                                <li>
+                                <table>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.fullname') }} * </label></td>
+                                      <td ><input type="text" value="" name="sender_fullname" readonly class="k-textbox large disabled" /></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.phone') }} * </label></td>
+                                      <td ><input type="text" value="" name="sender_phone" readonly class="k-textbox large disabled" /></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.email') }} * </label></td>
+                                      <td ><input type="text" value="" name="sender_email" readonly class="k-textbox large disabled" /></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.address') }} * </label></td>
+                                      <td ><input type="text" value="" name="sender_address" readonly class="k-textbox large disabled" /></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.city') }} </label></td>
+                                      <td >
+                                      <input type="text" value="" name="sender_city" readonly class="k-textbox large disabled" />
+                                      </td>
+                                  </tr>
+                              </table>
+                                </li>
+                                <li>
+                                <table>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.fullname') }} * </label></td>
+                                      <td ><input type="text" value="" name="receiver_fullname" readonly class="k-textbox large disabled" /></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.phone') }} * </label></td>
+                                      <td ><input type="text" value="" name="receiver_phone" readonly class="k-textbox large disabled" /></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.email') }} * </label></td>
+                                      <td ><input type="text" value="" name="receiver_email" readonly class="k-textbox large disabled" /></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.address') }} * </label></td>
+                                      <td ><input type="text" value="" name="receiver_address" readonly class="k-textbox large disabled" /></td>
+                                  </tr>
+                                  <tr>
+                                      <td class="row-label-medium"><label>{{ antl.get('store.city') }} </label></td>
+                                      <td >
+                                      <input type="text" value="" name="receiver_city" readonly class="k-textbox large disabled" />
+                                      </td>
+                                  </tr>
+                              </table>
+                                </li>
+                            </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Barcode FORM -->
+<div id="form-window-barcode" style="display:none">
+<select class="droplist not_null" name="filter_field">
+    <option readonly selected value="">--Select--</option>
+    <option value="code">{{ antl.get('store.voucher') }}</option>
+    <option value="name">{{ antl.get('store.name') }}</option>
+    <option value="date_voucher">{{ antl.get('store.date_voucher') }}</option>
+    <option value="sender_fullname">{{ antl.get('return.sender_fullname') }}</option>
+    <option value="sender_phone">{{ antl.get('return.sender_phone') }}</option>
+    <option value="receiver_fullname">{{ antl.get('return.receiver_fullname') }}</option>
+    <option value="receiver_phone">{{ antl.get('return.receiver_phone') }}</option>
+</select>
+<input type="text" name="filter_value" class="k-textbox">
+<a href="javascript:;" class="uk-margin-left-30 k-button k-primary" id="search_data" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">search</i>{{ antl.get('action.search') }}</a>
+
+<div class="uk-margin-medium-top"></div>
+
+<div id="grid_barcode"></div>
+
+<div class="uk-margin" style="float : right">
+    <a href="javascript:;" class="k-button k-primary choose_barcode" data-uk-tooltip title="{{ antl.get('action.choose') }}"><i class="md-18 material-icons md-color-white">done</i>{{ antl.get('action.choose') }}</a>
+    <a href="javascript:;" class="k-button k-primary cancel-window" data-uk-tooltip title="{{ antl.get('action.close') }}"><i class="md-18 material-icons md-color-white">not_interested</i>{{ antl.get('action.close') }}</a>
+</div>
+</div>
+<!-- Barcode FORM -->
+<div id="print"></div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+jQuery(document).ready(function () {
+    Ermis.per = JSON.parse('{{ permission | safe }}');
+    Ermis.link = "{{ key }}";
+    Ermis.room = "{{ room }}";
+    Ermis.voucher  =  {{ voucher | json | safe }};
+    Ermis.columns    = [{"field" :"id", hidden : true},
+                         { "field" : "code","title" : "{{ antl.get('store.voucher') }}" ,"width" : "130px"  },
+                         { "field" : "name","title" : "{{ antl.get('store.name') }}","width" : "150px"  },
+                         { "field" : "date_voucher","title" : "{{ antl.get('store.date_voucher') }}","width" : "150px",template : "#=FormatDate(date_voucher)#" },
+                         { "field" : "transport_station_send","title" : "{{ antl.get('store.transport_station_send') }}","width" : "100px" },
+                         { "field" : "transport_station_receive","title" : "{{ antl.get('store.transport_station_receive') }}","width" : "100px" },
+                         { "field" : "sender_fullname","title" : "{{ antl.get('return.sender_fullname') }}" ,"width" : "200px"},
+                         { "field" : "sender_phone","title" : "{{ antl.get('return.sender_phone') }}" ,"width" : "150px"},
+                         { "field" : "receiver_fullname","title" : "{{ antl.get('return.receiver_fullname') }}","width" : "200px" },
+                         { "field" : "receiver_phone","title" : "{{ antl.get('return.receiver_phone') }}" ,"width" : "150px" }];
+
+
+     Ermis.field = {
+         id : {field :"id" ,defaultValue: 0},
+         code : { editable: false},
+         name : {editable: false },
+         date_voucher :      {editable: false },
+         transport_station_send :      {editable: false },
+         transport_station_receive : {editable: false },
+         sender_fullname : {editable: false },
+         sender_phone:     {editable: false },
+         receiver_fullname:    {editable: false },
+         receiver_phone:     {editable: false}
+     };
+
+     Ermis.columns_barcode    = [{title: 'Select All',headerTemplate: '<input type="checkbox" id="header-chb-b" class="k-checkbox"><label class="k-checkbox-label" for="header-chb-b"></label>',template: function(dataItem){return '<input type="checkbox" id="c-'+dataItem.id+'" class="k-checkbox"><label class="k-checkbox-label" for="c-'+dataItem.id+'"></label>'},width: 80},
+                          { "field" : "code","title" : "{{ antl.get('store.voucher') }}" ,"width" : "130px"  },
+                          { "field" : "name","title" : "{{ antl.get('store.name') }}","width" : "150px"  },
+                          { "field" : "date_voucher","title" : "{{ antl.get('store.date_voucher') }}","width" : "150px",template : "#=FormatDate(date_voucher)#" },
+                          { "field" : "sender_fullname","title" : "{{ antl.get('return.sender_fullname') }}" ,"width" : "200px"},
+                          { "field" : "sender_phone","title" : "{{ antl.get('return.sender_phone') }}" ,"width" : "150px"},
+                          { "field" : "receiver_fullname","title" : "{{ antl.get('return.receiver_fullname') }}","width" : "200px" },
+                          { "field" : "receiver_phone","title" : "{{ antl.get('return.receiver_phone') }}" ,"width" : "150px" }];
+
+});
+</script>
+<script src="{{ url('scripts/uikit.min.js') }}"></script>
+<script src="{{ url('scripts/ukit_pagination.js') }}"></script>
+<script src="{{ url('library/jquery.print/jQuery.print.js') }}"></script>
+<script src="{{ url('scripts/addon/frontend/store_return.js') }}"></script>
+{% endblock %}

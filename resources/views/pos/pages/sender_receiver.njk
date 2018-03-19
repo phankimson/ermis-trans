@@ -1,0 +1,84 @@
+
+{% extends 'manage.layouts.ermisform2' %}
+{% block content_add %}
+    <div id="notification"></div>
+    <table>
+        <tr>
+            <td class="row-label"><label>{{ antl.get('global.code') }}</label></td>
+            <td><input type="text" class="k-textbox medium" data-position="1" data-title="{{ antl.get('global.code') }}" data-width="200px" data-type="string" name="code" /></td>
+        </tr>
+        <tr>
+            <td class="row-label"><label>{{ antl.get('store.fullname') }}</label></td>
+            <td><input type="text" class="k-textbox xxlarge" data-position="2" data-title="{{ antl.get('store.fullname') }}" data-width="200px" data-type="string" name="fullname" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('store.phone') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="3" data-title="{{ antl.get('store.phone') }}" data-width="200px" data-type="string" name="phone" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('store.address') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="4" data-title="{{ antl.get('store.address') }}" data-width="200px" data-type="string" name="address" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('store.email') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('store.email') }}" data-width="200px" data-type="string" name="email" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('store.customer') }}</label></td>
+            <td>
+            <select class="droplist large" data-title="{{ antl.get('store.customer') }}" data-position="1" data-template="#= FormatDropList(customer,'customer') #" data-hidden="true" data-width="200px" data-type="number" name="customer">
+                <option readonly selected value="0">--Select--</option>
+                    {% for x in customer %}
+                    <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                    {% endfor %}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('store.city') }}</label></td>
+            <td>
+            <select class="droplist large" data-title="{{ antl.get('store.city') }}" data-position="1" data-template="#= FormatDropList(city,'city') #" data-hidden="true" data-width="200px" data-type="number" name="city">
+                <option readonly selected value="0">--Select--</option>
+                    {% for x in city %}
+                    <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                    {% endfor %}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('store.distric') }}</label></td>
+            <td>
+            <select class="droplist large" data-title="{{ antl.get('store.distric') }}" data-position="1" data-template="#= FormatDropList(distric,'distric') #" data-hidden="true" data-width="200px" data-type="number" name="distric">
+                <option readonly selected value="0">--Select--</option>
+                    {% for x in distric %}
+                    <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                    {% endfor %}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('action.active') }}</label></td>
+            <td class="row-height"><input type="checkbox" data-md-icheck="" data-position="10" data-value="1"  data-title="{{ antl.get('action.active') }}" data-width="100px" data-type="boolean" data-template="#= FormatCheckBoxBoolean(active) #" name="active" /></td>
+        </tr>
+    </table>
+{% endblock %}
+{% block tabs %}
+<div id="tabstrip" style="display:none">
+    <ul>
+        <li data-search="1" class="k-state-active">{{ antl.get('sender_receiver.sender') }}</li>
+        <li data-search="2">{{ antl.get('sender_receiver.receiver') }}</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block scripts_add %}
+    <script>
+    jQuery(document).ready(function () {
+        Ermis.data = {{ data | json | safe }};
+        Ermis.per = JSON.parse('{{ permission | safe }}');
+        Ermis.flag = 1;
+        Ermis.link = "{{ key }}";
+        Ermis.room = "{{ room }}";
+    });
+    </script>
+{% endblock %}

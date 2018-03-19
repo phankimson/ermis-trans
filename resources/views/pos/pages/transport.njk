@@ -1,0 +1,95 @@
+
+{% extends 'manage.layouts.ermisform1-i-big' %}
+{% block css_add %}
+<link rel="stylesheet" href="{{ url('scripts/custom/dropify/dist/css/dropify.css') }}" />
+{% endblock %}
+{% block content_add %}
+    <div id="notification"></div>
+    <table>
+    <tr>
+        <td><label>{{ antl.get('transport.image') }}</label></td>
+        <td class="row-height">
+        <div id="image-preview"><img style="max-width: 50%;height: auto;" src=""></div>
+        </td>
+    </tr>
+    <tr>
+        <td><label></label></td>
+        <td class="row-height">
+        <form id="image-form" enctype="multipart/form-data" role="form" method="post">
+        <input  data-hidden="true" name="image" id="image" type="file" aria-label="files" />
+        </form>
+        </td>
+    </tr>
+    <tr>
+        <td><label>{{ antl.get('type_transport.title') }}</label></td>
+        <td class="row-height">
+            <select class="droplist large" data-title="{{ antl.get('type_transport.title') }}" data-position="1" data-template="#= FormatDropList(type_transport,'type_transport') #" data-hidden="true" data-width="200px" data-type="number" name="type_transport">
+                <option readonly selected value="0">--Select--</option>
+                    {% for x in type_transport %}
+                    <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                    {% endfor %}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td><label>{{ antl.get('transport.suplier') }}</label></td>
+        <td class="row-height">
+            <select class="droplist large" data-title="{{ antl.get('transport.suplier') }}" data-position="1" data-template="#= FormatDropList(suplier,'suplier') #" data-hidden="true" data-width="200px" data-type="number" name="suplier">
+                <option readonly selected value="0">--Select--</option>
+                    {% for x in suplier %}
+                    <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                    {% endfor %}
+            </select>
+        </td>
+    </tr>
+        <tr>
+            <td class="row-label"><label>{{ antl.get('global.code') }} *</label></td>
+            <td><input type="text" class="k-textbox large" data-position="2" data-title="{{ antl.get('global.code') }}" data-width="200px" data-null="true" data-type="string" name="code" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('global.name') }} *</label></td>
+            <td><input type="text" class="k-textbox large" data-position="3" data-title="{{ antl.get('global.name') }}" data-width="200px" data-null="true" data-type="string" name="name" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('global.name_en') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="4" data-title="{{ antl.get('global.name_en') }}" data-width="200px" data-type="string" name="name_en" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('transport.number_plates') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.number_plates') }}" data-width="200px" data-type="string" name="number_plates" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('transport.registry') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.registry') }}" data-width="200px" data-type="string" name="number_plates" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('transport.size') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.size') }}" data-width="200px" data-type="string" name="number_plates" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('transport.owner') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.owner') }}" data-width="200px" data-type="string" name="number_plates" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('transport.weight') }}</label></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.weight') }}" data-width="200px" data-type="string" name="weight" /></td>
+        </tr>
+        <tr>
+            <td><label>{{ antl.get('action.active') }}</label></td>
+            <td class="row-height"><input type="checkbox" data-md-icheck="" data-position="6" data-value="1" data-title="{{ antl.get('action.active') }}" data-width="100px" data-type="string" data-template="#= FormatCheckBox(active) #" name="active" /></td>
+        </tr>
+    </table>
+    {% endblock %}
+    {% block scripts_add %}
+    <!--  dropify -->
+    <script src="{{ url('scripts/custom/dropify/dist/js/dropify.min.js') }}"></script>
+        <script>
+        jQuery(document).ready(function () {
+            Ermis.data = {{ data | json | safe }};
+            Ermis.per = JSON.parse('{{ permission | safe }}');
+            Ermis.flag = 1;
+            Ermis.link = "{{ key }}";
+            Ermis.room = "{{ room }}";
+        });
+        </script>
+    {% endblock %}

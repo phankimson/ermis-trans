@@ -1,0 +1,16 @@
+{
+  "return_voucher" : "Trả bưu kiện",
+  "info" : "Thông tin",
+  "total_discount" : "Total discount",
+  "return" : "Trả hàng",
+  "pay_daily" : "Trả hàng ngày ",
+  "identity_card" : "CMND",
+  "receiver_phone" : "Điện thoại người nhận",
+  "receiver_fullname" : "Họ tên người nhận",
+  "sender_fullname" : "Họ tên người gửi",
+  "sender_phone" : "Điện thoại người gửi",
+  "sender" : "Khách hàng gửi",
+  "sender1" : "Người gửi",
+  "receiver" : "Người nhận",
+  "code" : "Mã hàng gửi"
+}

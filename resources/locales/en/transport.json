@@ -1,0 +1,11 @@
+{
+    "title": "Transport",
+    "number_plates" : "Number plates",
+    "weight" : "Weight",
+    "image" : "Image transport",
+    "registry" : "Registry",
+    "size" : "Size",
+    "owner" : "Owner",
+    "rental_fees" : "Rental fees",
+    "hire_surcharge" : "Hire Surcharge"
+}

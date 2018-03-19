@@ -1,0 +1,132 @@
+{% extends 'manage.layouts.ermisform8' %}
+{% block css_add %}
+<title>{{  shortif( inventory , inventory.name + ' - ' + company.name , antl.get('index.title') ) }}</title>
+{% endblock %}
+
+{% block content_add %}
+    <div class="uk-grid" id="form-search">
+        <div class="uk-width-medium-1-4">
+
+        </div>
+        <div class="width-large">
+        <table>
+            <tr>
+            <td><span class="row-padding-right-small">{{ antl.get('global.start_date') }} :</span></td>
+            <td>
+            <input type="text" data-type="date" id="start" name="start_date" value="{{ start_date }}" />
+            <span class="row-padding-right-small"></span>
+
+            <span class="row-padding-right-small">{{ antl.get('global.end_date') }}:</span>
+            <input type="text" data-type="date" id="end" name="end_date" value="{{ end_date }}" />
+             </td>
+            </tr>
+
+            <tr>
+            <td><label class="row-padding-right-small">{{ antl.get('report_detail_debt.customer') }}</label></td>
+            <td>
+            <select class="droplist xlarge" name="subject">
+              <option readonly selected value="">--Select--</option>
+                {% for x in subject %}
+                <option value="{{ x.id }}">{{ shortif( lang == 'vn' , x.name , x.name_en )}}</option>
+                {% endfor %}
+            </select>
+            </td>
+            </tr>
+
+            <tr>
+            <tr>
+            <td><label class="row-padding-right-small">{{ antl.get('sales_staff.title') }}</label></td>
+            <td>
+            <select class="droplist xlarge" name="sale_staff">
+              <option readonly selected value="">--Select--</option>
+                {% for x in sale_staff %}
+                <option value="{{ x.id }}">{{ shortif( lang == 'vn' , x.name , x.name_en )}}</option>
+                {% endfor %}
+            </select>
+            </td>
+            </tr>
+
+            <tr>
+            <td> <label class="row-padding-right-small">{{ antl.get('global.recorded') }}</label></td>
+            <td>
+            <input type="checkbox" data-md-icheck="" checked name="active" />
+            </td>
+            </tr>
+
+        </table>
+
+            <div class="row-padding-bottom-small"></div>
+            <div>
+                <a href="javascript:;" class="k-button uk-alert-success row-padding-bottom-small get_report" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">event_note</i>{{ antl.get('global.report') }}</a>
+                <a href="javascript:;" class="k-button k-primary row-padding-bottom-small get_data" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">event_available</i>{{ antl.get('global.get_data') }}</a>
+                <a href="javascript:;" class="k-button uk-alert-warning btn-hide" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">exit_to_app</i>{{ antl.get('global.hidden_condition') }}</a>
+            </div>
+
+        </div>
+        <div class="uk-width-medium-1-4">
+
+        </div>
+
+    </div>
+    <div class="uk-grid">
+        <div class="uk-width-medium-4-4">
+            <div id="grid" style="display:none"></div>
+        </div>
+    </div>
+<div class="uk-grid">
+    <div class="uk-width-medium-4-4">
+        <div id="report" style="display:none">
+            <div class="row">
+                <h3 id="title" class="text-center"></h3>
+                <table id="table"
+                       data-toggle="table"
+                       data-show-export="true"
+                       data-pagination="true"
+                       data-click-to-select="true"
+                       data-toolbar="#toolbar"
+                       data-search="true"
+                       data-show-footer="true"
+                       data-show-refresh="true"
+                       data-show-toggle="true"
+                       data-show-print="true"
+                       data-show-columns="true">
+                    <thead>
+                    <tr>
+                      <th data-formatter="runningFormatter" >#</th>
+                      <th data-field="code_customer" data-sortable="true">{{ antl.get('report_revenue.code_customer') }}</th>
+                      <th data-field="revenue" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('report_revenue.revenue') }}</th>
+                      <th data-field="cost" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('report_revenue.cost') }}</th>
+                      <th data-field="profit" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('report_revenue.profit') }}</th>
+                      <th data-field="sale_staff" data-sortable="true">{{ antl.get('report_revenue.sale_staff') }}</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    {% block scripts_add %}
+    <script>
+        jQuery(document).ready(function () {
+        Ermis.per = JSON.parse('{{ permission | safe }}');
+        Ermis.link = "{{ key }}";
+        Ermis.room = "{{ room }}";
+            Ermis.field = {
+                revenue :   {type:"number"},
+                cost:    {type:"number" },
+                profit:    {type:"number" },
+            };
+            Ermis.columns    =   [{ "field" : "code_customer","title" :"{{ antl.get('report_revenue.code_customer') }}" ,"width" : "150px",aggregates: ['count'], footerTemplate: "<p>Total Count: #=count#</p>"},
+                                  { "field" : "revenue","title" :"{{ antl.get('report_revenue.revenue') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "cost","title" :"{{ antl.get('report_revenue.cost') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "profit","title" :"{{ antl.get('report_revenue.profit') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "sale_staff","title" :"{{ antl.get('report_revenue.sale_staff') }}" ,"width" : "150px"},
+            ];
+            Ermis.aggregate = [ { field: "code_customer", aggregate: "count" },
+                             { field: "revenue", aggregate: "sum" },
+                             { field: "cost", aggregate: "sum" },
+                             { field: "profit", aggregate: "sum" }];
+        });
+    </script>
+    {% endblock %}

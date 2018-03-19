@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="labels.css" rel="stylesheet" type="text/css" >
+
+
+</head>
+<style>
+section {
+    width: 8.5in;
+    margin: 0in .1875in;
+    }
+.label{
+    /* Avery 5160 labels -- CSS and HTML by MM at Boulder Information Services */
+    width: 2.025in; /* plus .6 inches from padding */
+    height: .875in; /* plus .125 inches from padding */
+    padding: .125in .3in 0;
+    margin-right: .125in; /* the gutter */
+
+    float: left;
+
+    text-align: center;
+    overflow: hidden;
+
+    outline: 1px dotted; /* outline doesn't occupy space like border does */
+    }
+  .label p {
+    margin-top: -7px;
+  }
+  .barcode{
+    margin-top: -20px;
+  }
+.page-break  {
+    clear: left;
+    display:block;
+    page-break-after:always;
+    }
+</style>
+<section>
+
+<div class="label"><svg class="barcode" jsbarcode-format="code128"  jsbarcode-value="1234567890"  jsbarcode-textmargin="2"  jsbarcode-fontSize ="10" jsbarcode-height="50" jsbarcode-textPosition="bottom" jsbarcode-fontoptions="bold"></svg><p>abc</p></div>
+<div class="label"><img src="https://boulderinformationservices.files.wordpress.com/2011/08/barcode_sample.png" /><br>Human readable</div>
+<div class="label"><img src="https://boulderinformationservices.files.wordpress.com/2011/08/barcode_sample.png" /><br>Human readable</div>
+<div class="label"><img src="https://boulderinformationservices.files.wordpress.com/2011/08/barcode_sample.png" /><br>Human readable</div>
+<div class="label">(Repeat 30 times)</div>
+<div class="page-break"></div>
+
+</section>
+<script src="{{ url('scripts/JsBarcode.all.min.js') }}"></script>
+<script> JsBarcode(".barcode").init();</script>
+</html>

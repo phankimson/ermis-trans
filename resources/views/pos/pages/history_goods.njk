@@ -1,0 +1,99 @@
+{% extends 'manage.layouts.ermisform8-a' %}
+{% block css_add %}
+<title>{{  shortif( inventory , inventory.name + ' - ' + company.name , antl.get('index.title') ) }}</title>
+{% endblock %}
+
+{% block content_add %}
+<div class="uk-grid" id="form-search">
+    <div class="uk-width-medium-1-4">
+
+    </div>
+    <div class="width-large">
+    <table>
+
+        <tr>
+        <td><label class="row-padding-right-small">{{ antl.get('inventory_voucher.item_name') }}</label></td>
+        <td>
+        <select class="droplist xlarge" name="item">
+            {% asyncAll x in item %}
+              <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+            {% endall %}
+        </select>
+        </td>
+        </tr>
+
+    </table>
+
+        <div class="row-padding-bottom-small"></div>
+        <div>
+            <a href="javascript:;" class="k-button k-primary row-padding-bottom-small get_data" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">event_available</i>{{ antl.get('global.get_data') }}</a>
+            <a href="javascript:;" class="k-button uk-alert-warning btn-hide" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">exit_to_app</i>{{ antl.get('global.hidden_condition') }}</a>
+        </div>
+
+    </div>
+    <div class="uk-width-medium-1-4">
+
+    </div>
+
+</div>
+    <div class="uk-grid">
+        <div class="uk-width-medium-2-4" id="info">
+        <ul class="md-list md-list-addon uk-margin-small-bottom uk-nestable">
+            <li class="uk-nestable-item">
+              <label>{{ antl.get('store.voucher') }} : <label id="code"></label></label>
+            </li>
+            <li class="uk-nestable-item">
+              <label>{{ antl.get('store.name') }} : <label id="name"></label></label>
+            </li>
+            <li class="uk-nestable-item">
+              <label>{{ antl.get('store.date_voucher') }} : <label id="date_voucher"></label></label>
+            </li>
+            <li class="uk-nestable-item">
+             <label>{{ antl.get('store.transport_station_send') }} : <label id="transport_station_send"></label></label>
+            </li>
+            <li class="uk-nestable-item">
+              <label>{{ antl.get('store.transport_station_receive') }} : <label id="transport_station_receive"></label></label>
+            </li>
+            <li class="uk-nestable-item">
+            <label>{{ antl.get('return.sender_fullname') }} : <label id="sender_fullname"></label></label>
+            </li>
+            <li class="uk-nestable-item">
+            <label>{{ antl.get('return.receiver_fullname') }} : <label id="receiver_fullname"></label></label>
+            </li>
+        </ul>
+        </div>
+        <div class="uk-width-medium-2-4" id="history">
+        <ul class="md-list md-list-addon uk-margin-small-bottom uk-nestable">
+            <li class="uk-nestable-item">
+              <input type="checkbox" name="step0" id="step0" class="step" disabled data-md-icheck />
+              <label for="step0" class="inline-label uk-text-bold md-color-green-500">{{ antl.get('history_goods.step1') }}</label>
+            </li>
+            <li class="uk-nestable-item">
+              <input type="checkbox" name="step1" id="step1" class="step" disabled data-md-icheck />
+              <label for="step1" class="inline-label uk-text-bold md-color-green-500">{{ antl.get('history_goods.step2') }}<label id="step2_add"></label></label>
+            </li>
+            <li class="uk-nestable-item">
+              <input type="checkbox" name="step2" id="step2" class="step" disabled data-md-icheck />
+              <label for="step2" class="inline-label uk-text-bold md-color-green-500">{{ antl.get('history_goods.step3') }}</label>
+            </li>
+            <li class="uk-nestable-item">
+              <input type="checkbox" name="step3" id="step3" class="step" disabled data-md-icheck />
+              <label for="step3" class="inline-label uk-text-bold md-color-green-500">{{ antl.get('history_goods.step4') }}<label id="step2_add"></label></label>
+            </li>
+            <li class="uk-nestable-item">
+              <input type="checkbox" name="step4" id="step4" class="step" disabled data-md-icheck />
+              <label for="step4" class="inline-label uk-text-bold md-color-green-500">{{ antl.get('history_goods.step5') }}</label>
+            </li>
+        </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts_add %}
+    <script>
+        jQuery(document).ready(function () {
+          Ermis.per = JSON.parse('{{ permission | safe }}');
+          Ermis.link = "{{ key }}";
+          Ermis.room = "{{ room }}";
+          })
+    </script>
+    {% endblock %}

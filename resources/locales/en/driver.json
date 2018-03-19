@@ -1,0 +1,11 @@
+{
+    "title": "Driver",
+    "address": "Address",
+    "identity_card": "Identity card",
+    "date_identity_card": "Date identity card",
+    "place_identity_card": "Place identity card",
+    "phone": "Phone",
+    "email": "Email",
+    "birthday": "Birthday",
+    "general": "General"
+}

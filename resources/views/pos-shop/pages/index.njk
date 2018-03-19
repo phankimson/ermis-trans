@@ -1,0 +1,591 @@
+{% extends 'pos-shop.layouts.default' %}
+{% block css %}
+<title>{{ inventory.name + ' - ' + company.name }}</title>
+<link rel="stylesheet" href="{{ url('./css/addon/print.css') }}" media="all">
+{% endblock %}
+
+{% block content %}
+<div id="page_content">
+    <div id="page_content_inner">
+        <div class="uk-grid uk-grid-width-medium-1-2" data-uk-grid-margin="" id="form-action">
+                <div class="uk-row-first">
+                    <div class="md-card md-card-warning">
+                        <div class="md-card-toolbar">
+                            <div class="md-card-toolbar-actions">
+                            <div class="uk-float-right">
+                              <a href="javascript:;" data-type="1" class="search_sender for_sender"><i class="md-icon material-icons">search</i></a>
+                              <i class="md-icon material-icons"></i>
+                              <i class="md-icon material-icons md-card-fullscreen-activate toolbar_fixed "></i>
+                              <div class="md-card-dropdown" data-uk-dropdown="{pos:'bottom-right'}" aria-haspopup="true" aria-expanded="false">
+                                  <i class="md-icon material-icons"></i>
+                                  <div class="uk-dropdown uk-dropdown-bottom" aria-hidden="true" tabindex="" style="min-width: 200px; top: 32px; left: -168px;">
+                                      <ul class="uk-nav">
+                                          <li><a class="payment" href="javascript:;">{{ antl.get('store.payment') }}</a></li>
+                                          <li><a class="print" href="javascript:;">{{ antl.get('action.print') }}</a></li>
+                                          <li><a class="cancel" href="javascript:;">{{ antl.get('action.cancel') }}</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                            </div>
+                            </div>
+                            <h3 class="md-card-toolbar-heading-text">
+                              <i class="md-icon material-icons md-color-orange-A700">perm_identity</i> <span class="title_hide">{{ antl.get('store.sender_information') }}</span>
+                            </h3>
+                        </div>
+                        <div class="md-card-content">
+                          <table>
+                          <tr class="hidden">
+                            <td class="row-label-medium"></td>
+                              <td ><div class="radio" style="float:left">
+                                <input type="radio" name="radio" id="ermis1" value="1" class="not_clear k-radio" >
+                                <label class="k-radio-label" for="ermis1">{{ antl.get('store.retail_customers') }}</label>
+                                </div>
+                                <div class="radio" style="float:left ; margin-left : 10px">
+                                <input type="radio" name="radio" id="ermis2" value="2" class="not_clear k-radio" checked="checked">
+                                <label class="k-radio-label" for="ermis2">{{ antl.get('store.company_customers') }}</label>
+                              </div>
+                              </td>
+                            </tr>
+                            <tr >
+                                <td class="row-label-medium"><label>{{ antl.get('store.subject') }} </label></td>
+                                <td >
+                                <select class="droplist large not_null" name="subject">
+                                      <option readonly selected value="0">--Select--</option>
+                                          {% for x in subject %}
+                                          <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                          {% endfor %}
+                                  </select>
+                                </td>
+                            </tr>
+                            <tr>
+                              <td class="row-label-medium"><label>{{ antl.get('store.sale_staff') }} </label></td>
+                              <td >
+                              <select class="droplist large not_null" name="sales_staff">
+                                    <option readonly selected value="0">--Select--</option>
+                                        {% for x in sales_staff %}
+                                        <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% endfor %}
+                                </select>
+                              </td>
+                            </tr>
+                            <tr>
+                                <td class="row-label-medium"><label class="for_sender">{{ antl.get('store.fullname') }} * </label><label class="hidden for_company">{{ antl.get('store.company_name') }} * </label></td>
+                                <td ><input type="text" value="" name="sender_fullname" class="k-textbox large" /></td>
+                            </tr>
+                            <tr>
+                                <td class="row-label-medium"><label>{{ antl.get('store.phone') }} * </label></td>
+                                <td ><input type="text" value="" name="sender_phone" class="k-textbox large" /></td>
+                            </tr>
+                            <tr>
+                                <td class="row-label-medium"><label>{{ antl.get('store.email') }} * </label></td>
+                                <td ><input type="text" value="" name="sender_email" class="k-textbox large" /></td>
+                            </tr>
+                            <tr>
+                                <td class="row-label-medium"><label>{{ antl.get('store.address') }} * </label></td>
+                                <td ><input type="text" value="" name="sender_address" class="k-textbox large" /></td>
+                            </tr>
+                        </table>
+
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card md-card-primary">
+                        <div class="md-card-toolbar">
+                            <div class="md-card-toolbar-actions">
+                            <div class="uk-float-right">
+                              <a href="javascript:;" data-type="2" class="search_receiver"><i class="md-icon material-icons">search</i></a>
+                              <i class="md-icon material-icons"></i>
+                              <i class="md-icon material-icons md-card-fullscreen-activate toolbar_fixed "></i>
+                              <div class="md-card-dropdown" data-uk-dropdown="{pos:'bottom-right'}" aria-haspopup="true" aria-expanded="false">
+                                  <i class="md-icon material-icons"></i>
+                                  <div class="uk-dropdown uk-dropdown-bottom" aria-hidden="true" tabindex="" style="min-width: 200px; top: 32px; left: -168px;">
+                                      <ul class="uk-nav">
+                                          <li><a class="payment" href="javascript:;">{{ antl.get('action.save') }}</a></li>
+                                          <li><a class="print" href="javascript:;">{{ antl.get('action.print') }}</a></li>
+                                          <li><a class="cancel" href="javascript:;">{{ antl.get('action.cancel') }}</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                            </div>
+                            </div>
+                            <h3 class="md-card-toolbar-heading-text">
+                            <i class="md-icon material-icons md-color-light-blue-500">supervisor_account</i> <span class="title_hide">{{ antl.get('store.receiver_infomation') }}</span>
+                            </h3>
+                        </div>
+                          <div class="md-card-content">
+                          <table>
+                          <tr>
+                              <td class="row-label-medium"><label>{{ antl.get('store.city') }} </label></td>
+                              <td >
+                              <select class="droplist large" name="receiver_city">
+                                    <option readonly selected value="0">--Select--</option>
+                                        {% for x in city %}
+                                        <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% endfor %}
+                                </select>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="row-label-medium"><label>{{ antl.get('store.transport_station_receive') }} </label></td>
+                              <td >
+                              <select class="droplist not_null large" name="transport_station_receive">
+                                    <option readonly selected value="0">--Select--</option>
+                                        {% for x in stock %}
+                                        <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% endfor %}
+                                </select>
+                              </td>
+                          </tr>
+                            <tr>
+                                <td class="row-label-medium"><label>{{ antl.get('store.fullname') }} * </label></td>
+                                <td ><input type="text" value="" name="receiver_fullname" class="k-textbox large" /></td>
+                            </tr>
+                            <tr>
+                                <td class="row-label-medium"><label>{{ antl.get('store.phone') }} * </label></td>
+                                <td ><input type="text" value="" name="receiver_phone" class="k-textbox large" /></td>
+                            </tr>
+                            <tr>
+                                <td class="row-label-medium"><label>{{ antl.get('store.email') }} * </label></td>
+                                <td ><input type="text" value="" name="receiver_email" class="k-textbox large" /></td>
+                            </tr>
+                            <tr>
+                                <td class="row-label-medium"><label>{{ antl.get('store.address') }} * </label></td>
+                                <td ><input type="text" value="" name="receiver_address" class="k-textbox large" /></td>
+                            </tr>
+
+                        </table>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORM -->
+            <div class="md-card md-card-success" id="form-action1">
+                        <div class="md-card-toolbar">
+                            <div class="md-card-toolbar-actions">
+
+                            <div class="uk-float-right">
+                              <i class="md-icon material-icons"></i>
+                              <i class="md-icon material-icons md-card-fullscreen-activate toolbar_fixed "></i>
+                              <div class="md-card-dropdown" data-uk-dropdown="{pos:'bottom-right'}" aria-haspopup="true" aria-expanded="false">
+                                  <i class="md-icon material-icons"></i>
+                                  <div class="uk-dropdown uk-dropdown-bottom" aria-hidden="true" tabindex="" style="min-width: 200px; top: 32px; left: -168px;">
+                                      <ul class="uk-nav">
+                                          <li><a class="payment" href="javascript:;">{{ antl.get('action.save') }}</a></li>
+                                          <li><a class="print" href="javascript:;">{{ antl.get('action.print') }}</a></li>
+                                          <li><a class="cancel" href="javascript:;">{{ antl.get('action.cancel') }}</a></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                            </div>
+                                <ul class="uk-tab uk-float-right" data-uk-tab="{connect:'#card_tabs',animation:'slide-horizontal'}">
+                                    <li class="uk-active" aria-expanded="true"><a href="#">{{ antl.get('store.info') }}</a></li>
+                                    <li aria-expanded="false"><a href="#">{{ antl.get('global.expand') }}</a></li>
+                                <li class="uk-tab-responsive uk-active uk-hidden" aria-haspopup="true" aria-expanded="false"><a>Active</a><div class="uk-dropdown uk-dropdown-small" aria-hidden="true"><ul class="uk-nav uk-nav-dropdown"></ul><div></div></div></li></ul>
+                            </div>
+                            <h3 class="md-card-toolbar-heading-text">
+                                <i class="md-icon material-icons md-color-green-600">local_shipping</i> <span class="title_hide">{{ antl.get('store.order_information') }}</span>
+                            </h3>
+                        </div>
+                        <div class="md-card-content">
+                            <ul id="card_tabs" class="uk-switcher uk-margin">
+                                <li aria-hidden="false" class="uk-active">
+                                  <div class="uk-grid uk-grid-width-medium-1-2" data-uk-grid-margin="">
+                                    <div class="uk-row-first">
+                                    <table>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.voucher') }}</label></td>
+                                        <td ><input type="text" readonly name="code" value="" class="k-textbox large disabled voucher" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.name') }}</label></td>
+                                        <td ><input type="text" name="name" class="k-textbox large not_null" /></td>
+                                    </tr>
+                                      <tr>
+                                          <td class="row-label-medium"><label>{{ antl.get('store.parcel_volumes') }} KG</label></td>
+                                      <td ><input type="text" class="number-price large" name="parcel_volumes" /></td>
+                                      </tr>
+                                      <tr>
+                                          <td class="row-label-medium"><label>{{ antl.get('store.size') }} </label></td>
+                                          <td ><input type="text" class="number-price large" name="size" /></td>
+                                      </tr>
+                                      <tr>
+                                          <td class="row-label-medium"><label>{{ antl.get('store.lot_number') }}</label></td>
+                                          <td ><input type="text" name="lot_number" class="k-textbox large not_null" /></td>
+                                      </tr>
+                                      <tr>
+                                            <td class="row-label-medium"><label>{{ antl.get('store.note') }} </label></td>
+                                            <td >
+                                            <textarea type="text" style="height : 100px" class="k-textbox large" name="note" /></textarea>
+                                            </td>
+                                      </tr>
+                                  </table>
+                                    </div>
+                                    <div class="uk-row">
+                                    <table>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.date_voucher') }}</label></td>
+                                        <td ><input type="text" name="date_voucher" class="large date-picker date_voucher" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('surcharge.title') }}</label></td>
+                                        <td >
+                                        <select class="droplist large not_null" name="surcharge">
+                                              <option readonly selected value="0">--Select--</option>
+                                                  {% for x in surcharge %}
+                                                  <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                                  {% endfor %}
+                                          </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.payment_method') }}</label></td>
+                                        <td>
+                                        <select class="droplist large" name="payment_method">
+                                        {% for x in payment_method %}
+                                        <option value="{{x.id}}">{{ x.code+' - '+x.name }}</option>
+                                        {% endfor %}
+                                        </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.price') }}</label></td>
+                                        <td ><input type="text" class="number-price large" name="price" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.surcharge_amount') }}</label></td>
+                                        <td ><input type="text" class="number-price not_null large" name="surcharge_amount" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.total_amount') }}</label></td>
+                                        <td ><input type="text" class="k-textbox large disabled" readonly name="total" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>{{ antl.get('store.collect') }}</label></td>
+                                        <td ><input type="checkbox" data-md-icheck="" name="collect" /></td>
+                                    </tr>
+
+                                  </table>
+
+                                  <div id="action_button">
+                                  <a class="md-btn md-btn-primary md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light payment" href="javascript:void(0)">
+                                      <i class="material-icons">done_all</i>
+                                      {{ antl.get('action.save') }}
+                                  </a>
+                                  <a class="md-btn md-btn-warning md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light print" href="javascript:void(0)">
+                                      <i class="material-icons">print</i>
+                                      {{ antl.get('action.print') }}
+                                  </a>
+                                  <a class="md-btn md-btn-danger md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light cancel" href="javascript:void(0)">
+                                      <i class="material-icons">block</i>
+                                      {{ antl.get('action.cancel') }}
+                                  </a>
+                                  </div>
+
+                                  </div>
+                                </div>
+                                </li>
+                                <li aria-hidden="true"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END FORM -->
+    </div>
+</div>
+
+<!-- PAYMENT FORM -->
+<div id="form-window-payment" style="display:none">
+<table>
+
+<tr>
+    <td class="row-label-medium"><label>{{ antl.get('store.subject') }}</label></td>
+    <td>
+      <select class="droplist large not_clear not_null" name="subject">
+      <option readonly selected value="0">--Select--</option>
+      {% for x in subject %}
+      <option value="{{x.id}}">{{ x.code+' - '+x.name }}</option>
+      {% endfor %}
+      </select>
+    </td>
+</tr>
+<tr>
+    <td class="row-label-medium"><label>{{ antl.get('inventory_voucher.total_amount') }}</label></td>
+    <td> <input type="text" class="k-textbox large disabled convert_number" readonly  name="total_amount" /> </td>
+</tr>
+<tr>
+    <td class="row-label-medium"><label>{{ antl.get('store.payment') }}</label></td>
+    <td><input type="text" class="number-price large k-input" name="payment" /></td>
+</tr>
+<tr>
+    <td class="row-label-medium"><label>{{ antl.get('store.refund') }}</label></td>
+    <td>  <input type="text" class="k-textbox large disabled not_null" readonly value="0" name="refund" />  </td>
+</tr>
+</table>
+
+<div class="uk-margin" style="float : right">
+    <a href="javascript:;" class="k-button k-primary agree-payment" data-uk-tooltip title="{{ antl.get('action.agree') }}"><i class="md-18 material-icons md-color-white">done</i>{{ antl.get('action.agree') }}</a>
+    <a href="javascript:;" class="k-button k-primary cancel-window" data-uk-tooltip title="{{ antl.get('action.close') }}"><i class="md-18 material-icons md-color-white">not_interested</i>{{ antl.get('action.close') }}</a>
+</div>
+</div>
+<!-- PAYMENT FORM -->
+
+
+
+
+<!-- Sender Receiver FORM -->
+<div id="form-window-sender-receiver" style="display:none">
+<div class="uk-width-medium-4-4">
+    <input type="radio" name="filter_type" id="1" value="1" class="k-radio" checked="checked">
+    <label class="k-radio-label" for="1">{{ antl.get('sender_receiver.sender') }}</label>
+    <input type="radio" name="filter_type" id="2" value="2" class="k-radio">
+    <label class="k-radio-label" for="2">{{ antl.get('sender_receiver.receiver') }}</label>
+</div>
+<div class="uk-margin-medium-top"></div>
+
+<select class="droplist not_null" name="filter_field">
+    <option readonly selected value="">--Select--</option>
+    <option value="code">{{ antl.get('global.code') }}</option>
+    <option value="fullname">{{ antl.get('store.fullname') }}</option>
+    <option value="phone">{{ antl.get('store.phone') }}</option>
+    <option value="email">{{ antl.get('store.email') }}</option>
+    <option value="address">{{ antl.get('store.address') }}</option>
+</select>
+<input type="text" name="filter_value" class="k-textbox">
+<a href="javascript:;" class="uk-margin-left-30 k-button k-primary" id="search_data" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">search</i>{{ antl.get('action.search') }}</a>
+
+<div class="uk-margin-medium-top"></div>
+
+<div id="grid_sender_receiver"></div>
+
+<div class="uk-margin" style="float : right">
+    <a href="javascript:;" class="k-button k-primary choose_sender_receiver" data-uk-tooltip title="{{ antl.get('action.choose') }}"><i class="md-18 material-icons md-color-white">done</i>{{ antl.get('action.choose') }}</a>
+    <a href="javascript:;" class="k-button k-primary cancel-window" data-uk-tooltip title="{{ antl.get('action.close') }}"><i class="md-18 material-icons md-color-white">not_interested</i>{{ antl.get('action.close') }}</a>
+</div>
+</div>
+<!-- Sender Receiver FORM -->
+
+
+<! -- PRINT FORM -->
+<div id="printbill" class="hidden">
+<table class="table_print" align="left" cellspacing="0" border="0">
+  <colgroup width="125"></colgroup>
+  <colgroup width="9"></colgroup>
+  <colgroup width="91"></colgroup>
+  <colgroup width="70"></colgroup>
+  <colgroup width="48"></colgroup>
+  <colgroup width="77"></colgroup>
+  <colgroup width="39"></colgroup>
+  <colgroup width="80"></colgroup>
+  <colgroup width="100"></colgroup>
+  <colgroup width="24"></colgroup>
+  <colgroup width="120"></colgroup>
+  <colgroup width="52"></colgroup>
+  <tr>
+    <td height="30" align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+    <td align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+    <td align="left" valign=bottom colspan="9"><b><font face="Times New Roman" size=5 color="#00B050" >CÔNG TY TNHH MTV TM BẢO KHANG THỊNH</font></b></td>
+  </tr>
+  <tr>
+    <td height="22" align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+    <td align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+    <td align="left" valign=bottom colspan="9"><font face="Times New Roman" size=3 color="#0070C0">       Add: Số 12 Tổ 1, Ấp Tường Trí, Xã Tường Lộc, Huyện Tam Bình, Tỉnh Vĩnh Long, Việt Nam</font></td>
+  </tr>
+  <tr>
+    <td height="22" align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+    <td align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+    <td align="left" valign=bottom colspan="9"><font face="Times New Roman" size=3 color="#0070C0">       Tel : +84 703 860 686         *      Fax: 84 703 711 519</font></td>
+  </tr>
+  <tr>
+    <td height="30" align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+    <td align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+    <td align="left" valign=bottom colspan="9"><font face="Times New Roman" size=3 color="#0070C0">       Hotline: 094 500 00 06     *      Website: www.baokhangthinh.vn    www.vantainoidia.vn</font></td>
+  </tr>
+  <tr>
+    <td height="6" align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+  </tr>
+  <tr>
+    <td style="border-top: 1px dashed #000000" colspan=11 height="48" align="center" valign=bottom><b><font face="Times New Roman" size=5 color="#000000">BIÊN BẢN GIAO NHẬN HÀNG HÓA</font></b></td>
+    <td style="border-top: 1px dashed #000000" align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+  </tr>
+  <tr>
+    <td style="border-right: 3px solid #ffffff" colspan=11 height="16" align="center" valign=top><font face="Times New Roman" color="#000000">PROOF OF DELIVER</font></td>
+    <td align="left" valign=bottom><font face="Times New Roman" color="#000000"><br></font></td>
+  </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" height="45" align="left" valign=middle><font face="Times New Roman" color="#000000">SỐ CHỨNG TỪ, HÓA ĐƠN / JOP , BILL NO:     </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000" class="voucher_print"><br>11111</font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" size=5 color="#000000"><br></font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" colspan=5 align="left" valign=middle><b><font face="Times New Roman" color="#000000">THỜI GIAN NHẬN HÀNG / TIME OF RECEIPT: <span class="date_voucher">12h:33</span>  <br>THỜI GIAN GIAO HÀNG / TIME OF DELIVERY: <span class="created_print"></span></font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=6 height="161" align="center" valign=middle><font face="Times New Roman" color="#FF0000">NGƯỜI GỬI HÀNG<br>/ DELIVERY PARTY</font></td>
+    <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><b><font face="Times New Roman" color="#000000">TÊN CÔNG TY/ COMPANY NAME: <span class="sender_company" > Phan Kim Sơn</span></span></font></b></td>
+    <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=top><font face="Times New Roman" color="#000000">ĐỊA CHỈ / ADDRESS: <span class="company_address" >13 PCT</span></span></font></td>
+    </tr>
+  <tr>
+    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="center" valign=top><b><font face="Times New Roman" color="#000000"><br></font></b></td>
+    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="center" valign=top><b><font face="Times New Roman" color="#000000"><br></font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">TÊN / CONTACT NAME:   </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" color="#000000"><span class="sender_fullname" > Phan Kim Sơn</span><br></font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">SĐT / TEL: </span></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=middle><b><font face="Times New Roman" color="#000000"><br></font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">DI ĐỘNG/ MOBILE: </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" color="#000000"><span class="sender_phone" > 01686692911</span><br></font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><font face="Times New Roman" color="#000000">BỘ PHẬN / DEPT:</font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 align="left" valign=middle><font face="Times New Roman" color="#000000">ĐỊA ĐIỂM NHẬN HÀNG / PORT OF DESTINATION: <span class="sender_address" >Nha Trang</span></span></span>                    </font></td>
+    </tr>
+  <tr>
+    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 align="center" valign=top><b><font face="Times New Roman" color="#000000"><br></font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=4 height="145" align="center" valign=middle><font face="Times New Roman" color="#FF0000">NGƯỜI VẬN CHUYỂN<br>/ TRUCKER</font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=top><b><font face="Times New Roman" color="#000000">TÊN CÔNG TY/ COMPANY NAME:<br>CÔNG TY TNHH MTV TM BẢO KHANG THỊNH</font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=top><b><font face="Times New Roman" color="#000000">ĐỊA CHỈ / ADDRESS:   <br>  Số 12 Tổ 1, Ấp Tường Trí, Tường Lộc, H.Tam Bình, Vĩnh Long</font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">TÊN /CONTACT NAME:   <span class="sale_staff" >Mr Tuyền</span></span></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" color="#000000">MR TUYỀN</font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><b><font face="Times New Roman" color="#000000">SỐ XE / VEHICLE NO:</font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><b><font face="Times New Roman" color="#000000">DI ĐỘNG/ MOBILE:  </font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" color="#000000">094 500 00 06</font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><font face="Times New Roman" color="#000000">LÁI XE / DRIVER'S NAME:</font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><font face="Times New Roman" color="#000000">SĐT / TEL: +84 703 860 686       FAX:  +84 703 711 519</font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><font face="Times New Roman" color="#000000">SỐ CMND / IDENTITY CARD NO:</font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=6 height="158" align="center" valign=middle><font face="Times New Roman" color="#FF0000">NGƯỜI NHẬN HÀNG<br>/ RECEIPT PARTY</font></td>
+    <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 align="left" valign=middle><b><font face="Times New Roman" color="#000000">TÊN CÔNG TY/ COMPANY NAME:  <span class="receiver_fullname" > Phan Kim Sơn</span>     </font></b></td>
+    </tr>
+  <tr>
+    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 align="center" valign=top><b><font face="Times New Roman" color="#000000"><br></font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">TÊN / CONTACT NAME:           </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" color="#000000"><br><span class="receiver_fullname" > Phan Kim Sơn</span></font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><font face="Times New Roman" color="#000000">BỘ PHẬN / DEPT:</font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">DI ĐỘNG/ MOBILE:             </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" color="#000000"><br><span class="receiver_phone" > 01686692911</span></span></font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><font face="Times New Roman" color="#000000">SỐ CMND / IDENTITY CARD NO:</font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 align="left" valign=middle><font face="Times New Roman" color="#000000">ĐỊA ĐIỂM GIAO HÀNG / PLACE OF DELIVERY: <span class="receiver_address" >13 PCT</span></span></font></td>
+    </tr>
+  <tr>
+    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=10 align="center" valign=top><b><font face="Times New Roman" color="#000000"><br></font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 rowspan=3 height="115" align="center" valign=middle><font face="Times New Roman" color="#FF0000">CHI TIẾT HÀNG HÓA<br>/ GOODS DETAILS</font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">TÊN HÀNG/GOODS NAME: </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" color="#000000"><span class="name" > Hàng xyz</span><br></font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">KÍCH THƯỚC/VOLUME: </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=3 align="center" valign=middle><b><font face="Times New Roman" color="#000000"><br> <span class="size" > Dưới 1 kg</span></font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">TRỌNG LƯỢNG / GROSS WEIGHT:    </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=2 align="center" valign=middle><b><font face="Times New Roman" color="#000000"><br> <span class="parcel_volumes" > Dưới 1 kg</span></font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000">SỐ KIỆN, TT / PACKAGES, VOL:    </font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=2 align="center" valign=middle><b><font face="Times New Roman" color="#000000"> <span class="lot_number" > 2</span><br></font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="left" valign=top><font face="Times New Roman" color="#000000">CHI TIÊT KHÁC / OTHER DETAILS :</font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=top><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000" align="left" valign=top><font face="Times New Roman" color="#000000"><br></font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="center" valign=top><font face="Times New Roman" color="#000000"> <span class="note" > Hàng dễ vỡ</span><br></font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=3 rowspan=6 height="275" align="center" valign=top><b><font face="Times New Roman" color="#000000">NGƯỜI GỬI HÀNG KÝ NHẬN<br>DELIVERY PARTY'S SIGNATURE</font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="center" valign=middle><b><font face="Times New Roman" color="#000000">NGƯỜI VẬN CHUYỂN KÝ NHẬN<br>TRUCKER'S SIGNATURE</font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=middle><b><font face="Times New Roman" color="#000000">NGƯỜI NHẬN HÀNG KÝ NHẬN<br>RECEIPT PARTY'S SIGNATURE</font></b></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000 ; height : 180px" colspan=5 align="center" valign=top><b><font face="Times New Roman" color="#000000"><br></font></b></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=middle><font face="Times New Roman" color="#000000"><br></font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><font face="Times New Roman" color="#000000">TÌNH TRẠNG HÀNG HÓA LÚC NHẬN / CONDITION OF GOODS WHEN BE RECEIVED:</font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="left" valign=middle><font face="Times New Roman" color="#000000">TÌNH TRẠNG HÀNG HÓA LÚC GIAO / CONDITION OF GOODS WHEN BE DELIVERED:</font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 align="left" valign=middle><font face="Times New Roman" color="#000000">[    ] HÀNG NHẬN ĐẦY ĐỦ, NGUYÊN ĐAI, KiỆN</font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="left" valign=middle><font face="Times New Roman" color="#000000">[    ] HÀNG NHẬN ĐẦY ĐỦ, NGUYÊN ĐAI, KiỆN</font></td>
+    </tr>
+  <tr>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=5 rowspan=2 align="left" valign=top><font face="Times New Roman" color="#000000">[    ] TÌNH TRẠNG KHÁC / OTHER CONDITINONS:</font></td>
+    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 rowspan=2 align="left" valign=top><font face="Times New Roman" color="#000000">[    ] TÌNH TRẠNG KHÁC / OTHER CONDITINONS:</font></td>
+    </tr>
+  <tr>
+    </tr>
+  <tr>
+    <td height="15" align="left" valign=bottom colspan="10"><b><font face="Times New Roman" color="#000000">LƯU Ý / NOTE: </font></b></td>
+  </tr>
+  <tr>
+    <td height="15" align="left" valign=bottom colspan="10"><font face="Times New Roman" color="#000000">* CÁC BÊN LIÊN QUAN GHI RÕ NGÀY GiỜ GIAO NHẬN HÀNG, KÝ NHẬN, HỌ TÊN, ĐIỆN THOẠI.</font></td>
+  </tr>
+  <tr>
+    <td height="15" align="left" valign=bottom colspan="10"><font face="Times New Roman" color="#000000">* TRƯỜNG HỢP NGƯỜI VẬN CHUYỂN KHÔNG CÓ MẶT TẠI ĐIỂM GIAO HÀNG, THÌ TÀI XẾ XE SẼ ĐẠI DIỆN CHO BÊN VẬN CHUYỂN ĐỂ GIAO.</font></td>
+  </tr>
+  <tr>
+    <td height="16" align="left" valign=bottom colspan="10"><i><font face="Times New Roman" color="#000000">* YÊU CẦU NGƯỜI NHẬN HÀNG SAU KHI NHẬN XONG HÀNG FAX BẢN NÀY CHO NGƯỜI VẬN CHUYỂN BẢO KHANG THỊNH - FAX: 0703 711 519</font></i></td>
+  </tr>
+  <tr>
+    <td height="15" align="left" valign=bottom colspan="10"><i><font face="Times New Roman" color="#000000">* KHI &quot;NGƯỜI NHẬN HÀNG KÝ NHẬN&quot; THÌ ĐỒNG NGHĨA VỚI VIỆC HÀNG HÓA ĐÃ GIAO NHẬN ĐẦY ĐỦ, KHÔNG CÓ BẤT KỲ KHIẾU NẠI VỀ SAU.</font></i></td>
+  </tr>
+</table>
+<img style="position : absolute; top : 20 ; left : 0" src="{{ url('images/logo_b_blue.png') }}" width=136 height=77>
+<br clear=left>
+<!-- ************************************************************************** -->
+  </div>
+<! -- PRINT FORM -->
+
+{% endblock %}
+{% block scripts %}
+<script id="toolTipTemplate" type="text/x-kendo-template">
+     <img src="{{ url('#=image# ') }}">
+ </script>
+<script>
+jQuery(document).ready(function () {
+    Ermis.per = JSON.parse('{{ permission | safe }}');
+    Ermis.link = "{{ key }}";
+    Ermis.room = "{{ room }}";
+    Ermis.voucher  =  {{ voucher | json | safe }};
+    Ermis.columns_sender_receiver = [
+                               {"field" : "code","title" : "{{ antl.get('global.code') }}" },
+                               {"field" : "fullname","title" : "{{ antl.get('store.fullname') }}" },
+                               {"field" : "phone","title" : "{{ antl.get('store.phone') }}" },
+                               {"field" : "email","title" :  "{{ antl.get('store.email') }}" },
+                               {"field" : "address","title" :  "{{ antl.get('store.address') }}" },
+                               {"field" : "city", hidden: true },
+                               {"field" : "distric", hidden: true} ]
+});
+</script>
+<script src="{{ url('scripts/JsBarcode.all.min.js') }}"></script>
+<script src="{{ url('library/jquery.print/jQuery.print.js') }}"></script>
+<script src="{{ url('scripts/addon/frontend/store_post.js') }}"></script>
+{% endblock %}

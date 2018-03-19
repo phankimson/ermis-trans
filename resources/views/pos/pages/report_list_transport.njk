@@ -1,0 +1,98 @@
+{% extends 'manage.layouts.ermisform8' %}
+{% block css_add %}
+<title>{{  shortif( inventory , inventory.name + ' - ' + company.name , antl.get('index.title') ) }}</title>
+{% endblock %}
+
+{% block content_add %}
+    <div class="uk-grid" id="form-search">
+        <div class="uk-width-medium-1-4">
+
+        </div>
+        <div class="width-large">
+        <table>
+
+            <tr>
+            <td><label class="row-padding-right-small">{{ antl.get('report_list_transport.suplier') }}</label></td>
+            <td>
+            <select class="droplist xlarge" name="subject">
+              <option readonly selected value="">--Select--</option>
+                {% for x in subject %}
+                <option value="{{ x.id }}">{{ shortif( lang == 'vn' , x.name , x.name_en )}}</option>
+                {% endfor %}
+            </select>
+            </td>
+            </tr>
+
+        </table>
+
+            <div class="row-padding-bottom-small"></div>
+            <div>
+                <a href="javascript:;" class="k-button uk-alert-success row-padding-bottom-small get_report" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">event_note</i>{{ antl.get('global.report') }}</a>
+                <a href="javascript:;" class="k-button k-primary row-padding-bottom-small get_data" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">event_available</i>{{ antl.get('global.get_data') }}</a>
+                <a href="javascript:;" class="k-button uk-alert-warning btn-hide" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">exit_to_app</i>{{ antl.get('global.hidden_condition') }}</a>
+            </div>
+
+        </div>
+        <div class="uk-width-medium-1-4">
+
+        </div>
+
+    </div>
+    <div class="uk-grid">
+        <div class="uk-width-medium-4-4">
+            <div id="grid" style="display:none"></div>
+        </div>
+    </div>
+<div class="uk-grid">
+    <div class="uk-width-medium-4-4">
+        <div id="report" style="display:none">
+            <div class="row">
+                <h3 id="title" class="text-center"></h3>
+                <table id="table"
+                       data-toggle="table"
+                       data-show-export="true"
+                       data-pagination="true"
+                       data-click-to-select="true"
+                       data-toolbar="#toolbar"
+                       data-search="true"
+                       data-show-footer="true"
+                       data-show-refresh="true"
+                       data-show-toggle="true"
+                       data-show-print="true"
+                       data-show-columns="true">
+                    <thead>
+                    <tr>
+                      <th data-formatter="runningFormatter" >#</th>
+                      <th data-field="type_transport" data-sortable="true">{{ antl.get('type_transport.title') }}</th>
+                      <th data-field="code" data-sortable="true">{{ antl.get('global.code') }}</th>
+                      <th data-field="name" data-sortable="true" >{{ antl.get('global.name') }}</th>
+                      <th data-field="number_plates" data-sortable="true" >{{ antl.get('transport.number_plates') }}</th>
+                      <th data-field="registry" data-sortable="true" >{{ antl.get('transport.registry') }}</th>
+                      <th data-field="size" data-sortable="true" >{{ antl.get('transport.size') }}</th>
+                      <th data-field="owner" data-sortable="true" >{{ antl.get('transport.owner') }}</th>
+                      <th data-field="weight" data-sortable="true" >{{ antl.get('transport.weight') }}</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    {% block scripts_add %}
+    <script>
+        jQuery(document).ready(function () {
+        Ermis.per = JSON.parse('{{ permission | safe }}');
+        Ermis.link = "{{ key }}";
+        Ermis.room = "{{ room }}";
+        Ermis.columns    =   [{ "field" : "type_transport","title" :"{{ antl.get('type_transport.title') }}" ,"width" : "150px"},
+                              { "field" : "code","title" :"{{ antl.get('global.code') }}" ,"width" : "150px"},
+                              { "field" : "name","title" :"{{ antl.get('global.name') }}" ,"width" : "150px"},
+                              { "field" : "number_plates","title" :"{{ antl.get('transport.number_plates') }}" ,"width" : "150px"},
+                              { "field" : "registry","title" :"{{ antl.get('transport.registry') }}" ,"width" : "150px"},
+                              { "field" : "size","title" :"{{ antl.get('transport.size') }}" ,"width" : "150px"},
+                              { "field" : "owner","title" :"{{ antl.get('transport.owner') }}" ,"width" : "150px"},
+                              { "field" : "weight","title" :"{{ antl.get('transport.weight') }}" ,"width" : "150px"}];
+        });
+    </script>
+    {% endblock %}
