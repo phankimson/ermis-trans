@@ -138,7 +138,7 @@
                     if (col.value === 'now') {
                         jQuery('input[name="' + col.field + '"]').data("kendoDatePicker").value(kendo.toString(new Date(), 'dd/MM/yyyy'));
                     } else {
-                        jQuery('input[name="' + col.field + '"]').data("kendoDatePicker").value("");
+                          jQuery('input[name="' + col.field + '"]').data("kendoDatePicker").value(moment().format('DD/MM/YYYY'));
                     }
                 }
             });

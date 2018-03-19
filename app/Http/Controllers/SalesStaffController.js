@@ -44,11 +44,11 @@ class SalesStaffController{
           result.name_en = data.name_en
           result.address = data.address
           result.identity_card = data.identity_card
-          result.date_identity_card = data.date_identity_card
+          result.date_identity_card = data.date_identity_card?data.date_identity_card:'0000-00-00'
           result.place_identity_card = data.place_identity_card
           result.phone = data.phone
           result.email = data.email
-          result.birthday = data.birthday
+          result.birthday = data.birthday?data.birthday:'0000-00-00'
           result.general = data.general
           result.active = data.active
           yield result.save()
@@ -120,11 +120,11 @@ class SalesStaffController{
         result.name_en = data.name_en
         result.address = data.address
         result.identity_card = data.identity_card
-        result.date_identity_card = data.date_identity_card
+        result.date_identity_card = data.date_identity_card?data.date_identity_card:'0000-00-00'
         result.place_identity_card = data.place_identity_card
         result.phone = data.phone
         result.email = data.email
-        result.birthday = data.birthday
+        result.birthday = data.birthday?data.birthday:'0000-00-00'
         result.general = data.general
         result.active = data.active
         yield result.save()
