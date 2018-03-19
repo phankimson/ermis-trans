@@ -60,15 +60,15 @@
         </tr>
         <tr>
             <td><label>{{ antl.get('transport.registry') }}</label></td>
-            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.registry') }}" data-width="200px" data-type="string" name="number_plates" /></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.registry') }}" data-width="200px" data-type="string" name="registry" /></td>
         </tr>
         <tr>
             <td><label>{{ antl.get('transport.size') }}</label></td>
-            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.size') }}" data-width="200px" data-type="string" name="number_plates" /></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.size') }}" data-width="200px" data-type="string" name="size" /></td>
         </tr>
         <tr>
             <td><label>{{ antl.get('transport.owner') }}</label></td>
-            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.owner') }}" data-width="200px" data-type="string" name="number_plates" /></td>
+            <td><input type="text" class="k-textbox large" data-position="5" data-title="{{ antl.get('transport.owner') }}" data-width="200px" data-type="string" name="owner" /></td>
         </tr>
         <tr>
             <td><label>{{ antl.get('transport.weight') }}</label></td>
@@ -83,6 +83,7 @@
     {% block scripts_add %}
     <!--  dropify -->
     <script src="{{ url('scripts/custom/dropify/dist/js/dropify.min.js') }}"></script>
+    <script src="{{ url('scripts/addon/backend/ermis-add-5.js') }}"></script>
         <script>
         jQuery(document).ready(function () {
             Ermis.data = {{ data | json | safe }};

@@ -7,6 +7,7 @@ const Group = use('App/Model/ObjectGroup')  // EDIT
 const Menu = use('App/Model/Menu')
 const City = use('App/Model/City')
 const Distric = use('App/Model/Distric')
+const PaymentMethod = use('App/Model/PaymentMethod')
 
 
 class SuplierController{
@@ -24,7 +25,8 @@ class SuplierController{
       const group = yield Group.query().where('active', 1).where('type',this.group).orderBy('id', 'desc').fetch()
       const distric = yield Distric.query().where('active',1).fetch()
       const city = yield City.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/suplier', {key : this.key ,title: title ,city : city.toJSON(),distric : distric.toJSON(), data: data.toJSON() , group : group.toJSON()})  // EDIT
+      const payment_method = yield PaymentMethod.query().where('active',1).fetch()
+      const show = yield response.view('pos/pages/suplier', {key : this.key ,title: title ,payment_method:payment_method.toJSON() ,city : city.toJSON(),distric : distric.toJSON(), data: data.toJSON() , group : group.toJSON()})  // EDIT
       response.send(show)
   }
 

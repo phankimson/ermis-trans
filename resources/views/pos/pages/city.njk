@@ -26,6 +26,7 @@
     </table>
     {% endblock %}
     {% block scripts_add %}
+      <script src="{{ url('scripts/addon/backend/ermis-add-5.js') }}"></script>
         <script>
         jQuery(document).ready(function () {
             Ermis.data = {{ data | json | safe }};

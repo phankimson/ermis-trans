@@ -10,6 +10,7 @@ const Option = use('App/Model/Option')
 const City = use('App/Model/City')
 const Distric = use('App/Model/Distric')
 const AttachFile = use('App/Model/AttachFile')
+const PaymentMethod = use('App/Model/PaymentMethod')
 
 const fs = require('fs')
 
@@ -29,7 +30,8 @@ class CustomerController{
       const sales_staff = yield SalesStaff.query().where('active', 1).orderBy('id', 'desc').fetch()
       const distric = yield Distric.query().where('active',1).fetch()
       const city = yield City.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/customer', {key : this.key ,title: title  ,city : city.toJSON(),distric : distric.toJSON(),sales_staff : sales_staff.toJSON(), data: data.toJSON() , group : group.toJSON()})  // EDIT
+      const payment_method = yield PaymentMethod.query().where('active',1).fetch()
+      const show = yield response.view('pos/pages/customer', {key : this.key ,title: title ,payment_method:payment_method.toJSON() ,city : city.toJSON(),distric : distric.toJSON(),sales_staff : sales_staff.toJSON(), data: data.toJSON() , group : group.toJSON()})  // EDIT
       response.send(show)
   }
 
