@@ -4,6 +4,12 @@
 .k-textbox ,.droplist,.k-dropdown-wrap .k-input,.k-dropdown .k-state-default,.k-multiselect.k-header,.k-input{
     border-color: darkgrey;
 }
+.k-numerictextbox .k-numeric-wrap,
+.k-numerictextbox .k-select
+{
+   border-color: darkgrey;
+}
+
 .k-grid-header .k-header{
     color :#444;
 }

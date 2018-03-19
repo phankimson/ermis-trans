@@ -15,6 +15,7 @@
   "parcel_volumes" : "weight",
   "size" : "Blocks",
   "collect" : "Collect",
+  "collect_amount" : "Collect Amount",
   "type_service" : "Type service",
   "type_goods" : "Type goods",
   "lot_number" : "Lot number",

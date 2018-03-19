@@ -17,6 +17,7 @@ const Transport = use('App/Model/Transport')  // EDIT
 const VoucherMask = use('App/Classes/VoucherMask')  // EDIT
 const HistoryAction = use('App/Classes/HistoryAction')  // EDIT
 const HistoryGoods = use('App/Classes/HistoryGoods')  // EDIT
+const Surcharge = use('App/Model/Surcharge')  // EDIT
 const Database = use('Database')
 var moment = require('moment')
 
@@ -36,12 +37,13 @@ class TransferIssuePlanVoucherController{
         const stock = yield Inventory.query().whereNot('id',inventory).where('active',1).fetch()
         const driver = yield Driver.query().where('active',1).fetch()
         const transport = yield Transport.query().where('active',1).fetch()
+        const surcharge = yield Surcharge.query().where('type',2).where('active',1).fetch()
         const item  = yield Goods.query().where('active',1)
         .where("transport_station_send",inventory)
         .where("status",1)
         .select("id as item_id","goods.*").fetch()
         const print = yield PrintTemplate.query().where('code', 'LIKE', this.print).fetch()
-        const show = yield response.view('pos/pages/transfer_issue_plan_voucher', {key : this.key ,title: title ,driver : driver.toJSON() , transport : transport.toJSON(), voucher : voucher, item : item.toJSON() , print : print.toJSON() , stock : stock.toJSON()})  // EDIT
+        const show = yield response.view('pos/pages/transfer_issue_plan_voucher', {key : this.key ,title: title,surcharge : surcharge.toJSON() ,driver : driver.toJSON() , transport : transport.toJSON(), voucher : voucher, item : item.toJSON() , print : print.toJSON() , stock : stock.toJSON()})  // EDIT
         response.send(show)
     }
 

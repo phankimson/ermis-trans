@@ -9,7 +9,16 @@
         <input type="radio" name="filter_nature" id="3" value="3" class="k-radio">
         <label class="k-radio-label" for="3">{{ antl.get('marial_goods.service') }}</label>-->
     </div>
+
     <div class="uk-margin-medium-top"></div>
+
+    <select class="droplist medium" name="filter_inventory_receipt">
+            <option readonly selected value="0">--Select--</option>
+              {% for m in stock %}
+                <option value="{{ m.id }}">{{ shortif( lang == 'vn' , m.code + ' - ' + m.name ,m.code + ' - ' +  m.name_en )}}</option>
+               {% endfor %}
+        </select>
+
 
     <select class="droplist" name="filter_field">
         <option readonly selected value="">--Select--</option>

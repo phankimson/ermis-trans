@@ -890,7 +890,7 @@
                   obj[col.field] = jQuery('#form-window-barcode').find('input[name="' + col.field + '"]:checked').val();
               }
           });
-          obj.inventory_receipt  = jQuery(".droplist[name='inventory_receipt']").data('kendoDropDownList').value();
+          obj.inventory_receipt  = jQuery(".droplist[name='filter_inventory_receipt']").data('kendoDropDownList').value();
           var postdata = { data: JSON.stringify(obj) };
           RequestURLWaiting(Ermis.link+'-load', 'json', postdata, function (result) {
               if (result.status === true) {
@@ -1509,27 +1509,45 @@
                 }
             });
    };
-   getItemName = function (ID, data, field) {
-       var value = '';
-       var inventory_receipt  = parseInt(jQuery(".droplist[name='inventory_receipt']").data('kendoDropDownList').value());
-       b = field;
-       a[b] = data;
-       if (ID > 0 || ID != "") {
-           var result = $.grep(eval(a[b]), function (n, i) {
-               return (n.id === ID && n.transport_station_receive === inventory_receipt);
-           });
-           if (result.length > 0) {
-               value = result[0].code;
-           }else{
-             value = '----SELECT-----';
-             kendo.alert(transText.other_can_not_choose);
-           }
-       } else {
-           value = '----SELECT-----';
-       }
-       return value;
-   };
+   //getItemName = function (ID, data, field) {
+  //     var value = '';
+  //     var inventory_receipt  = parseInt(jQuery(".droplist[name='inventory_receipt']").data('kendoDropDownList').value());
+  //     b = field;
+  //     a[b] = data;
+  //     if (ID > 0 || ID != "") {
+  //         var result = $.grep(eval(a[b]), function (n, i) {
+  //             return (n.id === ID && n.transport_station_receive === inventory_receipt);
+  //         });
+  //         if (result.length > 0) {
+  //             value = result[0].code;
+  //       }else{
+  //           value = '----SELECT-----';
+  //           kendo.alert(transText.other_can_not_choose);
+  //         }
+  //     } else {
+  //         value = '----SELECT-----';
+  //     }
+  //     return value;
+  // };
 
+  getItemName = function (ID, data, field) {
+      var value = '';
+      b = field;
+      a[b] = data;
+      if (ID > 0 || ID != "") {
+          var result = $.grep(eval(a[b]), function (n, i) {
+              return n.id === ID;
+          });
+          if (result.length > 0) {
+              value = result[0].code;
+          }else {
+              value = '----SELECT-----';
+          }
+      } else {
+          value = '----SELECT-----';
+      }
+      return value;
+  };
    checkboxClicked = function(element) {
 
        var isChecked = element.checked;

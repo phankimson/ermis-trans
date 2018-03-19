@@ -146,8 +146,8 @@
                                 <td ><input type="text" value="" name="receiver_phone" class="k-textbox large" /></td>
                             </tr>
                             <tr>
-                                <td class="row-label-medium"><label>{{ antl.get('store.email') }} * </label></td>
-                                <td ><input type="text" value="" name="receiver_email" class="k-textbox large" /></td>
+                                <td class="row-label-medium"><label>{{ antl.get('store.email') }}</label></td>
+                                <td ><input type="text" value="" name="receiver_email" class="k-textbox large not_null" /></td>
                             </tr>
                             <tr>
                                 <td class="row-label-medium"><label>{{ antl.get('store.address') }} * </label></td>
@@ -204,15 +204,22 @@
                                     </tr>
                                       <tr>
                                           <td class="row-label-medium"><label>{{ antl.get('store.parcel_volumes') }} KG</label></td>
-                                      <td ><input type="text" class="number-price large" name="parcel_volumes" /></td>
+                                      <td ><input type="text" class="numberic large" name="parcel_volumes" /></td>
                                       </tr>
                                       <tr>
                                           <td class="row-label-medium"><label>{{ antl.get('store.size') }} </label></td>
-                                          <td ><input type="text" class="number-price large" name="size" /></td>
+                                          <td ><input type="text" class="numberic large" name="size" /></td>
                                       </tr>
                                       <tr>
                                           <td class="row-label-medium"><label>{{ antl.get('store.lot_number') }}</label></td>
-                                          <td ><input type="text" name="lot_number" class="k-textbox large not_null" /></td>
+                                          <td ><input type="text" name="lot_number" class="number xmedium not_null" />
+                                          <select class="droplist small not_null" name="unit">
+                                                <option readonly selected value="0">--Select--</option>
+                                                    {% for x in unit %}
+                                                    <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                                    {% endfor %}
+                                            </select>
+                                          </td>
                                       </tr>
                                       <tr>
                                             <td class="row-label-medium"><label>{{ antl.get('store.note') }} </label></td>
@@ -264,6 +271,10 @@
                                     <tr>
                                         <td><label>{{ antl.get('store.collect') }}</label></td>
                                         <td ><input type="checkbox" data-md-icheck="" name="collect" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.collect_amount') }}</label></td>
+                                        <td ><input type="text" class="number-price not_null large disabled" readonly name="collect_amount" /></td>
                                     </tr>
 
                                   </table>

@@ -8,5 +8,6 @@
     "owner" : "Chủ xe",
     "suplier" : "Ncc xe",
     "rental_fees" : "Phí thuê xe",
-    "hire_surcharge" : "Phụ phí thuê xe"
+    "hire_surcharge" : "Phụ phí thuê xe",
+    "type_surcharge" : "Loại phụ phí"
 }

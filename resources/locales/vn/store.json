@@ -15,6 +15,7 @@
   "parcel_volumes" : "Trọng lượng",
   "size" : "Số khối",
   "collect" : "Thu hộ",
+  "collect_amount" : "Số tiền thu hộ",
   "type_service" : "Loại dịch vụ",
   "type_goods" : "Loại hàng",
   "lot_number" : "Số kiện",

@@ -8,7 +8,7 @@ const NumberIncreases = use('App/Model/NumberIncreases')
 
 class SurchargeController{
   constructor () {
-      this.type = ""  // EDIT
+      this.type = 1  // EDIT
       this.key = "surcharge"  // EDIT
       this.menu = "trans_surcharge"  // EDIT
       this.download = "Surcharge.xlsx"  // EDIT
@@ -16,9 +16,23 @@ class SurchargeController{
     }
   * show (request, response){
       const title = Antl.formatMessage('surcharge.title')  // EDIT
-      const data = yield Data.query().orderBy('id', 'desc').fetch()
+      const data = yield Data.query().where('type',this.type).orderBy('id', 'desc').fetch()
       const show = yield response.view('pos/pages/surcharge', {key : this.key ,title: title , data: data.toJSON()})  // EDIT
       response.send(show)
+  }
+
+  * get (request, response){
+      try{
+      const data = JSON.parse(request.input('data'))
+      const arr = yield Data.query().where('type',data).orderBy('id', 'desc').fetch()
+      if(arr){
+          response.json({ status: true  , data : arr})
+      }else{
+          response.json({ status: false ,  message: Antl.formatMessage('messages.no_data') })
+      }
+    }catch(e){
+        response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error')+' ' + e.message })
+    }
   }
 
   * save (request, response){
@@ -44,6 +58,7 @@ class SurchargeController{
           result.name = data.name
           result.name_en = data.name_en
           result.description = data.description
+          result.type = data.type
           result.active = data.active
           yield result.save()
 
@@ -114,6 +129,7 @@ class SurchargeController{
         result.name = data.name
         result.name_en = data.name_en
         result.description = data.description
+        result.type = data.type
         result.active = data.active
         yield result.save()
         arr_push.push(result)

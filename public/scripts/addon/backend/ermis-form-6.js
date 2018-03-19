@@ -1499,7 +1499,7 @@
        a[b] = data;
        if (ID > 0 || ID != "") {
            var result = $.grep(eval(a[b]), function (n, i) {
-               return n.id === ID.toString();
+               return n.id === ID;
            });
            if (result.length > 0) {
                value = result[0].code;

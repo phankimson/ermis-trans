@@ -83,6 +83,17 @@ var Ermis = function () {
     });
   };
 
+  var initCheckCollect = function(){
+    $('input[name=collect]').on('ifClicked', function (ev) {
+      jQuery('input[name=collect_amount]').removeClass('disabled');
+      jQuery('input[name=collect_amount]').removeAttr('readonly');
+     })
+     $('input[name=collect]').on('ifUnchecked', function (ev) {
+       jQuery('input[name=collect_amount]').addClass('disabled');
+       jQuery('input[name=collect_amount]').attr('readonly','');
+      })
+  }
+
 
   var initChangePaymentMethod = function(){
     jQuery("select[name='payment_method']").bind("change",function(e){
@@ -211,7 +222,7 @@ var Ermis = function () {
           if (result.status === true) {
             jQuery('input[name=sender_fullname]').val(result.data.name);
             jQuery('input[name=sender_address]').val(result.data.address);
-            jQuery('input[name=sender_phone]').val(result.data.phone);
+            jQuery('input[name=sender_phone]').val(result.data.telephone1_contact);
             jQuery('input[name=sender_email]').val(result.data.email);
             jQuery('select[name=sales_staff]').data("kendoDropDownList").value(result.data.sales_staff)
             if(result.receiver){
@@ -383,7 +394,7 @@ var Ermis = function () {
     e.preventDefault();
     if (!jQuerylink.data('lockedAt') || +new Date() - jQuerylink.data('lockedAt') > 300) {
         $.when(KendoUiConfirm(transText.are_you_sure, transText.message)).then(function (confirmed) {
-          jQuery("input[name='total_amount']").val(FormatNumber(jQuery("input[name='total']").val()));
+          jQuery("input[name='total_amount']").val(ConvertNumber(jQuery("input[name='total']").val()));
           jQuery("input[name='payment']").data("kendoNumericTextBox").value(jQuery("input[name='total']").val());
           jQuery("#form-window-payment select[name='subject']").data("kendoDropDownList").value(jQuery("#form-action select[name='subject']").data("kendoDropDownList").value());
           jQuery('input[name="refund"]').val(0)
@@ -402,7 +413,7 @@ var Ermis = function () {
                    });
                    jQuery("#form-action input,#form-action1 input,#form-window-payment input").not('.not_clear').each(function() {
                      if(jQuery(this).val() == 0 && !jQuery(this).hasClass("not_null") || jQuery(this).val() == "" && !jQuery(this).hasClass("not_null") ){
-                        if(jQuery(this).hasClass('number-price')){
+                        if(jQuery(this).hasClass('number-price') || jQuery(this).hasClass('numberic') || jQuery(this).hasClass('number')){
                           jQuery(this).parents('span.k-numeric-wrap').attr('style','border-color: red;');
                         }else{
                           jQuery(this).attr('style','border-color: red;');
@@ -418,8 +429,8 @@ var Ermis = function () {
                              obj[jQuery(this).attr("name")] = 0;
                          }
                        }else{
-                          obj[jQuery(this).attr("name")] = jQuery(this).val();
-                          if(jQuery(this).hasClass('number-price')){
+                           obj[jQuery(this).attr("name")] = jQuery(this).val();
+                          if(jQuery(this).hasClass('number-price') || jQuery(this).hasClass('numberic') || jQuery(this).hasClass('number')){
                             jQuery(this).parents('span.k-numeric-wrap').removeAttr('style');
                           }else{
                             jQuery(this).removeAttr('style');
@@ -454,27 +465,27 @@ var Ermis = function () {
     var crit = true ;
     jQuery("#form-action select.droplist").not(".not_null").not(".hidden").each(function() {
       if(jQuery(this).data('kendoDropDownList').value() == 0){
-           crit = false
-           return false
+           crit = false;
+           return false;
       }
      });
      jQuery("#form-action1 select.droplist").not(".not_null").not(".hidden").each(function() {
        if(jQuery(this).data('kendoDropDownList').value() == 0){
-            crit = false
-            return false
+            crit = false;
+            return false;
        }
       });
 
      jQuery("#form-action input").not(".not_null").not(".hidden").each(function() {
        if(jQuery(this).val() == 0 || jQuery(this).val() == "" ){
-            crit = false
-            return false
+            crit = false;
+            return false;
        }
       });
       jQuery("#form-action1 input").not(".not_null").not(".hidden").each(function() {
         if(jQuery(this).val() == 0 || jQuery(this).val() == "" ){
-             crit = false
-             return false
+             crit = false;
+             return false;
         }
        });
 
@@ -491,7 +502,7 @@ var Ermis = function () {
       var payment = jQuery('input[name="payment"]').data("kendoNumericTextBox").value();
       jQuery('input[name="refund"]').val(FormatNumber(payment-total_amount));
     })
-    return crit
+    return crit;
   };
 
 
@@ -523,7 +534,8 @@ var Ermis = function () {
   var initKendoUiNumber = function () {
       $(".number").kendoNumericTextBox({
           format: "n0",
-          step: 1
+          step: 1,
+          min : 0
       });
   }
 
@@ -538,6 +550,14 @@ var Ermis = function () {
       $(".number-price").kendoNumericTextBox({
           format: "n0",
           step: 1000,
+          min : 0
+      });
+  }
+
+  var initKendoUiNumberic = function () {
+      $(".numberic").kendoNumericTextBox({
+          format: "n2",
+          step: 0.01,
           min : 0
       });
   }
@@ -559,6 +579,7 @@ var Ermis = function () {
           initStatus(0);
           initKendoUiNumber();
           initKendoUiNumberPrice();
+          initKendoUiNumberic();
           initKendoDatePicker();
           initKendoUiPercent();
           initKendoUiDropList();
@@ -568,6 +589,7 @@ var Ermis = function () {
           initKendoGridSenderReceiver();
           initChangePaymentMethod();
           initTotal();
+          initCheckCollect();
           //initChangeSale();
           initChangeCompany();
         }

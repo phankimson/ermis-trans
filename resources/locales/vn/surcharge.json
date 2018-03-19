@@ -1,3 +1,5 @@
 {
-    "title": "Loại phụ phí"
+    "title": "Loại phụ phí",
+    "shipping_surcharge" : "Phụ phí vận chuyển",
+    "rental_surcharge" : "Phụ phí thuê xe"
 }

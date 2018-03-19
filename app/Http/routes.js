@@ -227,6 +227,7 @@ Route.group('trans-group', function () {
   Route.get('/surcharge-downloadExcel', 'SurchargeController.downloadExcel')
   Route.post('/surcharge-import', 'SurchargeController.import')
   Route.post('/surcharge-load', 'SurchargeController.load')
+  Route.post('/surcharge-get', 'SurchargeController.get')
 
   // Size
   //Route.get('/size', 'SizeController.show')

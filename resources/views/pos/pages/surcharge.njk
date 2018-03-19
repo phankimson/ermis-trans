@@ -1,5 +1,5 @@
 
-{% extends 'manage.layouts.ermisform1' %}
+{% extends 'manage.layouts.ermisform2' %}
 {% block content_add %}
     <div id="notification"></div>
     <table>
@@ -24,6 +24,14 @@
             <td class="row-height"><input type="checkbox" data-md-icheck="" data-position="4" data-value="1" data-title="{{ antl.get('action.active') }}" data-width="100px" data-type="string" data-template="#= FormatCheckBox(active) #" name="active" /></td>
         </tr>
     </table>
+    {% endblock %}
+    {% block tabs %}
+        <div id="tabstrip" style="display:none">
+            <ul>
+                <li data-search="1" class="k-state-active">{{ antl.get('surcharge.shipping_surcharge') }} </li>
+                <li data-search="2">{{ antl.get('surcharge.rental_surcharge') }}</li>
+            </ul>
+        </div>
     {% endblock %}
     {% block scripts_add %}
         <script src="{{ url('scripts/addon/backend/ermis-add-5.js') }}"></script>

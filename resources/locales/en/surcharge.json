@@ -1,3 +1,5 @@
 {
-    "title": "Surcharge type"
+    "title": "Surcharge type",
+    "shipping_surcharge" : "Shipping surcharge",
+    "rental_surcharge" : "Rental surcharge"
 }

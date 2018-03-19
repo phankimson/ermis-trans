@@ -95,7 +95,7 @@ class CustomerController{
 
         var path_upload = ''
           // Lưu hình ảnh
-        if(images.length>0){
+        if(images != null){
           const option = yield Option.query().where("code","PATH_UPLOAD_FILES").first()
           for(let image of images){
           const fileName = `${new Date().getTime()}.${image.extension()}`

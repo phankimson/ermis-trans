@@ -5,6 +5,7 @@
   text-align: center;
   line-height: 2;
 }
+
 #action_button{
   margin-top: 30px;
   margin-left: 150px;
@@ -41,6 +42,12 @@ input.disabled{
     border-color: darkgrey;
 }
 
+.k-numerictextbox .k-numeric-wrap,
+.k-numerictextbox .k-select
+{
+   border-color: darkgrey;
+}
+
 .xxsmall{
     width : 50px!important;
 }
@@ -49,6 +56,9 @@ input.disabled{
 }
 .small{
     width :150px!important;
+}
+.xmedium{
+    width : 250px!important;
 }
 .medium{
     width : 300px!important;

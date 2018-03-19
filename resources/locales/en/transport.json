@@ -7,5 +7,6 @@
     "size" : "Size",
     "owner" : "Owner",
     "rental_fees" : "Rental fees",
-    "hire_surcharge" : "Hire Surcharge"
+    "hire_surcharge" : "Hire Surcharge",
+    "type_surcharge" : "Type surcharge"
 }

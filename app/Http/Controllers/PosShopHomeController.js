@@ -20,6 +20,7 @@ const Surcharge = use('App/Model/Surcharge')  // EDIT
 const SalesStaff = use('App/Model/SalesStaff')  // EDIT
 const PosDetail = use('App/Model/PosDetail')  // EDIT
 const PosGeneral = use('App/Model/PosGeneral')  // EDIT
+const Unit = use('App/Model/Unit')  // EDIT
 const Antl = use('Antl')
 
 var moment = require('moment')
@@ -41,9 +42,10 @@ class PosShopHomeController{
         const stock = yield Inventory.query().whereNot('id',inventory).where('active',1).fetch()
         const payment_method = yield PaymentMethod.query().where('active',1).fetch()
         const sales_staff = yield SalesStaff.query().where('active',1).fetch()
-        const surcharge = yield Surcharge.query().where('active',1).fetch()
+        const surcharge = yield Surcharge.query().where('type',1).where('active',1).fetch()
+        const unit = yield Unit.query().where('active',1).fetch()
         const voucher = yield Voucher.query().where('code',this.voucher).first()
-        const index = yield response.view('pos-shop.pages.index', {key : this.key , room : this.room, sales_staff:sales_staff.toJSON(),surcharge:surcharge.toJSON(), payment_method:payment_method.toJSON(), subject : subject.toJSON(), city : city.toJSON(),stock : stock.toJSON() , voucher : voucher })
+        const index = yield response.view('pos-shop.pages.index', {key : this.key , unit : unit.toJSON() ,room : this.room, sales_staff:sales_staff.toJSON(),surcharge:surcharge.toJSON(), payment_method:payment_method.toJSON(), subject : subject.toJSON(), city : city.toJSON(),stock : stock.toJSON() , voucher : voucher })
         response.send(index)
     }
       * load (request, response){
@@ -144,6 +146,7 @@ class PosShopHomeController{
         goods.parcel_volumes = data.parcel_volumes
         goods.size = data.size
         goods.lot_number = data.lot_number
+        goods.unit = data.unit
         goods.surcharge = data.surcharge
         goods.price = data.price
         goods.surcharge_amount = data.surcharge_amount
@@ -159,6 +162,7 @@ class PosShopHomeController{
         goods.receiver_address = data.receiver_address
         goods.receiver_city = data.receiver_city
         goods.collect = data.collect
+        goods.collect_amount = data.collect_amount
         goods.print = 0
         goods.status = 1
         goods.user = user.id
@@ -194,8 +198,8 @@ class PosShopHomeController{
 
         // KHo
         var general = []
-        general = yield PosGeneral.query().where('inventory',inventory).where('date_voucher',moment().format('YYYY-MM-DD')).first()
-        if(!general){
+        //general = yield PosGeneral.query().where('inventory',inventory).where('date_voucher',moment().format('YYYY-MM-DD')).first()
+        //if(!general){
                 // Lưu số nhảy
                 const voucher_i = yield Voucher.query().where('inventory',inventory).where('code','LIKE',this.voucher_inventory).first()
 
@@ -217,7 +221,7 @@ class PosShopHomeController{
           general.inventory = inventory
           general.type = this.type
           general.voucher = c
-          general.description = 'Nhập kho ngày '+ data.date_voucher
+          general.description = 'Nhập kho ngày '+ data.date_voucher+'-'+v
           general.date_voucher = moment(data.date_voucher, 'DD-MM-YYYY').format('YYYY-MM-DD')
           general.traders = data.sender_fullname
           general.subject = data.subject
@@ -229,10 +233,10 @@ class PosShopHomeController{
           general.status = 1
           general.active = 1
           yield general.save()
-        }else{
-          general.total_number = general.total_number + 1
-          yield general.save()
-        }
+        //}else{
+        //  general.total_number = general.total_number + 1
+        //  yield general.save()
+        //}
         // Phiếu chi tiết kho
         const detail = new PosDetail()
         detail.general = general.id

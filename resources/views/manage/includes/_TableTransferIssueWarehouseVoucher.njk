@@ -66,7 +66,17 @@
     </tr>
     <tr>
         <td><label>{{ antl.get('inventory_voucher.description') }}</label></td>
-        <td colspan="2"><input type="text" class="k-textbox xxlarge" name="description" /></td>
+        <td><input type="text" class="k-textbox xxlarge" name="description" /></td>
+        <td class="row-label-responsive"></td>
+        <td><label>{{ antl.get('transport.type_surcharge') }}</label></td>
+        <td colspan="2">
+            <select class="droplist medium" name="surcharge">
+                <option readonly selected value="0">--Select--</option>
+                  {% for m in surcharge %}
+                    <option value="{{ m.id }}">{{ shortif( lang == 'vn' , m.code + ' - ' + m.name ,m.code + ' - ' +  m.name_en )}}</option>
+                   {% endfor %}
+            </select>
+        </td>
     </tr>
 
     <tr>
