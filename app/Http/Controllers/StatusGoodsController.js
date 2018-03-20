@@ -25,6 +25,7 @@ class StatusGoodsController{
       .leftJoin('inventory as in2','in2.id','goods.transport_station_receive')
       .select('goods.*','in1.name as transport_station_send','in2.name as transport_station_receive')
       .paginate(page,option.value)
+      console.log(data.toJSON())
       data.toJSON().page = Math.ceil(data.toJSON().total / data.toJSON().perPage)
       const city = yield City.query().where('active',1).fetch()
       const stock = yield Inventory.query().whereNot('id',inventory).where('active',1).fetch()
@@ -171,7 +172,7 @@ class StatusGoodsController{
         response.json({ status: false , message: Antl.formatMessage('messages.no_data_found')})
       }
     }catch(e){
-              response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message})
+      response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message})
     }
   }
 

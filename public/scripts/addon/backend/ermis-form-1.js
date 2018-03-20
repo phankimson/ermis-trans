@@ -322,7 +322,7 @@
             $searchValue = $(this).val();
             if ($searchValue) {
                 $.each(data.columns, function (key, column) {
-                    if (column.hidden === false) {
+                      if (column.hidden === false && column.key != 'checkbox') {
                         if (column.type === 'number') {
                             filter.filters.push({ field: column.field, operator: "eq", value: $searchValue });
                         } else if (column.type === 'boolean') {

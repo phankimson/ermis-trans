@@ -236,10 +236,10 @@ class TransferIssueInventoryVoucherController{
                   }
                   //Lưu vào bảng kế hoạch
                   const general_p = yield GeneralPlan.find(data.reference_id)
-                  general_p.reference_by  = general.id
-                  yield general_p.save()
-
-
+                  if(general_p){
+                    general_p.reference_by  = general.id
+                    yield general_p.save()
+                  }
                   // Lưu lịch sử
                   const menu = yield Menu.query().where('code',this.menu).first()
                   let hs = new HistoryAction()
@@ -257,7 +257,7 @@ class TransferIssueInventoryVoucherController{
             response.json({ status: false  , message: Antl.formatMessage('messages.update_fail')})
             }
         } catch (e) {
-        response.json({ status: false , message: Antl.formatMessage('messages.update_error')})
+        response.json({ status: false , message: Antl.formatMessage('messages.update_error') + ' ' +e.message})
         }
     }
     * bind (request, response){
