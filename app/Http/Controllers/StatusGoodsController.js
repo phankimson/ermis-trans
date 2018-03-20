@@ -23,9 +23,9 @@ class StatusGoodsController{
       const data = yield Goods.query()
       .innerJoin('inventory as in1','in1.id','goods.transport_station_send')
       .leftJoin('inventory as in2','in2.id','goods.transport_station_receive')
+      .orderBy('goods.created_at','desc')
       .select('goods.*','in1.name as transport_station_send','in2.name as transport_station_receive')
       .paginate(page,option.value)
-      console.log(data.toJSON())
       data.toJSON().page = Math.ceil(data.toJSON().total / data.toJSON().perPage)
       const city = yield City.query().where('active',1).fetch()
       const stock = yield Inventory.query().whereNot('id',inventory).where('active',1).fetch()
@@ -41,6 +41,7 @@ class StatusGoodsController{
       const data = yield Goods.query()
       .innerJoin('inventory as in1','in1.id','goods.transport_station_send')
       .leftJoin('inventory as in2','in2.id','goods.transport_station_receive')
+      .orderBy('goods.created_at','desc')
       .select('goods.*','in1.name as transport_station_send','in2.name as transport_station_receive')
       .paginate(page,option.value)
       if(data.toJSON().data.length > 0){
@@ -64,6 +65,7 @@ class StatusGoodsController{
       .TypeWhere('goods.active',data.active_search)
       .TypeWhereIn('goods.status',eval(data.status_search))
       .OrTypeWhere('goods.date_voucher',data.date_voucher_search)
+      .orderBy('goods.created_at','desc')
       .select('goods.*','in1.name as transport_station_send','in2.name as transport_station_receive')
       .fetch()
       if(arr.toJSON().length > 0){

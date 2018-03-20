@@ -33,8 +33,9 @@ class TransferIssueInventoryGeneralController{
       .where('type', this.type)
       .where('inventory', inventory)
       .innerJoin('inventory','inventory.id','pos_general.inventory_receipt')
+      .leftJoin('transport', 'transport.id', 'pos_general.transport')
       .whereBetween('pos_general.date_voucher',[moment().subtract((date_range.value - 1), 'days')
-      .format('YYYY-MM-DD'),moment().format('YYYY-MM-DD') ]).select('pos_general.*','inventory.name as inventory_receipt').fetch()
+      .format('YYYY-MM-DD'),moment().format('YYYY-MM-DD') ]).select('pos_general.*','inventory.name as inventory_receipt','transport.code as transport').fetch()
       const print = yield PrintTemplate.query().where('code', 'LIKE', this.print).fetch()
       const show = yield response.view('pos/pages/transfer_issue_inventory_general', {key : this.key ,title: title , data: data.toJSON() , end_date : end_date , start_date : start_date , print : print.toJSON() })  // EDIT
       response.send(show)
@@ -45,9 +46,18 @@ class TransferIssueInventoryGeneralController{
         const inventory = yield request.session.get('inventory')
         var arr = []
         if(data.active != "" && data.active != null){
-          arr = yield General.query().where('inventory', inventory).where('type', this.type).whereBetween('date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ]).where('active',data.active).fetch()
+          arr = yield General.query().where('pos_general.inventory', inventory).where('pos_general.type', this.type)
+          .whereBetween('pos_general.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD') ,moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+          .leftJoin('transport', 'transport.id', 'pos_general.transport')
+          .innerJoin('inventory','inventory.id','pos_general.inventory_receipt')
+          .where('active',data.active)
+          .select('pos_general.*','inventory.name as inventory_receipt','transport.code as transport').fetch()
         }else{
-          arr = yield General.query().where('inventory', inventory).where('type', this.type).whereBetween('date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ]).fetch()
+          arr = yield General.query().where('pos_general.inventory', inventory).where('pos_general.type', this.type)
+          .whereBetween('pos_general.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+          .leftJoin('transport', 'transport.id', 'pos_general.transport')
+          .innerJoin('inventory','inventory.id','pos_general.inventory_receipt')
+          .select('pos_general.*','inventory.name as inventory_receipt','transport.code as transport').fetch()
       }
       if(arr){
           response.json({ status: true  , data : arr.toJSON() })
@@ -55,7 +65,7 @@ class TransferIssueInventoryGeneralController{
           response.json({ status: false ,  message: Antl.formatMessage('messages.no_data') })
       }
     } catch (e) {
-      response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message })
+      response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message})
     }
   }
 

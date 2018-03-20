@@ -47,6 +47,17 @@
             </td>
         </tr>
         <tr>
+            <td><label>{{ antl.get('store.city') }} </label></td>
+            <td >
+            <select data-position="3" class="droplist large" data-title="{{ antl.get('store.city') }}" data-template="#= FormatDropList(city,'city') #" data-type="number" data-width="200px" name="city">
+              <option readonly selected value="0">--Select--</option>
+                      {% for x in city %}
+                      <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                      {% endfor %}
+              </select>
+            </td>
+        </tr>
+        <tr>
             <td><label>{{ antl.get('inventory.description') }}</label></td>
             <td>
                 <textarea class="k-textbox large" data-title="{{ antl.get('inventory.description') }}" data-hidden="true" data-position="4" data-width="200px" name="description" cols="30" rows="4"></textarea>

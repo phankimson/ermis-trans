@@ -111,12 +111,12 @@ class PosShopHomeController{
 
             var cus = new SenderReceiver()
             cus.type = 1
-            cus.code = 'D'+num
-            cus.fullname = data.receiver_fullname
-            cus.phone = data.receiver_phone
-            cus.address = data.receiver_address
-            cus.email = data.receiver_email
-            cus.city = data.receiver_city
+            cus.code = 'R'+num
+            cus.fullname = data.sender_fullname
+            cus.phone = data.sender_phone
+            cus.address = data.sender_address
+            cus.email = data.sender_email
+            cus.city = data.sender_city
             cus.active = 1
             yield cus.save()
           }
@@ -150,12 +150,13 @@ class PosShopHomeController{
         goods.surcharge = data.surcharge
         goods.price = data.price
         goods.surcharge_amount = data.surcharge_amount
-        goods.total_amount = parseInt(data.price) + parseInt(data.surcharge_amount)
+        goods.total_amount = parseInt(data.price) + parseInt(data.surcharge_amount?data.surcharge_amount:0)
         goods.note = data.note
         goods.sender_fullname = data.sender_fullname
         goods.sender_phone = data.sender_phone
         goods.sender_email = data.sender_email
         goods.sender_address = data.sender_address
+        goods.sender_city = data.sender_city
         goods.receiver_fullname = data.receiver_fullname
         goods.receiver_phone = data.receiver_phone
         goods.receiver_email = data.receiver_email
@@ -273,8 +274,12 @@ class PosShopHomeController{
           const arr = yield Goods.query()
           .innerJoin('payment','payment.goods','goods.id')
           .leftJoin('customer','customer.id','payment.subject')
+          .leftJoin('sales_staff','sales_staff.id','payment.sales_staff')
+          .leftJoin('users','users.id','goods.user')
+          .leftJoin('unit','unit.id','goods.unit')
+          .leftJoin('payment_method','payment_method.id','payment.type')
           .where('goods.id',data)
-          .select('goods.*','customer.name as sender_company','customer.address as company_address')
+          .select('goods.*','customer.name as company_name','customer.address as company_address','sales_staff.name as sale_staff','users.fullname as user_name','unit.name as unit','payment_method.name as payment_method')
           .first()
           arr.print = arr.print + 1
           yield arr.save()

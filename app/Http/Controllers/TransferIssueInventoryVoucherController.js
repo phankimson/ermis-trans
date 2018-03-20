@@ -42,7 +42,6 @@ class TransferIssueInventoryVoucherController{
         const surcharge = yield Surcharge.query().where('type',2).where('active',1).fetch()
         const item  = yield Goods.query().where('active',1)
         .where("transport_station_send",inventory)
-        .where("status",1)
         .select("id as item_id","goods.*").fetch()
         const print = yield PrintTemplate.query().where('code', 'LIKE', this.print).fetch()
         const show = yield response.view('pos/pages/transfer_issue_inventory_voucher', {key : this.key ,title: title ,surcharge : surcharge.toJSON(),driver : driver.toJSON() , transport : transport.toJSON(), voucher : voucher, item : item.toJSON() , print : print.toJSON() , stock : stock.toJSON()})  // EDIT

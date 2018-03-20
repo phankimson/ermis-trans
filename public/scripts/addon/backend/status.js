@@ -36,7 +36,7 @@ var Ermis = function () {
         }else if(d.active == 0){
           copy.find('td').eq(9).html('');
         }
-          copy.find('td').eq(10).find('a').removeClass("disabled").attr('data-id',data.id);
+          copy.find('td').eq(10).find('a').removeClass("disabled").attr('data-id',d.id);
           jQuery(".uk-table").find('tbody').append(copy);
         })
     }
@@ -228,7 +228,7 @@ var Ermis = function () {
                   }
               });
               jQuery(".step").iCheck('uncheck');
-              jQuery(".step").attr('disabled','disabled');
+              jQuery(".step").removeAttr('disabled');
               if(result.history.length > 0){
                 jQuery.each(result.history,function(k,v){
                   jQuery("#step"+v.status).iCheck('check');
@@ -255,31 +255,36 @@ var Ermis = function () {
       var postdata = { data: JSON.stringify(dataId)};
       RequestURLWaiting(Ermis.link+'-print', 'json', postdata, function (result) {
           if (result.status === true) {
-              JsBarcode("#barcode_voucher", result.data.code , {format: "CODE128", width:3, height:50 , marginLeft : 25 });
+              //JsBarcode("#barcode_voucher", result.data.code , {format: "CODE128", width:3, height:50 , marginLeft : 25 });
+              $kprint.find('.voucher_print').text(result.data.code);
+              $kprint.find('.date_voucher').text(FormatDate(result.data.date_voucher));
+              $kprint.find('.company_name').text(result.data.company_name);
               $kprint.find('.sender_fullname').text(result.data.sender_fullname);
+              $kprint.find('.sender_company').text(result.data.sender_company);
               $kprint.find('.sender_phone').text(result.data.sender_phone);
               $kprint.find('.sender_email').text(result.data.sender_email);
               $kprint.find('.sender_address').text(result.data.sender_address);
               $kprint.find('.sender_city').text(FormatDropList(result.data.sender_city,'sender_city'));
-              $kprint.find('.sender_distric').text(FormatDropList(result.data.sender_distric,'sender_distric'));
               $kprint.find('.receiver_fullname').text(result.data.receiver_fullname);
               $kprint.find('.receiver_phone').text(result.data.receiver_phone);
               $kprint.find('.receiver_email').text(result.data.receiver_email);
               $kprint.find('.receiver_address').text(result.data.receiver_address);
               $kprint.find('.receiver_city').text(FormatDropList(result.data.receiver_city,'receiver_city'));
-              $kprint.find('.receiver_distric').text(FormatDropList(result.data.receiver_distric,'receiver_distric'));
-              $kprint.find('.parcel_volumes').text(FormatDropList(result.data.parcel_volumes,'parcel_volumes'));
-              $kprint.find('.size').text(FormatDropList(result.data.size,'size'));
-              $kprint.find('.type_goods').text(FormatDropList(result.data.type_goods,'type_goods'));
-              $kprint.find('.type_service').text(FormatDropList(result.data.type_service,'type_service'));
+              $kprint.find('.name').text(result.data.name);
+              $kprint.find('.parcel_volumes').text(result.data.parcel_volumes);
+              $kprint.find('.size').text(result.data.size);
+              $kprint.find('.price').text(FormatNumber(result.data.price));
+              $kprint.find('.unit').text(result.data.unit);
               $kprint.find('.lot_number').text(result.data.lot_number);
-              $kprint.find('.price').text(result.data.price);
+              $kprint.find('.total_amount').text(FormatNumber(result.data.total_amount));
+              $kprint.find('.sale_staff').text(result.data.sale_staff);
               $kprint.find('.note').text(result.data.note);
+              $kprint.find('.user').text(result.data.user_name);
+              $kprint.find('.payment_method').text(result.data.payment_method);
               $kprint.removeClass('hidden');
               setTimeout(function(){
               $kprint.print();
               }, 300);
-              initStatus(3);
               setTimeout(function(){
                 $kprint.addClass('hidden');
               }, 500);

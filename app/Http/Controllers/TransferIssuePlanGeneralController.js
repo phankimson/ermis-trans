@@ -32,9 +32,10 @@ class TransferIssuePlanGeneralController{
       const data = yield General.query().where('inventory', inventory)
       .where('type', this.type)
       .where('inventory', inventory)
+      .leftJoin('transport', 'transport.id', 'pos_general_plan.transport')
       .innerJoin('inventory','inventory.id','pos_general_plan.inventory_receipt')
       .whereBetween('pos_general_plan.date_voucher',[moment().subtract((date_range.value - 1), 'days')
-      .format('YYYY-MM-DD'),moment().format('YYYY-MM-DD') ]).select('pos_general_plan.*','inventory.name as inventory_receipt').fetch()
+      .format('YYYY-MM-DD'),moment().format('YYYY-MM-DD') ]).select('pos_general_plan.*','inventory.name as inventory_receipt','transport.code as transport').fetch()
       const print = yield PrintTemplate.query().where('code', 'LIKE', this.print).fetch()
       const show = yield response.view('pos/pages/transfer_issue_plan_general', {key : this.key ,title: title , data: data.toJSON() , end_date : end_date , start_date : start_date , print : print.toJSON() })  // EDIT
       response.send(show)
@@ -45,9 +46,18 @@ class TransferIssuePlanGeneralController{
         const inventory = yield request.session.get('inventory')
         var arr = []
         if(data.active != "" && data.active != null){
-          arr = yield General.query().where('inventory', inventory).where('type', this.type).whereBetween('date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ]).where('active',data.active).fetch()
+          arr = yield General.query().where('pos_general_plan.inventory', inventory).where('pos_general_plan.type', this.type)
+          .whereBetween('pos_general_plan.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD') ,moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+          .leftJoin('transport', 'transport.id', 'pos_general_plan.transport')
+          .innerJoin('inventory','inventory.id','pos_general_plan.inventory_receipt')
+          .where('active',data.active)
+          .select('pos_general_plan.*','inventory.name as inventory_receipt','transport.code as transport').fetch()
         }else{
-          arr = yield General.query().where('inventory', inventory).where('type', this.type).whereBetween('date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ]).fetch()
+          arr = yield General.query().where('pos_general_plan.inventory', inventory).where('pos_general_plan.type', this.type)
+          .whereBetween('pos_general_plan.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+          .leftJoin('transport', 'transport.id', 'pos_general_plan.transport')
+          .innerJoin('inventory','inventory.id','pos_general_plan.inventory_receipt')
+          .select('pos_general_plan.*','inventory.name as inventory_receipt','transport.code as transport').fetch()
       }
       if(arr){
           response.json({ status: true  , data : arr.toJSON() })

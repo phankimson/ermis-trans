@@ -225,6 +225,11 @@ var Ermis = function () {
             jQuery('input[name=sender_phone]').val(result.data.telephone1_contact);
             jQuery('input[name=sender_email]').val(result.data.email);
             jQuery('select[name=sales_staff]').data("kendoDropDownList").value(result.data.sales_staff)
+            if(result.data.payment_method){
+              jQuery('select[name=payment_method]').data("kendoDropDownList").value(result.data.payment_method);
+            }else{
+              jQuery('select[name=payment_method]').data("kendoDropDownList").value(1);
+            }
             if(result.receiver){
               jQuery('input[name=receiver_fullname]').val(result.receiver.fullname);
               jQuery('input[name=receiver_phone]').val(result.receiver.phone);
@@ -236,6 +241,7 @@ var Ermis = function () {
             jQuery('input[name=sender_address]').val("");
             jQuery('input[name=sender_phone]').val("");
             jQuery('input[name=sender_email]').val("");
+            jQuery('select[name=payment_method]').data("kendoDropDownList").value(1);
             jQuery('select[name=sales_staff]').data("kendoDropDownList").value(0);
             jQuery('input[name=receiver_fullname]').val("");
             jQuery('input[name=receiver_phone]').val("");
@@ -322,7 +328,8 @@ var Ermis = function () {
         if (result.status === true) {
             //JsBarcode("#barcode_voucher", result.data.code , {format: "CODE128", width:3, height:50 , marginLeft : 25 });
             $kprint.find('.voucher_print').text(result.data.code);
-            $kprint.find('.created_print').text(result.data.created_at);
+            $kprint.find('.date_voucher').text(FormatDate(result.data.date_voucher));
+            $kprint.find('.company_name').text(result.data.company_name);
             $kprint.find('.sender_fullname').text(result.data.sender_fullname);
             $kprint.find('.sender_company').text(result.data.sender_company);
             $kprint.find('.sender_phone').text(result.data.sender_phone);
@@ -334,21 +341,17 @@ var Ermis = function () {
             $kprint.find('.receiver_email').text(result.data.receiver_email);
             $kprint.find('.receiver_address').text(result.data.receiver_address);
             $kprint.find('.receiver_city').text(FormatDropList(result.data.receiver_city,'receiver_city'));
-            $kprint.find('.date_voucher').text(FormatDate(result.data.created_at));
             $kprint.find('.name').text(result.data.name);
             $kprint.find('.parcel_volumes').text(result.data.parcel_volumes);
             $kprint.find('.size').text(result.data.size);
-            if(result.data.collect == 1){
-               $kprint.find('.collect').text("Có");
-            }else{
-               $kprint.find('.collect').text("Không");
-            }
-            $kprint.find('.surcharge').text(result.data.surcharge);
+            $kprint.find('.price').text(FormatNumber(result.data.price));
+            $kprint.find('.unit').text(result.data.unit);
             $kprint.find('.lot_number').text(result.data.lot_number);
-            $kprint.find('.surcharge_amount').text(result.data.surcharge_amount);
-            $kprint.find('.price').text(result.data.price);
-            $kprint.find('.total').text(result.data.total_amount);
+            $kprint.find('.total_amount').text(FormatNumber(result.data.total_amount));
+            $kprint.find('.sale_staff').text(result.data.sale_staff);
             $kprint.find('.note').text(result.data.note);
+            $kprint.find('.user').text(result.data.user_name);
+            $kprint.find('.payment_method').text(result.data.payment_method);
             $kprint.removeClass('hidden');
             setTimeout(function(){
             $kprint.print();

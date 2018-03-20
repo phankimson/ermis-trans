@@ -66,6 +66,7 @@
                                  { "field" : "date_voucher","title" : "{{ antl.get('inventory_voucher.date_voucher') }}", type:"date" ,template: '#= kendo.toString(kendo.parseDate(date_voucher, "yyyy-MM-dd"), "dd/MM/yyyy") #' ,width : '150px'},
                                  { "field" : "voucher","title" : "{{ antl.get('inventory_voucher.voucher') }}"  ,width : '150px'},
                                  { "field" : "description","title" : "{{ antl.get('inventory_voucher.description') }}",width : '200px' },
+                                 { "field" : "transport","title" : "{{ antl.get('transport.title') }}",width : '200px' },
                                  { "field" : "total_number","title" : "{{ antl.get('inventory_voucher.total_number') }}" ,type:"number",template: '#= kendo.toString(total_number, "n0")#',format: '{0:n0}' ,width : '150px'},
                                  { "field" : "active","title" : "{{ antl.get('inventory_voucher.active') }}",template: '#= FormatCheckBox(active)#' ,width : '100px'}];
             Ermis.field = {

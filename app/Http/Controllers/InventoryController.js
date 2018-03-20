@@ -1,6 +1,7 @@
 'use strict'
 const Data = use('App/Model/Inventory')  // EDIT
 const Company = use('App/Model/Company')
+const City = use('App/Model/City')  // EDIT
 const Antl = use('Antl')
 const Helpers = use('Helpers')
 
@@ -15,7 +16,8 @@ class InventoryController{
       const title = Antl.formatMessage('inventory.title')  // EDIT
       const data = yield Data.query().orderBy('id', 'desc').fetch()
       const company = yield Company.query().where('active',1).fetch()
-      const show = yield response.view('manage/pages/inventory', {key : this.key ,title: title , data: data.toJSON() , company : company.toJSON()})  // EDIT
+      const city = yield City.query().where('active',1).fetch()
+      const show = yield response.view('manage/pages/inventory', {key : this.key , city : city.toJSON(),title: title , data: data.toJSON() , company : company.toJSON()})  // EDIT
       response.send(show)
   }
 
@@ -45,6 +47,7 @@ class InventoryController{
           result.email = data.email
           result.company = data.company
           result.description = data.description
+          result.city = data.city
           result.active = data.active
           yield result.save()
           response.json({ status: true , message: Antl.formatMessage('messages.update_success') , data : result})

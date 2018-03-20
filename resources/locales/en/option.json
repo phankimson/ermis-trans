@@ -10,5 +10,6 @@
     "title": "Option value",
     "type": "Type",
     "value": "Value",
-    "name" :"Name"
+    "name" :"Name",
+    "icon" : "Icon"
 }

@@ -134,63 +134,7 @@
         </div>
 
 
-        <! -- PRINT FORM -->
-        <div id="printbill" class="hidden">
-          <div>
-          <table>
-                  <tbody>
-                    <tr>
-                    <td> <img src="{{ url('images/logo_blue.png') }}"> </td>
-                    <td class="row-label"> <div style="margin-left : 40px">{{company.name}}</br>{{company.address}}</br>{{company.phone}} </div></td>
-                    <td> <svg id="barcode_voucher"></svg> </td>
-                    </tr>
-                  </tbody>
-          </table>
-                <p style="text-align:center; font-size : 18px ; font-weight: bold; ">PHIẾU GIAO NHẬN</p>
-                <table style="width : 100% ; border-collapse: collapse;border: 1px solid black;">
-                  <tbody>
-                    <tr>
-                    <td style="border: 1px solid black; padding : 5px" class="row-label-large">
-                    <span style="text-align:center; font-weight: bold; font-size : 18px ">{{ antl.get('store.sender_information') }}</span></br>
-                    <span>{{ antl.get('store.fullname') }} : <span class="sender_fullname" > Phan Kim Sơn</span></span></br>
-                    <span>{{ antl.get('store.phone') }} : <span class="sender_phone" > 01686692911</span></span></br>
-                    <span>{{ antl.get('store.email') }} : <span class="sender_email" > phankimson1988@gmail.com</span></span></br>
-                    <span>{{ antl.get('store.address') }} : <span class="sender_address" >13 PCT</span></span></br>
-                    <span>{{ antl.get('store.city') }} :  <span class="sender_city" >Nha Trang</span></span></br>
-                    <span>{{ antl.get('store.distric') }} : <span class="sender_distric" >Khánh Hòa</span></span>
-                    </td>
-                    <td style="border: 1px solid black; padding : 5px" class="row-label-large">
-                    <span style="text-align:center;  font-weight: bold; font-size : 18px ">{{ antl.get('store.receiver_infomation') }}</span></br>
-                    <span>{{ antl.get('store.fullname') }} : <span class="receiver_fullname" > Phan Kim Sơn</span></span></br>
-                    <span>{{ antl.get('store.phone') }} : <span class="receiver_phone" > 01686692911</span></span></br>
-                    <span>{{ antl.get('store.email') }} : <span class="receiver_phone" > phankimson1988@gmail.com</span></span></br>
-                    <span>{{ antl.get('store.address') }} : <span class="receiver_address" >13 PCT</span></span></br>
-                    <span>{{ antl.get('store.city') }} : <span class="receiver_city" >Nha Trang</span></span></br>
-                    <span>{{ antl.get('store.distric') }} : <span class="receiver_distric" >Khánh Hòa</span></span>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td colspan="2" >
-                    <p style="text-align:center;  font-weight: bold; font-size : 18px ">{{ antl.get('store.order_information') }}</p>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>
-                    <span>{{ antl.get('store.parcel_volumes') }} : <span class="parcel_volumes" > Dưới 1 kg</span></span></br>
-                    <span>{{ antl.get('store.size') }} : <span class="size" > 20 cm x 40 cm x 60 cm</span></span></br>
-                    <span>{{ antl.get('store.type_goods') }} : <span class="type_goods" > Hàng cồng kềnh</span></span></br>
-                    <span>{{ antl.get('store.type_service') }} : <span class="type_service" >Loại 1</span></span>
-                    </td>
-                    <td>
-                    <span>{{ antl.get('store.lot_number') }} : <span class="price" > XYZ</span></span></br>
-                    <span>{{ antl.get('store.price') }} : <span class="size" > 35.000</span></span></br>
-                    <span>{{ antl.get('store.note') }} : <span class="note" > Hàng cồng kềnh</span></span>
-                    </td>
-                    </tr>
-                  </tbody>
-                </table>
-          </div>
-        <! -- PRINT FORM -->
+          {% include 'manage.includes._TablePrintBill' %}
 
 
         <!-- EDIT FORM -->
@@ -391,7 +335,6 @@
         <script src="{{ url('library/kendoui/js/kendo.all.min.js') }}"></script>
         <script src="{{ url('scripts/uikit.min.js') }}"></script>
         <script src="{{ url('scripts/ukit_pagination.js') }}"></script>
-        <script src="{{ url('scripts/JsBarcode.all.min.js') }}"></script>
         <script src="{{ url('library/jquery.print/jQuery.print.js') }}"></script>
         <script src="{{ url('scripts/addon/backend/status.js') }}"></script>
         {% endblock %}
