@@ -208,17 +208,17 @@ class PaymentCashVoucherController{
       try {
       const data = JSON.parse(request.input('data'))
         if(data){
-          var general = yield General.find(data)
-              general = yield General.query().where('pos_general.id',data)
-              .innerJoin(general.subject_key, general.subject_key+'.id', 'pos_general.subject')
-              .select('pos_general.*',general.subject_key+'.code',general.subject_key+'.name').first()
+          var r = yield General.find(data)
+            var general = yield General.query().where('pos_general.id',data)
+              .innerJoin(r.subject_key, r.subject_key+'.id', 'pos_general.subject')
+              .select('pos_general.*',r.subject_key+'.code',r.subject_key+'.name').first()
           var detail = yield Detail.query().where("pos_cash.general_id",data).orderBy('id', 'desc').fetch()
         response.json({ status: true  , general : general , detail : detail.toJSON() })
         }else{
         response.json({ status: false  , message: Antl.formatMessage('messages.update_fail')})
         }
         } catch (e) {
-        response.json({ status: false , message: Antl.formatMessage('messages.update_error')})
+        response.json({ status: false , message: Antl.formatMessage('messages.error')} +' '+ e.message)
         }
     }
 }

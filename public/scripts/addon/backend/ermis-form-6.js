@@ -1057,6 +1057,7 @@
                     obj.total_amount = ConvertNumber(jQuery('#amount_total').html());
                     obj.advance_employee = jQuery("input[name='advance_employee']").val();
                     obj.advance_teacher = jQuery("input[name='advance_teacher']").val();
+                    obj.subject_key = jQuery('input[name="filter_type"]:checked').val();
                     jQuery.each(data.columns, function (k, col) {
                         if (col.null === true && !jQuery('input[name="' + col.field + '"]').val()) {
                             crit = false;

@@ -51,7 +51,16 @@ class Suplier extends Lucid {
         }
          builder.whereNot(column,0)
        }
-
+       detail (){
+        return this
+        .hasMany('App/Model/PosGeneral','id','subject')
+        .where('subject_key','suplier')
+      }
+      files (){
+       return this
+       .hasMany('App/Model/AttachFile','id','subject')
+       .where('subject_key','suplier')
+     }
 }
 
 module.exports = Suplier
