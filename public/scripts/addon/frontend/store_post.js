@@ -329,7 +329,11 @@ var Ermis = function () {
             //JsBarcode("#barcode_voucher", result.data.code , {format: "CODE128", width:3, height:50 , marginLeft : 25 });
             $kprint.find('.voucher_print').text(result.data.code);
             $kprint.find('.date_voucher').text(FormatDate(result.data.date_voucher));
-            $kprint.find('.company_name').text(result.data.company_name);
+            if(result.data.company_name){
+              $kprint.find('.company_name').text(result.data.company_name);
+            }else{
+              $kprint.find('.company_name').text(result.data.sender_fullname);
+            }
             $kprint.find('.sender_fullname').text(result.data.sender_fullname);
             $kprint.find('.sender_company').text(result.data.sender_company);
             $kprint.find('.sender_phone').text(result.data.sender_phone);
@@ -403,7 +407,7 @@ var Ermis = function () {
           jQuery('input[name="refund"]').val(0)
             if (confirmed) {
                 var obj = {}; var crit = true;
-                  jQuery("#form-action select.droplist,#form-action1 select.droplist,#form-window-payment select.droplist").not('.not_clear').each(function() {
+                  jQuery("#form-action select.droplist,#form-action1 select.droplist,#form-window-payment select.droplist").not('.not_check').each(function() {
                     if(jQuery(this).data('kendoDropDownList').value() == 0 && !jQuery(this).hasClass("not_null")){
                         jQuery(this).parents('span.droplist').attr('style','border-color: red;');
                         jQuery(this).parents('span.droplist').find('span.k-dropdown-wrap').attr('style','border-color: red;');
@@ -414,7 +418,7 @@ var Ermis = function () {
                       obj[jQuery(this).attr("name")] = jQuery(this).data('kendoDropDownList').value();
                     }
                    });
-                   jQuery("#form-action input,#form-action1 input,#form-window-payment input").not('.not_clear').each(function() {
+                   jQuery("#form-action input,#form-action1 input,#form-window-payment input,#form-action1 textarea").not('.not_check').each(function() {
                      if(jQuery(this).val() == 0 && !jQuery(this).hasClass("not_null") || jQuery(this).val() == "" && !jQuery(this).hasClass("not_null") ){
                         if(jQuery(this).hasClass('number-price') || jQuery(this).hasClass('numberic') || jQuery(this).hasClass('number')){
                           jQuery(this).parents('span.k-numeric-wrap').attr('style','border-color: red;');

@@ -120,6 +120,9 @@ input.disabled{
   .main_logo_top{
       min-width: 160px!important;
   }
+  .xmedium{
+      width : 230px!important;
+  }
   .xxsmall-responsive{
       width : 30px!important;
   }
