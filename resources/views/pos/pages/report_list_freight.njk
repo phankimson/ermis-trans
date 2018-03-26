@@ -86,8 +86,8 @@
                       <th data-field="sender_address" data-sortable="true" >{{ antl.get('store.sender_address') }}</th>
                       <th data-field="receiver_address" data-sortable="true" >{{ antl.get('store.receiver_address') }}</th>
                       <th data-field="name" data-sortable="true" >{{ antl.get('store.name') }}</th>
-                      <th data-field="parcel_volumes" data-sortable="true" >{{ antl.get('store.parcel_volumes') }}</th>
-                      <th data-field="size" data-sortable="true" >{{ antl.get('store.size') }}</th>
+                      <th data-field="quantity" data-sortable="true" >{{ antl.get('store.quantity') }}</th>
+                      <th data-field="price" data-sortable="true" >{{ antl.get('store.price') }}</th>
                       <th data-field="lot_number" data-sortable="true" >{{ antl.get('store.lot_number') }}</th>
                       <th data-field="price" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.price') }}</th>
                       <th data-field="surcharge_amount" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.surcharge_amount') }}</th>
@@ -118,8 +118,8 @@
                                   { "field" : "sender_address","title" :"{{ antl.get('store.sender_address') }}" ,"width" : "150px"},
                                   { "field" : "receiver_address","title" :"{{ antl.get('store.receiver_address') }}" ,"width" : "150px"},
                                   { "field" : "name","title" :"{{ antl.get('store.name') }}" ,"width" : "150px"},
-                                  { "field" : "parcel_volumes","title" :"{{ antl.get('store.parcel_volumes') }}" ,"width" : "150px"},
-                                  { "field" : "size","title" :"{{ antl.get('store.size') }}" ,"width" : "150px"},
+                                  { "field" : "quantity","title" :"{{ antl.get('store.quantity') }}" ,"width" : "150px"},
+                                  { "field" : "price","title" :"{{ antl.get('store.price') }}" ,"width" : "150px"},
                                   { "field" : "lot_number","title" :"{{ antl.get('store.lot_number') }}" ,"width" : "150px"},
                                   { "field" : "price","title" :"{{ antl.get('store.price') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
                                   { "field" : "surcharge_amount","title" :"{{ antl.get('store.surcharge_amount') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },

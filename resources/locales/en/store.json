@@ -19,7 +19,7 @@
   "type_service" : "Type service",
   "type_goods" : "Type goods",
   "lot_number" : "Lot number",
-  "price" : "Fee",
+  "price" : "Price",
   "note" :"Note",
   "payment" : "Payment",
   "payment_method" : "Payment method",
@@ -39,5 +39,7 @@
   "receipt_parcel" : "Receipt parcel",
   "transport_code" : "Transport code",
   "sender_address" : "Sender address",
-  "receiver_address" : "Receiver address"
+  "receiver_address" : "Receiver address",
+  "quantity" : "Quantity",
+  "fee" : "Fee"
 }

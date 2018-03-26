@@ -1,3 +1,5 @@
 {
-    "title": "Đơn vị tính"
+    "title": "Đơn vị tính",
+    "lot_number" : "Dành cho số kiện",
+    "quantity" : "Dành cho số lượng"
 }

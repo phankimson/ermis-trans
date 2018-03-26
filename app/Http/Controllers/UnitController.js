@@ -7,7 +7,7 @@ const Menu = use('App/Model/Menu')
 
 class UnitController{
   constructor () {
-      this.type = ""  // EDIT
+      this.type = 1  // EDIT
       this.key = "unit"  // EDIT
       this.menu = "pos_unit"  // EDIT
       this.download = "Unit.xlsx"  // EDIT
@@ -15,9 +15,23 @@ class UnitController{
     }
   * show (request, response){
       const title = Antl.formatMessage('unit.title')  // EDIT
-      const data = yield Data.query().orderBy('id', 'desc').fetch()
+      const data = yield Data.query().where('type',this.type).orderBy('id', 'desc').fetch()
       const show = yield response.view('pos/pages/unit', {key : this.key ,title: title , data: data.toJSON()})  // EDIT
       response.send(show)
+  }
+
+  * get (request, response){
+      try{
+      const data = JSON.parse(request.input('data'))
+      const arr = yield Data.query().where('type',data).orderBy('id', 'desc').fetch()
+      if(arr){
+          response.json({ status: true  , data : arr})
+      }else{
+          response.json({ status: false ,  message: Antl.formatMessage('messages.no_data') })
+      }
+    }catch(e){
+        response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error')+' ' + e.message })
+    }
   }
 
   * save (request, response){
@@ -39,6 +53,7 @@ class UnitController{
          var action = 2
         }
          if(permission.a || permission.e){
+          result.type = data.type
           result.code = data.code
           result.name = data.name
           result.name_en = data.name_en
@@ -108,6 +123,7 @@ class UnitController{
       let arr_push = []
       for(let data of arr){
         var result = new Data()
+        result.type = dât.type
         result.code = data.code
         result.name = data.name
         result.name_en = data.name_en

@@ -263,9 +263,9 @@
             if(dataItem){
               var row = grid.tbody.find("tr[data-uid='" + dataItem.uid + "']");
               var selectedItem = grid.dataItem(row);
-              selectedItem.set("quantity", 1);
+              //selectedItem.set("quantity", 1);
             }else{
-              i.quantity = 1 ;
+              // i.quantity = 1 ;
               grid.dataSource.insert(0 , i);
             }
 
@@ -327,9 +327,9 @@
               if(dataItem){
                 var row = grid.tbody.find("tr[data-uid='" + dataItem.uid + "']");
                 var selectedItem = grid.dataItem(row);
-                selectedItem.set("quantity", dataItem.quantity + 1);
+              //  selectedItem.set("quantity", dataItem.quantity + 1);
               }else{
-                i.quantity = 1 ;
+              //  i.quantity = 1 ;
                 grid.dataSource.insert(0 , i);
                 $kGridBarcode.find('.k-checkbox[id="'+i.id+'"]').click();
               }

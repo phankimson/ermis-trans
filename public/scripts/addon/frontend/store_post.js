@@ -94,12 +94,22 @@ var Ermis = function () {
       })
   }
 
+  initChangePrice = function(){
+    jQuery("input[name='price']").bind("blur",function(e){
+      var quantity = jQuery('input[name="quantity"]').data("kendoNumericTextBox").value();
+      var price = jQuery('input[name="price"]').data("kendoNumericTextBox").value();
+      var total = quantity * price;
+      jQuery('input[name="fee"]').data("kendoNumericTextBox").value (total);
+      jQuery("input[name=total]").val(FormatNumber(total));
+    })
+  }
+
 
   var initChangePaymentMethod = function(){
     jQuery("select[name='payment_method']").bind("change",function(e){
         var val = jQuery(this).val();
           var payment = jQuery('input[name="payment"]').data("kendoNumericTextBox");
-          payment.value(jQuery('input[name="price"]').val());
+          payment.value(jQuery('input[name="fee"]').val());
           jQuery('input[name="refund"]').val(0);
         if(val == 2){
           payment.readonly(true);
@@ -205,10 +215,10 @@ var Ermis = function () {
   //  });
 //  }
   var initTotal = function(){
-    jQuery("input[name=price],input[name=surcharge_amount]").on("blur",function(){
-      var price = jQuery("input[name='price']").data("kendoNumericTextBox").value();
+    jQuery("input[name=fee],input[name=surcharge_amount]").on("blur",function(){
+      var fee = jQuery("input[name='fee']").data("kendoNumericTextBox").value();
       var surcharge_amount = jQuery("input[name='surcharge_amount']").data("kendoNumericTextBox").value();
-      var total = price + surcharge_amount;
+      var total = fee + surcharge_amount;
       jQuery("input[name=total]").val(FormatNumber(total));
     })
   }
@@ -342,9 +352,10 @@ var Ermis = function () {
             $kprint.find('.receiver_address').text(result.data.receiver_address);
             $kprint.find('.receiver_city').text(FormatDropList(result.data.receiver_city,'receiver_city'));
             $kprint.find('.name').text(result.data.name);
-            $kprint.find('.parcel_volumes').text(result.data.parcel_volumes);
-            $kprint.find('.size').text(result.data.size);
+            $kprint.find('.unit_quantity').text(result.data.unit_quantity);
+            $kprint.find('.quantity').text(result.data.quantity);
             $kprint.find('.price').text(FormatNumber(result.data.price));
+            $kprint.find('.fee').text(FormatNumber(result.data.fee));
             $kprint.find('.unit').text(result.data.unit);
             $kprint.find('.lot_number').text(result.data.lot_number);
             $kprint.find('.total_amount').text(FormatNumber(result.data.total_amount));
@@ -403,7 +414,7 @@ var Ermis = function () {
           jQuery('input[name="refund"]').val(0)
             if (confirmed) {
                 var obj = {}; var crit = true;
-                  jQuery("#form-action select.droplist,#form-action1 select.droplist,#form-window-payment select.droplist").not('.not_clear').each(function() {
+                  jQuery("#form-action select.droplist,#form-action1 select.droplist,#form-window-payment select.droplist").not('.not_check').each(function() {
                     if(jQuery(this).data('kendoDropDownList').value() == 0 && !jQuery(this).hasClass("not_null")){
                         jQuery(this).parents('span.droplist').attr('style','border-color: red;');
                         jQuery(this).parents('span.droplist').find('span.k-dropdown-wrap').attr('style','border-color: red;');
@@ -414,7 +425,7 @@ var Ermis = function () {
                       obj[jQuery(this).attr("name")] = jQuery(this).data('kendoDropDownList').value();
                     }
                    });
-                   jQuery("#form-action input,#form-action1 input,#form-window-payment input").not('.not_clear').each(function() {
+                   jQuery("#form-action input,#form-action1 input,#form-window-payment input").not('.not_check').each(function() {
                      if(jQuery(this).val() == 0 && !jQuery(this).hasClass("not_null") || jQuery(this).val() == "" && !jQuery(this).hasClass("not_null") ){
                         if(jQuery(this).hasClass('number-price') || jQuery(this).hasClass('numberic') || jQuery(this).hasClass('number')){
                           jQuery(this).parents('span.k-numeric-wrap').attr('style','border-color: red;');
@@ -493,15 +504,15 @@ var Ermis = function () {
        });
 
     if(crit == true ){
-      jQuery("input[name='total_amount']").val(FormatNumber(jQuery("input[name='price']").val()))
-      jQuery("input[name='payment']").data("kendoNumericTextBox").value(jQuery("input[name='price']").val())
+      jQuery("input[name='total_amount']").val(FormatNumber(jQuery("input[name='fee']").val()))
+      jQuery("input[name='payment']").data("kendoNumericTextBox").value(jQuery("input[name='fee']").val())
         $kWindow2.open();
     }else{
         kendo.alert(transText.please_fill_field);
     }
 
     jQuery('input[name="payment"]').on("blur change",function(){
-      var total_amount = jQuery("input[name='price']").val()?parseInt(jQuery("input[name='price']").val()):0;
+      var total_amount = jQuery("input[name='fee']").val()?parseInt(jQuery("input[name='fee']").val()):0;
       var payment = jQuery('input[name="payment"]').data("kendoNumericTextBox").value();
       jQuery('input[name="refund"]').val(FormatNumber(payment-total_amount));
     })
@@ -595,6 +606,7 @@ var Ermis = function () {
           initCheckCollect();
           //initChangeSale();
           initChangeCompany();
+          initChangePrice();
         }
 
     };

@@ -19,7 +19,7 @@
   "type_service" : "Loại dịch vụ",
   "type_goods" : "Loại hàng",
   "lot_number" : "Số kiện",
-  "price" : "Phí",
+  "price" : "Giá",
   "note" :"Ghi chú",
   "payment" : "Thanh toán",
   "payment_method" : "Hình thức thanh toán",
@@ -39,5 +39,7 @@
   "receipt_parcel" : "Nhận bưu kiện",
   "transport_code" : "Biển số xe",
   "sender_address" : " Nơi đi",
-  "receiver_address" : "Nơi đén"
+  "receiver_address" : "Nơi đén",
+  "quantity" : "Số lượng",
+  "fee" : "Phí"
 }

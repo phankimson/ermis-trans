@@ -203,6 +203,7 @@ Route.group('trans-group', function () {
   Route.post('/unit-delete', 'UnitController.delete')
   Route.get('/unit-downloadExcel', 'UnitController.downloadExcel')
   Route.post('/unit-import', 'UnitController.import')
+  Route.post('/unit-get', 'UnitController.get')
 
     // Type
   //Route.get('/type', 'TypeController.show')

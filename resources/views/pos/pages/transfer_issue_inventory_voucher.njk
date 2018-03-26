@@ -168,7 +168,7 @@
                                 { "field" : "sender_fullname","title" : "{{ antl.get('return.sender') }}" ,"width" : "200px" ,"set" : "1" },
                                 { "field" : "date_voucher","title" : "{{ antl.get('inventory_voucher.date_post') }}", type:"date" ,template: '#= FormatDate(date_voucher)#' ,"set" : "1" },
                                 { "field" : "lot_number","title" : "{{ antl.get('inventory_voucher.lot_number') }}" ,"set" : "1" },
-                                { "field" : "quantity","title" : "{{ antl.get('inventory_voucher.quantity') }}","width" : "100px","set" : "4",aggregates: ['sum'], footerTemplate: "<p id='quantity_total'>#=sum#</p>" }]
+                                { "field" : "quantity","title" : "{{ antl.get('inventory_voucher.quantity') }}","width" : "100px","set" : "1",aggregates: ['sum'], footerTemplate: "<p id='quantity_total'>#=sum#</p>" }]
 
             Ermis.field = {
                 detail : {field :"detail" ,defaultValue: 0},
