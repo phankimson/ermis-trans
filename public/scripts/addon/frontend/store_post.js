@@ -339,7 +339,11 @@ var Ermis = function () {
             //JsBarcode("#barcode_voucher", result.data.code , {format: "CODE128", width:3, height:50 , marginLeft : 25 });
             $kprint.find('.voucher_print').text(result.data.code);
             $kprint.find('.date_voucher').text(FormatDate(result.data.date_voucher));
-            $kprint.find('.company_name').text(result.data.company_name);
+            if(result.data.company_name){
+             $kprint.find('.company_name').text(result.data.company_name);
+           }else{
+             $kprint.find('.company_name').text(result.data.sender_fullname);
+           }
             $kprint.find('.sender_fullname').text(result.data.sender_fullname);
             $kprint.find('.sender_company').text(result.data.sender_company);
             $kprint.find('.sender_phone').text(result.data.sender_phone);
@@ -359,6 +363,7 @@ var Ermis = function () {
             $kprint.find('.unit').text(result.data.unit);
             $kprint.find('.lot_number').text(result.data.lot_number);
             $kprint.find('.total_amount').text(FormatNumber(result.data.total_amount));
+            $kprint.find('.total').text(FormatNumber(result.data.total_amount));
             $kprint.find('.sale_staff').text(result.data.sale_staff);
             $kprint.find('.note').text(result.data.note);
             $kprint.find('.user').text(result.data.user_name);
@@ -425,7 +430,11 @@ var Ermis = function () {
                       obj[jQuery(this).attr("name")] = jQuery(this).data('kendoDropDownList').value();
                     }
                    });
+<<<<<<< HEAD
                    jQuery("#form-action input,#form-action1 input,#form-window-payment input").not('.not_check').each(function() {
+=======
+                   jQuery("#form-action input,#form-action1 input,#form-window-payment input,#form-action1 textarea").not('.not_check').each(function() {
+>>>>>>> 170661a62e464a20ddc275483991e9ceaab3e0ad
                      if(jQuery(this).val() == 0 && !jQuery(this).hasClass("not_null") || jQuery(this).val() == "" && !jQuery(this).hasClass("not_null") ){
                         if(jQuery(this).hasClass('number-price') || jQuery(this).hasClass('numberic') || jQuery(this).hasClass('number')){
                           jQuery(this).parents('span.k-numeric-wrap').attr('style','border-color: red;');

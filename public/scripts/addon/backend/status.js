@@ -147,6 +147,14 @@ var Ermis = function () {
         $kWindow1.open();
     };
 
+
+      var initKendoDatePicker = function () {
+          jQuery(".date-picker").kendoDatePicker({
+              format: "dd/MM/yyyy"
+          }).data("kendoDatePicker");
+
+      };
+
     var initSave = function(e){
       var jQuerylink = jQuery(e.target);
       e.preventDefault();
@@ -258,7 +266,11 @@ var Ermis = function () {
               //JsBarcode("#barcode_voucher", result.data.code , {format: "CODE128", width:3, height:50 , marginLeft : 25 });
               $kprint.find('.voucher_print').text(result.data.code);
               $kprint.find('.date_voucher').text(FormatDate(result.data.date_voucher));
-              $kprint.find('.company_name').text(result.data.company_name);
+              if(result.data.company_name){
+               $kprint.find('.company_name').text(result.data.company_name);
+             }else{
+               $kprint.find('.company_name').text(result.data.sender_fullname);
+             }
               $kprint.find('.sender_fullname').text(result.data.sender_fullname);
               $kprint.find('.sender_company').text(result.data.sender_company);
               $kprint.find('.sender_phone').text(result.data.sender_phone);
@@ -271,12 +283,14 @@ var Ermis = function () {
               $kprint.find('.receiver_address').text(result.data.receiver_address);
               $kprint.find('.receiver_city').text(FormatDropList(result.data.receiver_city,'receiver_city'));
               $kprint.find('.name').text(result.data.name);
-              $kprint.find('.parcel_volumes').text(result.data.parcel_volumes);
-              $kprint.find('.size').text(result.data.size);
+              $kprint.find('.unit_quantity').text(result.data.unit_quantity);
+              $kprint.find('.quantity').text(result.data.quantity);
               $kprint.find('.price').text(FormatNumber(result.data.price));
+              $kprint.find('.fee').text(FormatNumber(result.data.fee));
               $kprint.find('.unit').text(result.data.unit);
               $kprint.find('.lot_number').text(result.data.lot_number);
               $kprint.find('.total_amount').text(FormatNumber(result.data.total_amount));
+              $kprint.find('.total').text(FormatNumber(result.data.total_amount));
               $kprint.find('.sale_staff').text(result.data.sale_staff);
               $kprint.find('.note').text(result.data.note);
               $kprint.find('.user').text(result.data.user_name);
@@ -353,6 +367,7 @@ var Ermis = function () {
           initPaging();
           initStatus();
           initTotal();
+          initKendoDatePicker();
           initKendoUiDialog();
           initKendoUiDropList();
           initKendoUiNumber();
