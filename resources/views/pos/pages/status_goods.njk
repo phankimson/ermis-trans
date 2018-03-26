@@ -150,68 +150,143 @@
             <li>
             <table>
               <tr>
-                  <td class="row-label"><label>{{ antl.get('store.fullname') }} * </label></td>
-                  <td ><input type="text" value="" name="sender_fullname" class="k-textbox large" /></td>
-              </tr>
-              <tr>
-                  <td class="row-label"><label>{{ antl.get('store.phone') }} * </label></td>
-                  <td ><input type="text" value="" name="sender_phone" class="k-textbox large" /></td>
-              </tr>
-              <tr>
-                  <td class="row-label"><label>{{ antl.get('store.email') }} * </label></td>
-                  <td ><input type="text" value="" name="sender_email" class="k-textbox large" /></td>
-              </tr>
-              <tr>
-                  <td class="row-label"><label>{{ antl.get('store.address') }} * </label></td>
-                  <td ><input type="text" value="" name="sender_address" class="k-textbox large" /></td>
-              </tr>
-              <tr>
-                  <td class="row-label"><label>{{ antl.get('store.city') }} </label></td>
+                  <td class="row-label-medium"><label>{{ antl.get('store.city') }} </label></td>
                   <td >
-                  <select class="droplist large" name="sender_city">
-                        <option readonly selected value="0">--Select--</option>
+                  <select class="droplist large not_clear not_null" name="sender_city">
                             {% for x in city %}
+                            {% if inventory.city == x.id %}
+                            <option selected value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                            {% else %}
+                            <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                    </select>
+                  </td>
+              </tr>
+              <tr >
+                  <td class="row-label-medium"><label>{{ antl.get('store.subject') }} </label></td>
+                  <td >
+                  <select class="droplist large not_null" name="subject">
+                        <option readonly selected value="0">--Select--</option>
+                            {% for x in subject %}
                             <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
                             {% endfor %}
                     </select>
                   </td>
               </tr>
+              <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.sale_staff') }} </label></td>
+                <td >
+                <select class="droplist large not_null" name="sales_staff">
+                      <option readonly selected value="0">--Select--</option>
+                          {% for x in sales_staff %}
+                          <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                          {% endfor %}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                  <td class="row-label-medium"><label class="for_sender">{{ antl.get('store.fullname') }} * </label><label class="hidden for_company">{{ antl.get('store.company_name') }} * </label></td>
+                  <td ><input type="text" value="" name="sender_fullname" class="k-textbox large" /></td>
+              </tr>
+              <tr>
+                  <td class="row-label-medium"><label>{{ antl.get('store.phone') }} * </label></td>
+                  <td ><input type="text" value="" name="sender_phone" class="k-textbox large" /></td>
+              </tr>
+              <tr>
+                  <td class="row-label-medium"><label>{{ antl.get('store.address') }} * </label></td>
+                  <td ><input type="text" value="" name="sender_address" class="k-textbox large" /></td>
+              </tr>
           </table>
             </li>
             <li>
             <table>
+            <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.city') }} </label></td>
+                <td >
+                <select class="droplist large" name="receiver_city">
+                      <option readonly selected value="0">--Select--</option>
+                          {% for x in city %}
+                          <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                          {% endfor %}
+                  </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.transport_station_receive') }} </label></td>
+                <td >
+                <select class="droplist not_null large" name="transport_station_receive">
+                      <option readonly selected value="0">--Select--</option>
+                          {% for x in stock %}
+                          <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                          {% endfor %}
+                  </select>
+                </td>
+            </tr>
               <tr>
-                  <td class="row-label"><label>{{ antl.get('store.fullname') }} * </label></td>
+                  <td class="row-label-medium"><label>{{ antl.get('store.fullname') }} * </label></td>
                   <td ><input type="text" value="" name="receiver_fullname" class="k-textbox large" /></td>
               </tr>
               <tr>
-                  <td class="row-label"><label>{{ antl.get('store.phone') }} * </label></td>
+                  <td class="row-label-medium"><label>{{ antl.get('store.phone') }} * </label></td>
                   <td ><input type="text" value="" name="receiver_phone" class="k-textbox large" /></td>
               </tr>
               <tr>
-                  <td class="row-label"><label>{{ antl.get('store.email') }} * </label></td>
-                  <td ><input type="text" value="" name="receiver_email" class="k-textbox large" /></td>
+                  <td class="row-label-medium"><label>{{ antl.get('store.email') }}</label></td>
+                  <td ><input type="text" value="" name="receiver_email" class="k-textbox large not_null" /></td>
               </tr>
               <tr>
-                  <td class="row-label"><label>{{ antl.get('store.address') }} * </label></td>
+                  <td class="row-label-medium"><label>{{ antl.get('store.address') }} * </label></td>
                   <td ><input type="text" value="" name="receiver_address" class="k-textbox large" /></td>
               </tr>
+
           </table>
             </li>
             <li>
             <table>
             <tr>
-                <td class="row-label"><label>{{ antl.get('store.date_voucher') }}</label></td>
-                <td ><input type="text" readonly name="date_voucher" class="k-textbox large disabled date_voucher" /></td>
+                <td class="row-label-medium"><label>{{ antl.get('store.voucher') }}</label></td>
+                <td ><input type="text" readonly name="code" value="" class="k-textbox large disabled voucher" /></td>
             </tr>
             <tr>
-                <td class="row-label"><label>{{ antl.get('store.name') }}</label></td>
+                <td class="row-label-medium"><label>{{ antl.get('store.date_voucher') }}</label></td>
+                <td ><input type="text" name="date_voucher" class="large date-picker date_voucher" /></td>
+            </tr>
+            <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.payment_method') }}</label></td>
+                <td>
+                <select class="droplist large not_clear not_null" name="payment_method">
+                {% for x in payment_method %}
+                <option value="{{x.id}}">{{ x.code+' - '+x.name }}</option>
+                {% endfor %}
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.name') }}</label></td>
                 <td ><input type="text" name="name" class="k-textbox large not_null" /></td>
             </tr>
-            <tr>
-                <td class="row-label"><label>{{ antl.get('store.lot_number') }}</label></td>
-                <td ><input type="text" name="lot_number" class="k-textbox large not_null" /></td>
-            </tr>
+              <tr>
+                  <td class="row-label-medium"><label>{{ antl.get('store.lot_number') }}</label></td>
+                  <td ><input type="text" name="lot_number" class="number xmedium not_null" />
+                  <select class="droplist small not_null" name="unit">
+                        <option readonly selected value="0">--Select--</option>
+                            {% for x in unit %}
+                            <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                            {% endfor %}
+                    </select>
+                  </td>
+              </tr>
+              <tr>
+                    <td class="row-label-medium"><label>{{ antl.get('store.note') }} </label></td>
+                    <td >
+                    <textarea type="text" style="height : 100px" class="k-textbox large not_null" name="note" /></textarea>
+                    </td>
+              </tr>
+          </table>
+            </li>
+            <li>
+            <table>
             <tr>
                 <td class="row-label-medium"><label>{{ antl.get('surcharge.title') }}</label></td>
                 <td >
@@ -224,8 +299,24 @@
                 </td>
             </tr>
             <tr>
-                <td class="row-label"><label>{{ antl.get('store.price') }}</label></td>
+            <td class="row-label-medium"><label>{{ antl.get('store.quantity') }}</label></td>
+            <td ><input type="text" class="number xmedium" name="quantity" />
+            <select class="droplist small not_null" name="unit_quantity">
+                  <option readonly selected value="0">--Select--</option>
+                      {% for x in unit_quantity %}
+                      <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                      {% endfor %}
+              </select>
+              </td>
+            </tr>
+            <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.price') }}</label></td>
                 <td ><input type="text" class="number-price large" name="price" /></td>
+            </tr>
+
+            <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.fee') }}</label></td>
+                <td ><input type="text" class="number-price large" name="fee" /></td>
             </tr>
             <tr>
                 <td class="row-label-medium"><label>{{ antl.get('store.surcharge_amount') }}</label></td>
@@ -233,63 +324,17 @@
             </tr>
             <tr>
                 <td class="row-label-medium"><label>{{ antl.get('store.total_amount') }}</label></td>
-                <td ><input type="text" class="k-textbox large disabled" readonly name="total_amount" /></td>
-            </tr>
-          </table>
-            </li>
-            <li>
-            <table>
-            <tr>
-                <td class="row-label"><label>{{ antl.get('store.voucher') }}</label></td>
-                <td ><input type="text" readonly name="code" value="" class="k-textbox large disabled voucher" /></td>
+                <td ><input type="text" class="k-textbox large disabled" readonly name="total" /></td>
             </tr>
             <tr>
-                <td class="row-label"><label>{{ antl.get('store.transport_station_send') }}</label></td>
-                <td ><input type="text" readonly name="transport_station_send" value="{{inventory.code+" - "+inventory.name}}" class="k-textbox large disabled not_clear" /></td>
+                <td><label>{{ antl.get('store.collect') }}</label></td>
+                <td ><input type="checkbox" data-md-icheck="" class="not_clear not_null" name="collect" /></td>
             </tr>
-              <tr>
-                  <td class="row-label"><label>{{ antl.get('store.transport_station_receive') }} </label></td>
-                  <td >
-                  <select class="droplist large" name="transport_station_receive">
-                        <option readonly selected value="0">--Select--</option>
-                            {% for x in stock %}
-                            <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
-                            {% endfor %}
-                    </select>
-                  </td>
-              </tr>
-              <tr>
-                  <td class="row-label"><label>{{ antl.get('store.parcel_volumes') }} </label></td>
-                  <td >
-                  <input type="text" name="parcel_volumes" value="" class="k-textbox large" />
-                  </td>
-              </tr>
-              <tr>
-                  <td class="row-label"><label>{{ antl.get('store.size') }} </label></td>
-                  <td >
-                      <input type="text" name="size" value="" class="k-textbox large" />
-                  </td>
-              </tr>
-              <tr>
-                  <td class="row-label-medium"><label>{{ antl.get('store.payment_method') }}</label></td>
-                  <td>
-                  <select class="droplist large" name="payment_method">
-                  {% for x in payment_method %}
-                  <option value="{{x.id}}">{{ x.code+' - '+x.name }}</option>
-                  {% endfor %}
-                  </select>
-                  </td>
-              </tr>
-              <tr>
-                    <td class="row-label"><label>{{ antl.get('store.note') }} </label></td>
-                    <td >
-                    <textarea type="text" style="height : 100px" class="k-textbox large" name="note" /></textarea>
-                    </td>
-              </tr>
-              <tr>
-                  <td><label>{{ antl.get('store.collect') }}</label></td>
-                  <td ><input type="checkbox" data-md-icheck="" name="collect" /></td>
-              </tr>
+            <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.collect_amount') }}</label></td>
+                <td ><input type="text" class="number-price not_null large disabled" readonly name="collect_amount" /></td>
+            </tr>
+
           </table>
             </li>
             <li>

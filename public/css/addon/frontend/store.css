@@ -58,7 +58,7 @@ input.disabled{
     width :150px!important;
 }
 .xmedium{
-    width : 250px!important;
+    width : 230px!important;
 }
 .medium{
     width : 300px!important;
@@ -119,9 +119,6 @@ input.disabled{
   }
   .main_logo_top{
       min-width: 160px!important;
-  }
-  .xmedium{
-      width : 230px!important;
   }
   .xxsmall-responsive{
       width : 30px!important;

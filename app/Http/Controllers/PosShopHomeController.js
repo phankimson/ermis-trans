@@ -43,9 +43,10 @@ class PosShopHomeController{
         const payment_method = yield PaymentMethod.query().where('active',1).fetch()
         const sales_staff = yield SalesStaff.query().where('active',1).fetch()
         const surcharge = yield Surcharge.query().where('type',1).where('active',1).fetch()
-        const unit = yield Unit.query().where('active',1).fetch()
+        const unit = yield Unit.query().where('type',1).where('active',1).fetch()
+        const unit_quantity = yield Unit.query().where('type',2).where('active',1).fetch()
         const voucher = yield Voucher.query().where('code',this.voucher).first()
-        const index = yield response.view('pos-shop.pages.index', {key : this.key , unit : unit.toJSON() ,room : this.room, sales_staff:sales_staff.toJSON(),surcharge:surcharge.toJSON(), payment_method:payment_method.toJSON(), subject : subject.toJSON(), city : city.toJSON(),stock : stock.toJSON() , voucher : voucher })
+        const index = yield response.view('pos-shop.pages.index', {key : this.key , unit : unit.toJSON() , unit_quantity : unit_quantity.toJSON() ,room : this.room, sales_staff:sales_staff.toJSON(),surcharge:surcharge.toJSON(), payment_method:payment_method.toJSON(), subject : subject.toJSON(), city : city.toJSON(),stock : stock.toJSON() , voucher : voucher })
         response.send(index)
     }
       * load (request, response){
@@ -143,8 +144,8 @@ class PosShopHomeController{
         goods.date_voucher = moment(data.date_voucher, 'DD-MM-YYYY').format('YYYY-MM-DD')
         goods.transport_station_send = inventory
         goods.transport_station_receive = data.transport_station_receive
-        goods.parcel_volumes = data.parcel_volumes
-        goods.size = data.size
+        goods.quantity = data.quantity
+        goods.unit_quantity = data.unit_quantity
         goods.lot_number = data.lot_number
         goods.unit = data.unit
         goods.surcharge = data.surcharge
@@ -228,7 +229,7 @@ class PosShopHomeController{
           general.subject = data.subject
           general.subject_key = this.subject_key
           general.inventory_receipt = inventory
-          general.total_number = 1
+          general.total_number = data.quantity
           general.total_amount = data.total_amount
           general.user = user.id
           general.status = 1
@@ -244,8 +245,8 @@ class PosShopHomeController{
         detail.item_id = goods.id
         detail.code = goods.code
         detail.name = goods.name
-        detail.unit = 1
-        detail.quantity = 1
+        detail.unit = data.unit_quantity
+        detail.quantity = data.quantity
         detail.lot_number = goods.lot_number
         detail.status = 1
         detail.active = 1
@@ -277,9 +278,10 @@ class PosShopHomeController{
           .leftJoin('sales_staff','sales_staff.id','payment.sales_staff')
           .leftJoin('users','users.id','goods.user')
           .leftJoin('unit','unit.id','goods.unit')
+          .leftJoin('unit as u','u.id','goods.unit_quantity')
           .leftJoin('payment_method','payment_method.id','payment.type')
           .where('goods.id',data)
-          .select('goods.*','customer.name as company_name','customer.address as company_address','sales_staff.name as sale_staff','users.fullname as user_name','unit.name as unit','payment_method.name as payment_method')
+          .select('goods.*','customer.name as company_name','customer.address as company_address','sales_staff.name as sale_staff','users.fullname as user_name','unit.name as unit','payment_method.name as payment_method','u.name as unit_quantity')
           .first()
           arr.print = arr.print + 1
           yield arr.save()

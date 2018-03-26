@@ -8,6 +8,9 @@ const Inventory = use('App/Model/Inventory')  // EDIT
 const PaymentMethod = use('App/Model/PaymentMethod')  // EDIT
 const Surcharge = use('App/Model/Surcharge')  // EDIT
 const HistoryGoods = use('App/Model/HistoryGoods')  // EDIT
+const Customer = use('App/Model/Customer')  // EDIT
+const SalesStaff = use('App/Model/SalesStaff')  // EDIT
+const Unit = use('App/Model/Unit')  // EDIT
 
 class StatusGoodsController{
   constructor () {
@@ -30,8 +33,12 @@ class StatusGoodsController{
       const city = yield City.query().where('active',1).fetch()
       const stock = yield Inventory.query().whereNot('id',inventory).where('active',1).fetch()
       const payment_method = yield PaymentMethod.query().where('active',1).fetch()
+      const subject = yield Customer.query().where('active',1).fetch()
+      const sale_staff = yield SalesStaff.query().where('active',1).fetch()
       const surcharge = yield Surcharge.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/status_goods', {key : this.key ,title: title , data: data.toJSON() , surcharge : surcharge.toJSON() ,payment_method : payment_method.toJSON(),stock : stock.toJSON() })  // EDIT
+      const unit = yield Unit.query().where('type',1).where('active',1).fetch()
+      const unit_quantity = yield Unit.query().where('type',2).where('active',1).fetch()
+      const show = yield response.view('pos/pages/status_goods', {key : this.key ,title: title , unit : unit.toJSON() , unit_quantity : unit_quantity.toJSON() , data: data.toJSON(),sales_staff : sale_staff.toJSON(),city : city.toJSON(), subject : subject.toJSON() , surcharge : surcharge.toJSON() ,payment_method : payment_method.toJSON(),stock : stock.toJSON() })  // EDIT
       response.send(show)
   }
   * page (request, response){
@@ -130,25 +137,29 @@ class StatusGoodsController{
     }
 
     goods.name = data.name
+    goods.date_voucher = moment(data.date_voucher, 'DD-MM-YYYY').format('YYYY-MM-DD')
     goods.transport_station_receive = data.transport_station_receive
-    goods.parcel_volumes = data.parcel_volumes
-    goods.size = data.size
+    goods.quantity = data.quantity
+    goods.unit_quantity = data.unit_quantity
     goods.lot_number = data.lot_number
+    goods.unit = data.unit
     goods.surcharge = data.surcharge
     goods.price = data.price
     goods.surcharge_amount = data.surcharge_amount
-    goods.total_amount = parseInt(data.price) + parseInt(data.surcharge_amount)
+    goods.total_amount = parseInt(data.price) + parseInt(data.surcharge_amount?data.surcharge_amount:0)
     goods.note = data.note
     goods.sender_fullname = data.sender_fullname
     goods.sender_phone = data.sender_phone
     goods.sender_email = data.sender_email
     goods.sender_address = data.sender_address
+    goods.sender_city = data.sender_city
     goods.receiver_fullname = data.receiver_fullname
     goods.receiver_phone = data.receiver_phone
     goods.receiver_email = data.receiver_email
     goods.receiver_address = data.receiver_address
     goods.receiver_city = data.receiver_city
     goods.collect = data.collect
+    goods.collect_amount = data.collect_amount
     goods.inventory = inventory
     goods.status = status
     yield goods.save()
