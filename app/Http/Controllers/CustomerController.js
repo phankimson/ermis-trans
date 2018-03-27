@@ -147,7 +147,7 @@ class CustomerController{
        if(data){
          if(permission.d){
            const arr = yield Data.findBy('id', data)
-           const att = yield Data.query().where('subject', arr.id).where('subject_key','customer').fetch()
+           const att = yield AttachFile.query().where('subject', arr.id).where('subject_key','customer').fetch()
              for(let image of att){
                if(image.file){
                   fs.unlink(Helpers.publicPath(image.file), (err) => {});
@@ -169,7 +169,7 @@ class CustomerController{
            response.json({ status: false ,message: Antl.formatMessage('messages.no_data')  })
        }
        }catch(e){
-         response.json({ status: false , message: Antl.formatMessage('messages.delete_fail')})
+         response.json({ status: false , message: Antl.formatMessage('messages.delete_fail') +' '+e.message})
        }
      }
   * downloadExcel (request, response){
