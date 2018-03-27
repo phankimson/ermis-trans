@@ -132,10 +132,16 @@
                           <tr>
                               <td class="row-label-medium"><label>{{ antl.get('store.city') }} </label></td>
                               <td >
-                              <select class="droplist large" name="receiver_city">
+                              <select class="droplist large not_null" name="receiver_city">
                                     <option readonly selected value="0">--Select--</option>
                                         {% for x in city %}
+                                        {% if x.code == '91' and inventory.code != 'C3' %}
+                                        <option selected value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% elif x.code == '79' and inventory.code == 'C3' %}
+                                        <option selected value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% else %}
                                         <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% endif %}
                                         {% endfor %}
                                 </select>
                               </td>
@@ -146,7 +152,13 @@
                               <select class="droplist not_null large" name="transport_station_receive">
                                     <option readonly selected value="0">--Select--</option>
                                         {% for x in stock %}
+                                        {% if x.code == 'C3' and inventory.code != 'C3' %}
+                                        <option selected value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% elif x.code == 'C1' and inventory.code == 'C3' %}
+                                        <option selected value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% else %}
                                         <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                        {% endif %}
                                         {% endfor %}
                                 </select>
                               </td>
@@ -302,15 +314,15 @@
                                   </table>
 
                                   <div id="action_button">
-                                  <a class="md-btn md-btn-primary md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light payment" href="javascript:void(0)">
+                                  <a class="md-btn md-btn-primary md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light payment" data-uk-tooltip title="{{ antl.get('action.save') }} (Alt+S)" href="javascript:void(0)">
                                       <i class="material-icons">done_all</i>
                                       {{ antl.get('action.save') }}
                                   </a>
-                                  <a class="md-btn md-btn-warning md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light print" href="javascript:void(0)">
+                                  <a class="md-btn md-btn-warning md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light print" data-uk-tooltip title="{{ antl.get('action.print') }} (Alt+P)" href="javascript:void(0)">
                                       <i class="material-icons">print</i>
                                       {{ antl.get('action.print') }}
                                   </a>
-                                  <a class="md-btn md-btn-danger md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light cancel" href="javascript:void(0)">
+                                  <a class="md-btn md-btn-danger md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light cancel" data-uk-tooltip title="{{ antl.get('action.cancel') }} (Alt+C)" href="javascript:void(0)">
                                       <i class="material-icons">block</i>
                                       {{ antl.get('action.cancel') }}
                                   </a>
@@ -423,6 +435,7 @@ jQuery(document).ready(function () {
 });
 </script>
 <script src="{{ url('scripts/JsBarcode.all.min.js') }}"></script>
+<script src="{{ url('scripts/shortcuts.js') }}"></script>
 <script src="{{ url('library/jquery.print/jQuery.print.js') }}"></script>
 <script src="{{ url('scripts/addon/frontend/store_post.js') }}"></script>
 {% endblock %}

@@ -827,12 +827,16 @@
     };
     var initFilterForm = function () {
         $kWindow.open();
+        jQuery('#search_data').click();
     };
     var initBarcodeForm = function () {
         $kWindow1.open();
+        jQuery('#search_barcode').click();
     };
+
     var initReferenceForm = function () {
         $kWindow2.open();
+        jQuery('#search_reference').click();
     };
 
     var initGetDataBarcode = function () {

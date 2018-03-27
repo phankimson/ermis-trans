@@ -6,8 +6,12 @@ var Ermis = function () {
   var $kWindow1 = '';
   var dataId = '';
   var c = false;
+  var key = 'Alt+';
 
   var initStatus = function (status){
+    shortcut.remove(key + "S");
+    shortcut.remove(key + "C");
+    shortcut.remove(key + "P");
     var action =  jQuery("#form-action-2");
     if(status == 0){
      action.find('input[name="voucher"]').val(voucher);
@@ -21,6 +25,8 @@ var Ermis = function () {
     //jQuery("#voucher").on("blur",initBlurSaleInvoice)
     jQuery(".print").addClass('disabled').attr("readonly","readonly");
     jQuery(".print").off('click');
+    shortcut.add(key + "S", function (e) { initReturnPayment(e); });
+    shortcut.add(key + "C", function (e) { initCancel(e); });
   }else if(status == 1){//Cancel
     jQuery("#form-load").find('input','select').val("");
     action.find('input[name="voucher"]').val(voucher);
@@ -34,6 +40,7 @@ var Ermis = function () {
         jQuery(".print").on('click',initPrint);
         jQuery('.payment,.cancel').off("click");
         jQuery(".payment,.cancel").addClass('disabled').attr("readonly","readonly");
+        shortcut.add(key + "P", function (e) { initPrint(e); });
       }else if (status == 3){ // Print
         jQuery(".print").addClass('disabled').attr("readonly","readonly");
         jQuery(".print").off('click');
@@ -47,6 +54,8 @@ var Ermis = function () {
         action.find('input[name="voucher"]').val(voucher);
         action.find('input[name="date_voucher"]').val(moment().format('DD/MM/YYYY'));
         action.find('input[name="description"]').val(transText.pay_daily+' - '+moment().format('DD/MM/YYYY'));
+        shortcut.add(key + "S", function (e) { initAgreePayment(e); });
+        shortcut.add(key + "C", function (e) { initCancel(e); });
       }
   }
 

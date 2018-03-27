@@ -25,15 +25,15 @@
                     </div>
                     <div class="md-card-content">
                     <div id="action_button_return">
-                    <a class="md-btn md-btn-primary md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light payment" href="javascript:void(0)">
+                    <a class="md-btn md-btn-primary md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light payment" data-uk-tooltip title="{{ antl.get('return.return') }} (Alt+S)" href="javascript:void(0)">
                         <i class="material-icons">attach_money</i>
                         {{ antl.get('return.return') }}
                     </a>
-                    <a class="md-btn md-btn-warning md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light print" href="javascript:void(0)">
+                    <a class="md-btn md-btn-warning md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light print" data-uk-tooltip title="{{ antl.get('action.print') }} (Alt+P)" href="javascript:void(0)">
                         <i class="material-icons">print</i>
                         {{ antl.get('action.print') }}
                     </a>
-                    <a class="md-btn md-btn-danger md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light cancel" href="javascript:void(0)">
+                    <a class="md-btn md-btn-danger md-btn-small md-btn-wave-light md-btn-icon waves-effect waves-button waves-light cancel" data-uk-tooltip title="{{ antl.get('action.cancel') }} (Alt+C)" href="javascript:void(0)">
                         <i class="material-icons">block</i>
                         {{ antl.get('action.cancel') }}
                     </a>
@@ -278,6 +278,7 @@ jQuery(document).ready(function () {
 </script>
 <script src="{{ url('scripts/uikit.min.js') }}"></script>
 <script src="{{ url('scripts/ukit_pagination.js') }}"></script>
+<script src="{{ url('scripts/shortcuts.js') }}"></script>
 <script src="{{ url('library/jquery.print/jQuery.print.js') }}"></script>
 <script src="{{ url('scripts/addon/frontend/store_return.js') }}"></script>
 {% endblock %}

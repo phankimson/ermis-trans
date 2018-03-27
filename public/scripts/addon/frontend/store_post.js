@@ -8,8 +8,12 @@ var Ermis = function () {
   var $kWindow2 = '';
   var dataType = '';
   var dataId = 0 ;
+  var key = 'Alt+';
 
   var initStatus = function(status){
+    shortcut.remove(key + "S");
+    shortcut.remove(key + "C");
+    shortcut.remove(key + "P");
     if(status == 0){
     jQuery('.voucher').val(voucher);
     jQuery('.date_voucher').val(moment().format('DD/MM/YYYY'));
@@ -21,6 +25,8 @@ var Ermis = function () {
     jQuery(".search_receiver").on("click",initFilterForm);
     jQuery('.payment').on("click",initAgreePayment);
     jQuery('.cancel').on("click",initCancel);
+    shortcut.add(key + "S", function (e) { initAgreePayment(e); });
+    shortcut.add(key + "C", function (e) { initCancel(e); });
     //jQuery('.agree-payment').on("click",initAgreePayment);
     }else if(status == 1){// CANCEL
     jQuery('input').not('.not_clear').val("");
@@ -30,11 +36,14 @@ var Ermis = function () {
      jQuery("select.droplist").not('.not_clear').each(function() {
        jQuery(this).data('kendoDropDownList').value(0);
       });
+      shortcut.add(key + "S", function (e) { initAgreePayment(e); });
+      shortcut.add(key + "C", function (e) { initCancel(e); });
     }else if (status == 2){ // payment
       jQuery(".print").removeClass('disabled').removeAttr("readonly");
       jQuery(".print").on('click',initPrint);
       jQuery('.payment,.cancel').off("click");
       jQuery(".payment,.cancel").addClass('disabled').attr("readonly","readonly");
+      shortcut.add(key + "P", function (e) { initPrint(e); });
     }else if (status == 3){ // Print
       jQuery(".print").addClass('disabled').attr("readonly","readonly");
       jQuery(".print").off('click');
@@ -48,6 +57,8 @@ var Ermis = function () {
        jQuery("select.droplist").not('.not_clear').each(function() {
          jQuery(this).data('kendoDropDownList').value(0);
         });
+        shortcut.add(key + "S", function (e) { initAgreePayment(e); });
+        shortcut.add(key + "C", function (e) { initCancel(e); });
     }
   }
 

@@ -906,9 +906,11 @@
     };
     var initFilterForm = function () {
         $kWindow.open();
+        jQuery('#search_data').click();
     };
     var initReferenceForm = function () {
         $kWindow2.open();
+        jQuery('#search_reference').click();
     };
     var initEmployeeForm = function () {
         $kWindow3.open();
