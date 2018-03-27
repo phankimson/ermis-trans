@@ -362,6 +362,7 @@ var Ermis = function () {
             $kprint.find('.fee').text(FormatNumber(result.data.fee));
             $kprint.find('.unit').text(result.data.unit);
             $kprint.find('.lot_number').text(result.data.lot_number);
+            $kprint.find('.surcharge_amount').text(FormatNumber(result.data.surcharge_amount));
             $kprint.find('.total_amount').text(FormatNumber(result.data.total_amount));
             $kprint.find('.total').text(FormatNumber(result.data.total_amount));
             $kprint.find('.sale_staff').text(result.data.sale_staff);
@@ -430,11 +431,7 @@ var Ermis = function () {
                       obj[jQuery(this).attr("name")] = jQuery(this).data('kendoDropDownList').value();
                     }
                    });
-<<<<<<< HEAD
-                   jQuery("#form-action input,#form-action1 input,#form-window-payment input").not('.not_check').each(function() {
-=======
                    jQuery("#form-action input,#form-action1 input,#form-window-payment input,#form-action1 textarea").not('.not_check').each(function() {
->>>>>>> 170661a62e464a20ddc275483991e9ceaab3e0ad
                      if(jQuery(this).val() == 0 && !jQuery(this).hasClass("not_null") || jQuery(this).val() == "" && !jQuery(this).hasClass("not_null") ){
                         if(jQuery(this).hasClass('number-price') || jQuery(this).hasClass('numberic') || jQuery(this).hasClass('number')){
                           jQuery(this).parents('span.k-numeric-wrap').attr('style','border-color: red;');

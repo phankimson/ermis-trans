@@ -295,6 +295,7 @@ var Ermis = function () {
               $kprint.find('.note').text(result.data.note);
               $kprint.find('.user').text(result.data.user_name);
               $kprint.find('.payment_method').text(result.data.payment_method);
+              $kprint.find('.surcharge_amount').text(FormatNumber(result.data.surcharge_amount));
               $kprint.removeClass('hidden');
               setTimeout(function(){
               $kprint.print();

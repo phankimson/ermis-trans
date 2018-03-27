@@ -219,11 +219,7 @@
                                     <tr>
                                         <td class="row-label-medium"><label>{{ antl.get('store.payment_method') }}</label></td>
                                         <td>
-<<<<<<< HEAD
-                                        <select class="droplist large not_clear" name="payment_method">
-=======
                                         <select class="droplist large not_clear not_null" name="payment_method">
->>>>>>> 170661a62e464a20ddc275483991e9ceaab3e0ad
                                         {% for x in payment_method %}
                                         <option value="{{x.id}}">{{ x.code+' - '+x.name }}</option>
                                         {% endfor %}

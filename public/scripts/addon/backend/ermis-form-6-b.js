@@ -411,7 +411,8 @@
                 confirmation: false // the confirmation message for destroy command
             },
             height: jQuery(window).height() * 0.5,
-            columns: Ermis.columns
+            columns: Ermis.columns,
+            navigatable: true
         });
         grid.data("kendoGrid").thead.kendoTooltip({
           filter: "th",
@@ -1227,13 +1228,13 @@
         jQuery(document).keyup(function (e) {
             var grid = $kGrid.data("kendoGrid");
             $kGrid.find(" tbody tr").removeClass("k-state-selected");
-            if (e.keyCode === 13) {
+            if (e.keyCode === 13 && !$kGrid.hasClass('disabled')) {
               if(e.target.id == "barcode"){
                 initScanBarcode(e.target);
               }else{
                 grid.addRow();
               }
-            } else if (e.keyCode === 27) {
+            } else if (e.keyCode === 27 && !$kGrid.hasClass('disabled')) {
                 grid.cancelChanges();
             }
         });
