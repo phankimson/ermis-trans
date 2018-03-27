@@ -194,6 +194,7 @@ class CustomerController{
         var result = new Data()
         result.group = data.group
         result.level = data.level
+        result.sales_staff = data.sales_staff
         result.code = data.code
         result.name = data.name
         result.name_en = data.name_en
@@ -224,6 +225,7 @@ class CustomerController{
         result.payment_method = data.payment_method
         result.price_policy = data.price_policy
         result.active = data.active
+        result.created_at = data.created_at
         yield result.save()
         arr_push.push(result)
       }
@@ -243,7 +245,7 @@ class CustomerController{
     response.json({ status: false , message: Antl.formatMessage('messages.you_are_not_permission_add')})
     }
   }catch(e){
-    response.json({ status: false , message: Antl.formatMessage('messages.failed_import')})
+    response.json({ status: false , message: Antl.formatMessage('messages.failed_import')+' '+e.message})
     }
   }
 }
