@@ -246,32 +246,38 @@
 
         $(".choose_reference").bind("click", function () {
             var checked = []; var vo = [];
-            for(var i in checkedIds){
-                if(checkedIds[i]){
-                    reference_id = i+',';
-                    vo.push(checkedv[i])
+            for(var i of checkedData){
+              var grid = $kGrid.data("kendoGrid");
+              var dataItem  = grid.dataSource.get(i.id);
+              if(dataItem){
+                    reference_id = i.voucher+',';
+                    vo.push(checkedv[i.id])
+              }else{
+                //i.quantity = 1 ;
+                grid.dataSource.insert(0 , i);
+                  $kGridBarcode.find('.k-checkbox[id="'+i.id+'"]').click();
                 }
             }
             $kWindow2.close();
             jQuery('input[name=reference]').val(vo);
         });
-        var checkedIds = {};
-        var checkedv = {};
+        var checkedData = [];
+
         //on click of the checkbox:
         function selectRow() {
             var checked = this.checked,
                 row = $(this).closest("tr"),
                 grid = $kGridReference.data("kendoGrid"),
                 dataItem = grid.dataItem(row);
-                checkedIds[dataItem.id] = checked;
-                checkedv[dataItem.id] = dataItem.voucher;
-            if (checked) {
-                //-select the row
-                row.addClass("k-state-selected");
-            } else {
-                //-remove selection
-                row.removeClass("k-state-selected");
-            }
+                if (checked) {
+                   checkedData.push(dataItem)
+                    //-select the row
+                    row.addClass("k-state-selected");
+                } else {
+                    checkedData = checkedData.filter(x => x.id != dataItem.id)
+                    //-remove selection
+                    row.removeClass("k-state-selected");
+                }
         }
 
     };
@@ -737,7 +743,7 @@
     };
 
     var initKendoUiDropListDate = function () {
-        jQuery(".droplist-date").kendoDropDownList({
+        jQuery("#fast_date").kendoDropDownList({
             filter: "contains",
             select: onSelect
         });

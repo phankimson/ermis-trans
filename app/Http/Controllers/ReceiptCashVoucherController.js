@@ -82,6 +82,7 @@ class ReceiptCashVoucherController{
     * reference (request, response){
       try {
       const data = JSON.parse(request.input('data'))
+      console.log(data)
       const arr  = yield General.query().where('pos_general.type', 1)
       .where('pos_general.subject_key','customer')
       .where('pos_general.subject',data.subject)

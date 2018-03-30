@@ -53,14 +53,6 @@ var Ermis = function () {
     });
     }
 
-    var initTotal = function(){
-      jQuery("input[name=price],input[name=surcharge_amount]").on("blur",function(){
-        var price = jQuery("input[name='price']").data("kendoNumericTextBox").value();
-        var surcharge_amount = jQuery("input[name='surcharge_amount']").data("kendoNumericTextBox").value();
-        var total = price + surcharge_amount;
-        jQuery("input[name=total_amount]").val(FormatNumber(total));
-      })
-    }
 
     var initFilter = function(){
 
@@ -141,6 +133,26 @@ var Ermis = function () {
 
         $kWindow1.title("Sửa thông tin bưu kiện");
     };
+
+    var initTotal = function(){
+      jQuery("input[name=fee],input[name=surcharge_amount]").on("blur",function(){
+        var fee = jQuery("input[name='fee']").data("kendoNumericTextBox").value();
+        var surcharge_amount = jQuery("input[name='surcharge_amount']").data("kendoNumericTextBox").value();
+        var total = fee + surcharge_amount;
+        jQuery("input[name=total_amount]").val(FormatNumber(total));
+      })
+    }
+
+    initChangePrice = function(){
+      jQuery("input[name='price']").bind("blur",function(e){
+        var quantity = jQuery('input[name="quantity"]').data("kendoNumericTextBox").value();
+        var price = jQuery('input[name="price"]').data("kendoNumericTextBox").value();
+        var total = quantity * price;
+        jQuery('input[name="fee"]').data("kendoNumericTextBox").value (total);
+        jQuery("input[name=total_amount]").val(FormatNumber(total));
+      })
+    }
+
 
 
     var initEditForm = function () {
@@ -368,6 +380,7 @@ var Ermis = function () {
           initPaging();
           initStatus();
           initTotal();
+          initChangePrice();
           initKendoDatePicker();
           initKendoUiDialog();
           initKendoUiDropList();

@@ -12,6 +12,8 @@ const Customer = use('App/Model/Customer')  // EDIT
 const SalesStaff = use('App/Model/SalesStaff')  // EDIT
 const Unit = use('App/Model/Unit')  // EDIT
 
+var moment = require('moment')
+
 class StatusGoodsController{
   constructor () {
       this.type = ""  // EDIT
@@ -90,7 +92,7 @@ class StatusGoodsController{
       var status = 0
       var inventory = 0
       const goods = yield Goods.find(data.id)
-    if(data.step0 == 1){
+    if(data.step0 == 'on' || data.step0 == 1 ){
       status = 0
       inventory = 0
       const hs = new HistoryGoods()
@@ -99,7 +101,7 @@ class StatusGoodsController{
       hs.status = status
       yield hs.save()
     }
-    if(data.step1 == 1){
+    if(data.step1 == 1  || data.step1 == 'on'){
       status = 1
       inventory = goods.transport_station_send
       const hs = new HistoryGoods()
@@ -108,7 +110,7 @@ class StatusGoodsController{
       hs.status = status
       yield hs.save()
     }
-    if(data.step2 == 1){
+    if(data.step2 == 1 || data.step2 == 'on'){
       status = 2
       inventory = 0
       const hs = new HistoryGoods()
@@ -117,7 +119,7 @@ class StatusGoodsController{
       hs.status = status
       yield hs.save()
     }
-    if(data.step3 == 1){
+    if(data.step3 == 1 || data.step3 == 'on'){
       status = 3
       inventory = goods.transport_station_receive
       const hs = new HistoryGoods()
@@ -126,7 +128,7 @@ class StatusGoodsController{
       hs.status = status
       yield hs.save()
     }
-    if(data.step4 == 1){
+    if(data.step4 == 1 || data.step4 == 'on'){
       status = 4
       inventory = 0
       const hs = new HistoryGoods()
@@ -145,8 +147,9 @@ class StatusGoodsController{
     goods.unit = data.unit
     goods.surcharge = data.surcharge
     goods.price = data.price
+    goods.fee = data.fee
     goods.surcharge_amount = data.surcharge_amount
-    goods.total_amount = parseInt(data.price) + parseInt(data.surcharge_amount?data.surcharge_amount:0)
+    goods.total_amount = data.total_amount
     goods.note = data.note
     goods.sender_fullname = data.sender_fullname
     goods.sender_phone = data.sender_phone
@@ -165,7 +168,7 @@ class StatusGoodsController{
     yield goods.save()
     response.json({ status: true  , message: Antl.formatMessage('messages.update_success') })
     } catch (e) {
-     response.json({ status: false , error : true , message: Antl.formatMessage('messages.update_error')  })
+     response.json({ status: false , error : true , message: Antl.formatMessage('messages.update_error') +' '+ e.message })
     }
   }
   * get (request, response){
@@ -176,8 +179,9 @@ class StatusGoodsController{
       .fetch()
       const arr = yield Goods.query()
       .innerJoin('inventory as in1','in1.id','goods.transport_station_send')
+      .innerJoin('payment','payment.goods','goods.id')
       .where('goods.id',data)
-      .select('goods.*','in1.name as transport_station_send')
+      .select('goods.*','payment.subject','payment.sales_staff','in1.name as transport_station_send')
       .first()
       if(arr){
         response.json({ status: true , data : arr.toJSON() , history : hs.toJSON()})
