@@ -300,7 +300,7 @@
             </tr>
             <tr>
             <td class="row-label-medium"><label>{{ antl.get('store.quantity') }}</label></td>
-            <td ><input type="text" class="number xmedium" name="quantity" />
+            <td ><input type="text" class="decimal xmedium" name="quantity" />
             <select class="droplist small not_null" name="unit_quantity">
                   <option readonly selected value="0">--Select--</option>
                       {% for x in unit_quantity %}
@@ -324,7 +324,7 @@
             </tr>
             <tr>
                 <td class="row-label-medium"><label>{{ antl.get('store.total_amount') }}</label></td>
-                <td ><input type="text" class="k-textbox large disabled" readonly name="total_amount" /></td>
+                <td ><input type="text" class="k-textbox large disabled convert_number" readonly name="total_amount" /></td>
             </tr>
             <tr>
                 <td><label>{{ antl.get('store.collect') }}</label></td>

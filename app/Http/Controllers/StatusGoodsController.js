@@ -11,6 +11,8 @@ const HistoryGoods = use('App/Model/HistoryGoods')  // EDIT
 const Customer = use('App/Model/Customer')  // EDIT
 const SalesStaff = use('App/Model/SalesStaff')  // EDIT
 const Unit = use('App/Model/Unit')  // EDIT
+const PosDetail = use('App/Model/PosDetail')  // EDIT
+const PosGeneral = use('App/Model/PosGeneral')  // EDIT
 
 var moment = require('moment')
 
@@ -166,6 +168,17 @@ class StatusGoodsController{
     goods.inventory = inventory
     goods.status = status
     yield goods.save()
+
+   const detail = yield PosDetail.query().where('id',data.id).first()
+   const general = yield PosGeneral.query().where('id',detail.general).first()
+   general.traders = data.sender_fullname
+   general.subject = data.subject
+   general.subject_key = this.subject_key
+   general.total_number = data.quantity
+   general.total_amount = data.total_amount
+    yield general.save()
+
+
     response.json({ status: true  , message: Antl.formatMessage('messages.update_success') })
     } catch (e) {
      response.json({ status: false , error : true , message: Antl.formatMessage('messages.update_error') +' '+ e.message })

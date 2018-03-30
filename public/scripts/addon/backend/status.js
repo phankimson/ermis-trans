@@ -232,7 +232,7 @@ var Ermis = function () {
                     jQuery(v).val(FormatDate(result.data[jQuery(v).attr('name')]));
                   }else if(jQuery(v).hasClass('droplist')){
                     jQuery('.droplist[name="' + jQuery(v).attr('name')+ '"]').data('kendoDropDownList').value(result.data[jQuery(v).attr('name')]);
-                  }else if(jQuery(v).hasClass('number-price') || jQuery(v).hasClass('number')){
+                  }else if(jQuery(v).hasClass('number-price') || jQuery(v).hasClass('number') || jQuery(v).hasClass('decimal')){
                     var name = jQuery(v).attr('name');
                     if(name){
                       jQuery('input[name="' + name +'"]').data("kendoNumericTextBox").value(result.data[name]);
@@ -342,6 +342,13 @@ var Ermis = function () {
               step: 1
           });
       }
+      var initKendoUiDecimal = function () {
+          $(".decimal").kendoNumericTextBox({
+              format: "n2",
+              step: 0.01
+          });
+      }
+
       var initKendoUiNumberPrice = function () {
           $(".number-price").kendoNumericTextBox({
               format: "n0",
@@ -380,6 +387,7 @@ var Ermis = function () {
           initPaging();
           initStatus();
           initTotal();
+          initKendoUiDecimal();
           initChangePrice();
           initKendoDatePicker();
           initKendoUiDialog();
