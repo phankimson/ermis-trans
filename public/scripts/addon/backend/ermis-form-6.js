@@ -1057,7 +1057,10 @@
                     obj.detail = $kGrid.data("kendoGrid").dataSource.data();
                     obj.type = jQuery('#tabstrip').find('.k-state-active').attr("data-search");
                     obj.total_number = ConvertNumber(jQuery('#quantity_total').html());
-                    obj.total_amount = ConvertNumber(jQuery('#amount_total').html());
+                    obj.total_amount = ConvertNumber(jQuery('#total_amount').html());
+                    obj.amount = ConvertNumber(jQuery('#amount').html());
+                    obj.vat_amount = ConvertNumber(jQuery('#vat_amount').html());
+                    obj.money_list = ConvertNumber(jQuery('#money_list').html());
                     obj.advance_employee = jQuery("input[name='advance_employee']").val();
                     obj.advance_teacher = jQuery("input[name='advance_teacher']").val();
                     obj.subject_key = jQuery('input[name="filter_type"]:checked').val();
@@ -1388,6 +1391,56 @@
         }
         amount = quantity * price;
         return kendo.toString(amount, 'n0');
+    };
+
+    calculateAmountVAT = function (amount, vat) {
+        var check = amount.toString().indexOf(",");
+        if (amount !== 0 && check !== -1) {
+            amount = amount.replace(/\,/g, "");
+        }
+        var vat_amount = amount * vat /100 ;
+        return kendo.toString(vat_amount, 'n0');
+    };
+
+    calculateAmountTotal = function (amount, vat , money_list) {
+        var check = amount.toString().indexOf(",");
+        if (amount !== 0 && check !== -1) {
+            amount = amount.replace(/\,/g, "");
+        }
+        var total = amount +(amount * vat /100 ) + money_list;
+        return kendo.toString(total, 'n0');
+    };
+
+    calculateAmountVATAggregate = function () {
+        var grid = $kGrid.data("kendoGrid");
+        var data = grid.dataSource.data();
+        var total = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].vat > 0 && data[i].amount > 0) {
+                var check = data[i].amount.toString().indexOf(",");
+                if (data[i].amount !== 0 && check !== -1) {
+                    data[i].amount = data[i].amount.replace(/\,/g, "");
+                }
+                total += data[i].vat * data[i].amount /100;
+            }
+        }
+        return kendo.toString(total, 'n0');
+    };
+
+    calculateAmountTotalAggregate = function () {
+        var grid = $kGrid.data("kendoGrid");
+        var data = grid.dataSource.data();
+        var total = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].vat > 0 && data[i].amount > 0) {
+                var check = data[i].amount.toString().indexOf(",");
+                if (data[i].amount !== 0 && check !== -1) {
+                    data[i].amount = data[i].amount.replace(/\,/g, "");
+                }
+                total += data[i].amount + (data[i].vat * data[i].amount /100) + data[i].money_list;
+            }
+        }
+        return kendo.toString(total, 'n0');
     };
 
     Onchange = function (e) {

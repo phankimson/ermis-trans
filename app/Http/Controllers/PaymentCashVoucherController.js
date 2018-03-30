@@ -146,6 +146,9 @@ class PaymentCashVoucherController{
                   general.subject = data.subject
                   general.subject_key = data.subject_key
                   general.total_amount = data.total_amount
+                  general.amount = data.amount
+                  general.vat_amount = data.vat_amount
+                  general.money_list = data.money_list
                   general.reference = data.reference
                   general.status = status
                   general.active = 1
@@ -160,6 +163,10 @@ class PaymentCashVoucherController{
                     detail.general_id = general.id
                     detail.description = d.description
                     detail.amount = d.amount
+                    detail.vat = d.vat
+                    detail.vat_amount = d.amount * d.vat /100
+                    detail.money_list = d.money_list
+                    detail.total_amount = d.amount + (d.amount * d.vat /100) + d.money_list
                     detail.invoice = d.invoice
                     detail.lot_number = d.lot_number
                     detail.order = d.order

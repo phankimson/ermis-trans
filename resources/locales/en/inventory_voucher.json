@@ -13,6 +13,7 @@
     "quantity" : "Quantity",
     "price" : "Price",
     "amount" : "Amount",
+    "amount_price" : "Amount",
     "subject" : "Subject",
     "deliver" : "Deliver",
     "item" : "Item",
@@ -38,5 +39,9 @@
     "inventory" : "Post office",
     "contract" : "Contract",
     "invoice" : "Invoice",
-    "reference" : "Reference"
+    "reference" : "Reference",
+    "vat" :"VAT",
+    "vat_amount" : "VAT amount",
+    "money_list" : "Money list",
+    "orther_amount" : "Orther amount"
 }

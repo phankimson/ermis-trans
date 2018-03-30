@@ -24,13 +24,14 @@
     };
 
     initBindData = function(data,data1){
-        jQuery("#code").text(data1.code)
-        jQuery("#name").text(data1.name)
-        jQuery("#date_voucher").text(FormatDate(data1.date_voucher))
-        jQuery("#transport_station_send").text(data1.transport_station_send)
-        jQuery("#transport_station_receive").text(data1.transport_station_receive)
-        jQuery("#sender_fullname").text(data1.sender_fullname)
-        jQuery("#receiver_fullname").text(data1.receiver_fullname)
+        jQuery("#code").text(data1.code);
+        jQuery("#name").text(data1.name);
+        jQuery("#date_voucher").text(FormatDate(data1.date_voucher));
+        jQuery("#transport_station_send").text(data1.transport_station_send);
+        jQuery("#transport_station_receive").text(data1.transport_station_receive);
+        jQuery("#sender_fullname").text(data1.sender_fullname);
+        jQuery("#receiver_fullname").text(data1.receiver_fullname);
+        jQuery(".step").iCheck('uncheck');
         if(data.length > 0){
           jQuery.each(data,function(k,v){
             jQuery("#step"+v.status).iCheck('check');

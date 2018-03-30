@@ -33,7 +33,7 @@ class ReportListFreightController{
         .innerJoin('pos_detail','pos_detail.item_id','goods.id')
         .innerJoin('pos_general','pos_general.id','pos_detail.general')
         .leftJoin('transport','transport.id','pos_general.transport')
-        .innerJoin('surcharge','surcharge.id','goods.surcharge')
+        .leftJoin('surcharge','surcharge.id','goods.surcharge')
         .TypeWhere('payment.subject',data.subject)
         .where('payment.subject_key',this.subject_key)
         .TypeWhere('goods.active',data.active)

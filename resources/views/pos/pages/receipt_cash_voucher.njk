@@ -191,7 +191,11 @@
 
             Ermis.columns    = [{"field" :"detail", hidden : true},
                                 { "field" : "description","title" : "{{ antl.get('inventory_voucher.description') }}" ,"width" : "200px" ,aggregates: ['count'], footerTemplate: "<p>Total Count: #=count#</p>" },
-                                { "field" : "amount","title" : "{{ antl.get('inventory_voucher.amount') }}" ,"width" : "200px",format: "{0:n0}" ,aggregates: ['sum'],decimals: 0 ,footerTemplate: "<p id='amount_total'>#=FormatNumber(sum)#</p>" },
+                                { "field" : "amount","title" : "{{ antl.get('inventory_voucher.amount') }}" ,"width" : "200px",format: "{0:n0}" ,aggregates: ['sum'],decimals: 0 ,footerTemplate: "<p id='amount'>#=FormatNumber(sum)#</p>" },
+                                { "field" : "vat","title" : "{{ antl.get('inventory_voucher.vat') }} %" ,"width" : "150px" },
+                                { "field" : "vat_amount","title" : "{{ antl.get('inventory_voucher.vat_amount') }}" ,"width" : "150px" ,template: '#= calculateAmountVAT(amount,vat)#',footerTemplate: "<p id='vat_amount'>#=calculateAmountVATAggregate()#</p>" },
+                                { "field" : "money_list","title" : "{{ antl.get('inventory_voucher.money_list') }}" ,"width" : "150px" ,template: '#= FormatNumber(money_list)#',footerTemplate: "<p id='money_list'>#=FormatNumber(sum)#</p>"},
+                                { "field" : "total_amount","title" : "{{ antl.get('inventory_voucher.total_amount') }}" ,"width" : "150px" ,template: '#= calculateAmountTotal(amount,vat,money_list)#',footerTemplate: "<p id='total_amount'>#=calculateAmountTotalAggregate()#</p>" },
                                 { "field" : "invoice","title" : "{{ antl.get('inventory_voucher.invoice') }}" ,"width" : "150px" },
                                 { "field" : "lot_number","title" : "{{ antl.get('inventory_voucher.lot_number') }}" ,"width" : "150px" },
                                 { "field" : "contract","title" : "{{ antl.get('inventory_voucher.contract') }}" ,"width" : "150px" },
@@ -200,10 +204,17 @@
 
             Ermis.field = {
                 detail : {field :"detail" ,defaultValue: 0},
-                amount:     {field : "amount",type:"number" , validation: { min: 0, required: true }}
+                amount:     {field : "amount",type:"number" , validation: { min: 0, required: true }},
+                vat : {field :"vat" ,defaultValue: 0},
+                money_list : {field : "money_list",type:"number" },
+                vat_amount : {field : "vat_amount",type:"number" ,editable: false },
+                total_amount : {field : "total_amount",type:"number" ,editable: false, validation: { min: 0, required: true }},
             };
             Ermis.aggregate = [ { field: "description", aggregate: "count" },
-                                { field: "amount", aggregate: "sum" } ];
+                                { field: "amount", aggregate: "sum" } ,
+                                { field: "vat_amount", aggregate: "sum" },
+                                { field: "money_list", aggregate: "sum" },
+                                { field: "total_amount", aggregate: "sum" }];
             Ermis.voucher  =  {{ voucher | json | safe }};
         });
     </script>

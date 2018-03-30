@@ -13,6 +13,7 @@
     "quantity" : "Số lượng",
     "price" : "Giá",
     "amount" : "Thành tiền",
+    "amount_price" : "Số tiền",
     "subject" : "Đối tượng",
     "deliver" : "Người giao",
     "item" : "Hàng hóa",
@@ -38,5 +39,9 @@
     "inventory" : "Chành",
     "contract" : "Số hợp đồng",
     "invoice" : "Số hóa đơn",
-    "reference" : "Tham chiếu"
+    "reference" : "Tham chiếu",
+    "vat" :"VAT",
+    "vat_amount" : "Tổng VAT",
+    "money_list" : "Tiền kê",
+    "orther_amount" : "Phí khác"
 }

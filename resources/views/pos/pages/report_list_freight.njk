@@ -84,7 +84,7 @@
                       <th data-field="date_voucher" data-formatter="DateFormatter" data-sortable="true">{{ antl.get('inventory_voucher.date_voucher') }}</th>
                       <th data-field="transport_code" data-sortable="true" >{{ antl.get('store.transport_code') }}</th>
                       <th data-field="sender_address" data-sortable="true" >{{ antl.get('store.sender_address') }}</th>
-                      <th data-field="receiver_address" data-sortable="true" >{{ antl.get('store.receiver_address') }}</th>
+                      <th data-field="receiver_address" data-sortable="true" data-width="250px">{{ antl.get('store.receiver_address') }}</th>
                       <th data-field="name" data-sortable="true" >{{ antl.get('store.name') }}</th>
                       <th data-field="quantity" data-sortable="true" >{{ antl.get('store.quantity') }}</th>
                       <th data-field="price" data-sortable="true" >{{ antl.get('store.price') }}</th>
@@ -116,15 +116,15 @@
                                   { "field" : "date_voucher","title" :"{{ antl.get('store.date_voucher') }}" ,"width" : "150px" , template : "#=FormatDate(date_voucher) #"},
                                   { "field" : "transport_code","title" :"{{ antl.get('store.transport_code') }}" ,"width" : "150px"},
                                   { "field" : "sender_address","title" :"{{ antl.get('store.sender_address') }}" ,"width" : "150px"},
-                                  { "field" : "receiver_address","title" :"{{ antl.get('store.receiver_address') }}" ,"width" : "150px"},
+                                  { "field" : "receiver_address","title" :"{{ antl.get('store.receiver_address') }}" ,"width" : "250px"},
                                   { "field" : "name","title" :"{{ antl.get('store.name') }}" ,"width" : "150px"},
                                   { "field" : "quantity","title" :"{{ antl.get('store.quantity') }}" ,"width" : "150px"},
                                   { "field" : "price","title" :"{{ antl.get('store.price') }}" ,"width" : "150px"},
                                   { "field" : "lot_number","title" :"{{ antl.get('store.lot_number') }}" ,"width" : "150px"},
-                                  { "field" : "price","title" :"{{ antl.get('store.price') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
-                                  { "field" : "surcharge_amount","title" :"{{ antl.get('store.surcharge_amount') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "price","title" :"{{ antl.get('store.price') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 , template : "#=FormatNumber(price) #",footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "surcharge_amount","title" :"{{ antl.get('store.surcharge_amount') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0  , template : "#=FormatNumber(surcharge_amount) #",footerTemplate: "#=FormatNumber(sum)#" },
                                   { "field" : "surcharge","title" :"{{ antl.get('surcharge.title') }}" ,"width" : "150px"},
-                                  { "field" : "total_amount","title" :"{{ antl.get('store.total_amount') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "total_amount","title" :"{{ antl.get('store.total_amount') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0, template : "#=FormatNumber(total_amount) #" ,footerTemplate: "#=FormatNumber(sum)#" },
 
             ];
             Ermis.aggregate = [ { field: "code", aggregate: "count" },

@@ -42,6 +42,7 @@ class ReportDetailDebtController{
      .where('subject',data.subject).where('subject_key',this.subject_key)
      .where('active',data.active).whereIn('type',[1,7])
      .whereBetween('date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+     .orderBy('date_voucher')
      .fetch()
 
      var arr = []

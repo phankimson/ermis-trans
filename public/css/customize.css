@@ -185,6 +185,13 @@ button.close {
     cursor: default;
     pointer-events: none;
 }
+
+li.act_item{
+  background: #39f;
+}
+li.act_item a{
+  color:white!important
+}
 .disabled .material-icons{
     color :lightslategrey;
 }
