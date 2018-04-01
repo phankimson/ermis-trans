@@ -3,7 +3,7 @@
         <ul id="menu_top" class="uk-clearfix">
 
         {% set Menu = use('App/Model/Menu') %}
-        {% yield menu = Menu.query().where('active','1').where('type',type).where('parent_id','0').fetch() %}
+        {% yield menu = Menu.query().where('active','1').where('type',type).where('parent_id','0').orderBy('position').fetch() %}
         {% yield count = Menu.query().where('active','1').where('type',type).count('* as total') %}
         {% if count[0].total > 0 %}
         {% for m1 in menu.toJSON() %}
@@ -12,7 +12,7 @@
                 <a href="javascript:;"><i class="material-icons">{{ m1.icon }}</i><span>{{  shortif( lang == 'vn' , m1.name , m1.name_en ) }}</span></a>
                 <div class="uk-dropdown">
                     <ul class="uk-nav uk-nav-dropdown">
-                    {% yield menu1 = Menu.query().where('active','1').where('type',type).where('parent_id',m1.id).fetch() %}
+                    {% yield menu1 = Menu.query().where('active','1').where('type',type).where('parent_id',m1.id).orderBy('position').fetch() %}
                         {% for m2 in menu1.toJSON() %}
                         <li><a href="{{ shortif(m2.link != "", url(m2.link) , "javascript:;" ) }}">{{  shortif( lang == 'vn' , m2.name , m2.name_en ) }}</a></li>
                         {% endfor %}

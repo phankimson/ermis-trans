@@ -130,14 +130,14 @@ class CustomerController{
           //
           response.json({ status: true , message: Antl.formatMessage('messages.update_success') , data : result})
         }else{
-           response.json({ status: false , message: Antl.formatMessage('messages.you_not_permission') })
+           response.json({ status: false , message: Antl.formatMessage('messages.you_not_permission')})
          }
         }
        }else{
          response.json({ status: false , message: Antl.formatMessage('messages.no_data') })
          }
        } catch (e) {
-       response.json({ status: false , message: Antl.formatMessage('messages.update_fail')})
+       response.json({ status: false , message: Antl.formatMessage('messages.update_fail')+' '+e.message })
        }
      }
      * delete (request, response){

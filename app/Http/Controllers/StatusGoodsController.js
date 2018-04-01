@@ -61,29 +61,47 @@ class StatusGoodsController{
         response.json({ status: false , message: Antl.formatMessage('messages.no_data_found')})
       }
     }catch(e){
-              response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message})
+      response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message})
     }
 
   }
   * filter (request, response){
     try{
       const data = JSON.parse(request.input('data'))
-      const arr = yield Goods.query()
-      .innerJoin('inventory as in1','in1.id','goods.transport_station_send')
-      .leftJoin('inventory as in2','in2.id','goods.transport_station_receive')
-      .OrTypeWhere('goods.code',data.voucher_search)
-      .TypeWhere('goods.sender_fullname',data.customer_search)
-      .TypeWhere('goods.active',data.active_search)
-      .TypeWhereIn('goods.status',eval(data.status_search))
-      .OrTypeWhere('goods.date_voucher',data.date_voucher_search)
-      .orderBy('goods.created_at','desc')
-      .select('goods.*','in1.name as transport_station_send','in2.name as transport_station_receive')
-      .fetch()
-      if(arr.toJSON().length > 0){
-        response.json({ status: true , data : arr.toJSON()})
-      }else{
-        response.json({ status: false , message: Antl.formatMessage('messages.no_data_found')})
+      if(data.field_search == 'date_voucher'){
+        data.value_search = moment(data.value_search , "DD/MM/YYYY").format('YYYY-MM-DD')
       }
+      if(data.value_search != ''){
+        const arr = yield Goods.query()
+        .innerJoin('inventory as in1','in1.id','goods.transport_station_send')
+        .leftJoin('inventory as in2','in2.id','goods.transport_station_receive')
+        .where('goods.'+data.field_search,"LIKE",'%'+data.value_search+'%')
+        .TypeWhere('goods.active',data.active_search)
+        .TypeWhereIn('goods.status',eval(data.status_search))
+        .orderBy('goods.created_at','desc')
+        .select('goods.*','in1.name as transport_station_send','in2.name as transport_station_receive')
+        .fetch()
+        if(arr.toJSON().length > 0){
+          response.json({ status: true , data : arr.toJSON()})
+        }else{
+          response.json({ status: false , message: Antl.formatMessage('messages.no_data_found')})
+        }
+      }else{
+        const page = 1
+        const option = yield Option.query().where("code","MAX_ITEM_APPROVED").first()
+        const arr = yield Goods.query()
+        .innerJoin('inventory as in1','in1.id','goods.transport_station_send')
+        .leftJoin('inventory as in2','in2.id','goods.transport_station_receive')
+        .orderBy('goods.created_at','desc')
+        .select('goods.*','in1.name as transport_station_send','in2.name as transport_station_receive')
+        .paginate(page,option.value)
+        if(arr.toJSON().data.length > 0){
+          response.json({ status: true , page : true , data : arr.toJSON().data})
+        }else{
+          response.json({ status: false , message: Antl.formatMessage('messages.no_data_found')})
+        }
+      }
+
     }catch(e){
               response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message})
     }

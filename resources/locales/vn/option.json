@@ -10,5 +10,6 @@
     "title": "Thiết lập cài đặt",
     "type": "Loại",
     "value": "Giá trị",
-    "name" : "Tên"
+    "name" : "Tên",
+    "icon" : "Icon"
 }
