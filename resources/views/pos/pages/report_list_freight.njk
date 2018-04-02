@@ -99,9 +99,11 @@
                 </div>
             </div>
         </div>
+          {% include 'pos.includes._TablePrintFreight' %}
     </div>
     {% endblock %}
     {% block scripts_add %}
+    <script src="{{ url('scripts/addon/backend/ermis-add-6.js') }}"></script>
     <script>
         jQuery(document).ready(function () {
         Ermis.per = JSON.parse('{{ permission | safe }}');

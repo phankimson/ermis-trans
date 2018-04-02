@@ -251,11 +251,12 @@
               var dataItem  = grid.dataSource.get(i.id);
               if(dataItem){
                     reference_id = i.voucher+',';
-                    vo.push(checkedv[i.id])
+                    vo.push(i.id)
               }else{
                 //i.quantity = 1 ;
+                i.vat = 0;
+                i.amount = i.total_amount;
                 grid.dataSource.insert(0 , i);
-                  $kGridBarcode.find('.k-checkbox[id="'+i.id+'"]').click();
                 }
             }
             $kWindow2.close();

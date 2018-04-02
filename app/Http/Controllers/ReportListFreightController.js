@@ -45,5 +45,30 @@ class ReportListFreightController{
       }
   }
 
+  * prints (request, response) {
+    try {
+     const data = JSON.parse(request.input('data'))
+     const detail = yield Goods.query()
+     .whereBetween('goods.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+     .innerJoin('payment','payment.goods','goods.id')
+     .innerJoin('pos_detail','pos_detail.item_id','goods.id')
+     .innerJoin('pos_general','pos_general.id','pos_detail.general')
+     .leftJoin('transport','transport.id','pos_general.transport')
+     .leftJoin('surcharge','surcharge.id','goods.surcharge')
+     .TypeWhere('payment.subject',data.subject)
+     .where('payment.subject_key',this.subject_key)
+     .TypeWhere('goods.active',data.active)
+     .select('goods.*','transport.code as transport_code','surcharge.name as surcharge')
+     .fetch()
+     const customer = yield Customer.query().where('customer.id',data.subject)
+     .innerJoin('payment_method','payment_method.id','customer.payment_method')
+     .select('customer.*','payment_method.name as payment_method')
+     .first()
+      response.json({ status: true , detail : detail.toJSON() , customer : customer.toJSON()})
+    }catch(e){
+      response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message })
+    }
+  }
+
 }
 module.exports = ReportListFreightController

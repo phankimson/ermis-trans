@@ -1,14 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-
-<html>
-<head>
-
-	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<title></title>
-    <link rel="stylesheet" href="{{ url('./css/addon/print.css') }}" media="all">
-</head>
-
-<body>
+<! -- PRINT FORM -->
+<div id="printbill" class="hidden">
 <table cellspacing="0" border="0">
 	<colgroup width="44"></colgroup>
 	<colgroup width="151"></colgroup>
@@ -121,7 +112,7 @@
 		<td align="left" valign=bottom><font face="Times New Roman" size=3><br></font></td>
 		<td align="left" valign=bottom><font face="Times New Roman" size=3><br></font></td>
 	</tr>
-	<tr>
+	<tr class="load_print hidden" >
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="113" align="center" valign=bottom sdval="1" sdnum="1033;0;_-* #,##0 _₫_-;-* #,##0 _₫_-;_-* &quot;-&quot;?? _₫_-;_-@_-"><font face="Times New Roman" class="stt"> </font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom sdnum="1033;0;_-* #,##0 _₫_-;-* #,##0 _₫_-;_-* &quot;-&quot;?? _₫_-;_-@_-"><font face="Times New Roman" class="code"><br></font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom sdnum="1033;1033;M/D/YYYY"><font face="Times New Roman" class="date_voucher"><br></font></td>
@@ -136,15 +127,17 @@
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom bgcolor="#FFFF00" sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><font face="Times New Roman" class="surcharge"> Phụ phí này nếu <br>trong phần nhập liệu có chọn loại phụ phí thì phải hiện thị rõ tên phụ phí luôn </font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom bgcolor="#FFFF00" sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><font face="Times New Roman" class="total_amount"> Sum </font></td>
 	</tr>
+	<tr class="replace hidden" >
+	</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="33" align="center" valign=middle><font face="Times New Roman" color="#FFFFFF">.</font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" align="center" valign=middle><font face="Times New Roman" color="#FFFFFF"><br></font></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=6 align="center" valign=middle sdnum="1033;1033;M/D/YYYY"><font face="Times New Roman">TỔNG</font></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><b><font face="Times New Roman" class="total_quantity"><br></font></b></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><b><font face="Times New Roman" class="total_quantity_"><br></font></b></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><b><font face="Times New Roman"><br></font></b></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><b><font face="Times New Roman" class="total_surchange"><br></font></b></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><b><font face="Times New Roman" class="total_surchange_"><br></font></b></td>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><b><font face="Times New Roman"><br></font></b></td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><b><font face="Times New Roman" class="total_amount"><br></font></b></td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=middle sdnum="1033;0;_(* #,##0_);_(* \(#,##0\);_(* &quot;-&quot;??_);_(@_)"><b><font face="Times New Roman" class="total_amount_"><br></font></b></td>
 	</tr>
 	<tr>
 		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000" height="33" align="center" valign=middle bgcolor="#CCFFCC"><font face="Times New Roman" color="#FFFF99">.</font></td>
@@ -286,6 +279,5 @@
 </table>
 <br clear=left>
 <!-- ************************************************************************** -->
-</body>
-
-</html>
+  </div>
+<! -- PRINT FORM -->

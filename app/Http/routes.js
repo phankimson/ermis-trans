@@ -423,6 +423,7 @@ Route.post('/payment-cash-voucher-voucher-print', 'PaymentCashGeneralController.
   // Report List Freight
   Route.get('/report-list-freight', 'ReportListFreightController.show')
   Route.post('/report-list-freight-get', 'ReportListFreightController.get')
+  Route.post('/report-list-freight-print', 'ReportListFreightController.prints')
 
   // Report Sale
   Route.get('/report-revenue-sale', 'ReportRevenueController.show')
