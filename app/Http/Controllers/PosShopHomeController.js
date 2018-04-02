@@ -20,6 +20,7 @@ const Surcharge = use('App/Model/Surcharge')  // EDIT
 const SalesStaff = use('App/Model/SalesStaff')  // EDIT
 const PosDetail = use('App/Model/PosDetail')  // EDIT
 const PosGeneral = use('App/Model/PosGeneral')  // EDIT
+const Distric = use('App/Model/Distric')  // EDIT
 const Unit = use('App/Model/Unit')  // EDIT
 const Antl = use('Antl')
 
@@ -108,8 +109,8 @@ class PosShopHomeController{
         // lưu khách lẻ
         if(data.subject == 0){
           var customer = yield Customer.query().where('name',data.sender_fullname).first()
+          var distric = yield Distric.query().where('city',data.sender_city).first()
           if(!customer){
-
             var cus = new SenderReceiver()
             cus.type = 1
             cus.code = 'R'+num
@@ -118,12 +119,14 @@ class PosShopHomeController{
             cus.address = data.sender_address
             cus.email = data.sender_email
             cus.city = data.sender_city
+            cus.distric = distric.id
             cus.active = 1
             yield cus.save()
           }
         }
         // Lưu người nhận
           var sede = yield SenderReceiver.query().where('fullname',data.receiver_fullname).first()
+          var distric = yield Distric.query().where('city',data.receiver_city).first()
             if(!sede){
             var se = new SenderReceiver()
             se.type = 2
@@ -134,6 +137,7 @@ class PosShopHomeController{
             se.email = data.receiver_email
             se.city = data.receiver_city
             se.customer = data.subject
+            se.distric = data.distric
             se.active = 1
             yield se.save()
             }
