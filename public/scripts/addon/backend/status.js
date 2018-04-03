@@ -383,6 +383,7 @@ var Ermis = function () {
       jQuery('#filter').on("click",initFilter);
       jQuery('.cancel').on("click",initClose);
       jQuery('.save').on("click",initSave);
+      shortcut.add("Enter", function (e) { initFilter(e); });
     }
 
     return {

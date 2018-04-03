@@ -424,6 +424,8 @@ Route.post('/payment-cash-voucher-voucher-print', 'PaymentCashGeneralController.
   Route.get('/report-list-freight', 'ReportListFreightController.show')
   Route.post('/report-list-freight-get', 'ReportListFreightController.get')
   Route.post('/report-list-freight-print', 'ReportListFreightController.prints')
+  Route.post('/report-list-freight-excel', 'ReportListFreightController.excel')
+  Route.get('/report-list-freight-downloadExcel', 'ReportListFreightController.downloadExcel')
 
   // Report Sale
   Route.get('/report-revenue-sale', 'ReportRevenueController.show')

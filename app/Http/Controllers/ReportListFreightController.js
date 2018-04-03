@@ -6,6 +6,8 @@ const Option = use('App/Model/Option')  // EDIT
 const Customer = use('App/Model/Customer')  // EDIT
 
 var moment = require('moment')
+const fs = require('fs')
+var XlsxTemplate = require('xlsx-template')
 
 class ReportListFreightController{
   constructor () {
@@ -13,6 +15,7 @@ class ReportListFreightController{
       this.key = "report-list-freight"  // EDIT
       this.room = "report_list_freight"  // EDIT
       this.subject_key = "customer"  // EDIT
+      this.download = "Template1.xlsx"  // EDIT
     }
   * show (request, response){
       const title = Antl.formatMessage('report_list_freight.title')  // EDIT
@@ -64,10 +67,67 @@ class ReportListFreightController{
      .innerJoin('payment_method','payment_method.id','customer.payment_method')
      .select('customer.*','payment_method.name as payment_method')
      .first()
-      response.json({ status: true , detail : detail.toJSON() , customer : customer.toJSON()})
+      response.json({ status: true , detail : detail.toJSON() , customer : customer})
     }catch(e){
       response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message })
     }
+  }
+
+  * excel (request, response) {
+    try {
+     const data = JSON.parse(request.input('data'))
+     const detail = yield Goods.query()
+     .whereBetween('goods.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+     .innerJoin('payment','payment.goods','goods.id')
+     .innerJoin('pos_detail','pos_detail.item_id','goods.id')
+     .innerJoin('pos_general','pos_general.id','pos_detail.general')
+     .leftJoin('transport','transport.id','pos_general.transport')
+     .leftJoin('surcharge','surcharge.id','goods.surcharge')
+     .TypeWhere('payment.subject',data.subject)
+     .where('payment.subject_key',this.subject_key)
+     .TypeWhere('goods.active',data.active)
+     .select('goods.*','transport.code as transport_code','surcharge.name as surcharge')
+     .fetch()
+     const customer = yield Customer.query().where('customer.id',data.subject)
+     .innerJoin('payment_method','payment_method.id','customer.payment_method')
+     .select('customer.*','payment_method.name as payment_method')
+     .first()
+     fs.createReadStream(Helpers.storagePath(this.download)).pipe(fs.createWriteStream(Helpers.storagePath('template/'+this.download)));
+
+     // Load an XLSX file into memory
+     fs.readFile(Helpers.storagePath('template/'+this.download), function(err, data) {
+
+         // Create a template
+         var template = new XlsxTemplate(data);
+         // Replacements take place on first sheet
+         var sheetNumber = 1;
+
+         // Set up some placeholder values matching the placeholders in the template
+         var values = {
+                 extractDate: new Date(),
+                 dates: [ new Date("2013-06-01"), new Date("2013-06-02"), new Date("2013-06-03") ],
+                 people: [
+                     {name: "John Smith", age: 20},
+                     {name: "Bob Johnson", age: 22}
+                 ]
+             };
+
+         // Perform substitution
+         template.substitute(sheetNumber, values);
+
+
+         // ...
+
+     })
+
+      response.json({ status: true })
+    }catch(e){
+      response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message })
+    }
+  }
+
+  * downloadExcel (request, response){
+    response.download(Helpers.storagePath('template/'+this.download))
   }
 
 }

@@ -9,9 +9,9 @@
     <div class="uk-margin-medium-top"></div>
 
     <select class="droplist" name="filter_field">
-        <option readonly selected value="">--Select--</option>
+        <option readonly value="">--Select--</option>
         <option value="code">{{ antl.get('customer.code') }}</option>
-        <option value="name">{{ antl.get('customer.name') }}</option>
+        <option selected value="name">{{ antl.get('customer.name') }}</option>
         <option value="address">{{ antl.get('customer.address') }}</option>
         <option value="tax_code">{{ antl.get('customer.tax_code') }}</option>
         <option value="phone">{{ antl.get('customer.phone') }}</option>
