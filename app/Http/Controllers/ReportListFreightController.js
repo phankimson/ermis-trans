@@ -4,9 +4,10 @@ const Antl = use('Antl')
 const Helpers = use('Helpers')
 const Option = use('App/Model/Option')  // EDIT
 const Customer = use('App/Model/Customer')  // EDIT
+const Docso = use('App/Classes/docso')
 
 var moment = require('moment')
-const fs = require('fs')
+var fs = require('fs')
 var XlsxTemplate = require('xlsx-template')
 
 class ReportListFreightController{
@@ -92,10 +93,9 @@ class ReportListFreightController{
      .innerJoin('payment_method','payment_method.id','customer.payment_method')
      .select('customer.*','payment_method.name as payment_method')
      .first()
-     fs.createReadStream(Helpers.storagePath(this.download)).pipe(fs.createWriteStream(Helpers.storagePath('template/'+this.download)));
-
+     let hs = new Docso()
      // Load an XLSX file into memory
-     fs.readFile(Helpers.storagePath('template/'+this.download), function(err, data) {
+     fs.readFile(Helpers.storagePath(this.download), function(err, data) {
 
          // Create a template
          var template = new XlsxTemplate(data);
@@ -103,18 +103,68 @@ class ReportListFreightController{
          var sheetNumber = 1;
 
          // Set up some placeholder values matching the placeholders in the template
-         var values = {
-                 extractDate: new Date(),
-                 dates: [ new Date("2013-06-01"), new Date("2013-06-02"), new Date("2013-06-03") ],
-                 people: [
-                     {name: "John Smith", age: 20},
-                     {name: "Bob Johnson", age: 22}
-                 ]
-             };
+         var values = {}
+         var total_quantity_ = detail.toJSON().reduce((p, c) => p + c.quantity, 0)
+         var total_fee_ =  detail.toJSON().reduce((p, c) => p + c.fee, 0)
+         var total_surchange_amount_ = detail.toJSON().reduce((p, c) => p + c.surchange_amount, 0)
+         var total_amount_ = detail.toJSON().reduce((p, c) => p + c.total_amount, 0)
+         var vat = detail.toJSON().reduce((p, c) => p + c.total_amount, 0) * 0.1
+         var total_include_vat = detail.toJSON().reduce((p, c) => p + c.total_amount, 0) * 1.1
+         if(customer){
+           values = {
+                   customer_code : customer.code,
+                   customer_name : customer.name,
+                   customer_address : customer.address,
+                   customer_phone : customer.phone,
+                   customer_taxcode : customer.tax_code,
+                   customer_fax : customer.fax,
+                   customer_contact : customer.full_name_contact,
+                   customer_contact_phone : customer.telephone1_contact,
+                   customer_payment_method : customer.payment_method,
+                   detail : detail.toJSON(),
+                   total_quantity_ : total_quantity_,
+                   total_fee_ : total_fee_,
+                   total_surchange_amount_ : total_surchange_amount_,
+                   total_amount_ : total_amount_,
+                   vat : vat,
+                   total_include_vat : total_include_vat,
+                   amount_letter : hs.docso.doc(total_include_vat) +" đồng",
+               };
+
+         }else{
+
+           values = {
+                   customer_code : "",
+                   customer_name : "",
+                   customer_address : "",
+                   customer_phone : "",
+                   customer_taxcode : "",
+                   customer_fax : "",
+                   customer_contact : "",
+                   customer_contact_phone : "",
+                   customer_payment_method : "",
+                   detail : detail.toJSON(),
+                   total_quantity_ : total_quantity_,
+                   total_fee_ : total_fee_,
+                   total_surchange_amount_ : total_surchange_amount_,
+                   total_amount_ : total_amount_,
+                   vat : vat,
+                   total_include_vat : total_include_vat,
+                   amount_letter : hs.docso.doc(total_include_vat) +" đồng",
+               };
+
+         }
 
          // Perform substitution
          template.substitute(sheetNumber, values);
 
+         // Get binary data
+       var output = template.generate();
+       var filePath = Helpers.storagePath('Temp/Template1.xlsx')
+
+        fs.writeFile(filePath, output, 'binary', function(err){
+            if(err) console.log(err);
+        });
 
          // ...
 
@@ -127,7 +177,7 @@ class ReportListFreightController{
   }
 
   * downloadExcel (request, response){
-    response.download(Helpers.storagePath('template/'+this.download))
+    response.download(Helpers.storagePath('Temp/'+this.download))
   }
 
 }
