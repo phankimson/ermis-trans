@@ -169,7 +169,9 @@ class StatusGoodsController{
     goods.price = data.price
     goods.fee = data.fee
     goods.surcharge_amount = data.surcharge_amount
-    goods.total_amount = data.total_amount
+    goods.vat = data.vat
+    goods.vat_amount = data.vat_amount
+    goods.total_amount = data.total
     goods.note = data.note
     goods.sender_fullname = data.sender_fullname
     goods.sender_phone = data.sender_phone
@@ -212,7 +214,7 @@ class StatusGoodsController{
       .innerJoin('inventory as in1','in1.id','goods.transport_station_send')
       .innerJoin('payment','payment.goods','goods.id')
       .where('goods.id',data)
-      .select('goods.*','payment.subject','payment.sales_staff','in1.name as transport_station_send')
+      .select('goods.*','goods.total_amount as total','payment.subject','payment.sales_staff','in1.name as transport_station_send')
       .first()
       if(arr){
         response.json({ status: true , data : arr.toJSON() , history : hs.toJSON()})

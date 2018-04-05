@@ -287,6 +287,14 @@
                     <textarea type="text" style="height : 100px" class="k-textbox large not_null" name="note" /></textarea>
                     </td>
               </tr>
+              <tr>
+                  <td><label>{{ antl.get('store.collect') }}</label></td>
+                  <td ><input type="checkbox" data-md-icheck="" class="not_clear not_null" name="collect" /></td>
+              </tr>
+              <tr>
+                  <td class="row-label-medium"><label>{{ antl.get('store.collect_amount') }}</label></td>
+                  <td ><input type="text" class="number-price not_null large disabled" readonly name="collect_amount" /></td>
+              </tr>
           </table>
             </li>
             <li>
@@ -327,18 +335,17 @@
                 <td ><input type="text" class="number-price not_null large" name="surcharge_amount" /></td>
             </tr>
             <tr>
+                <td><label>{{ antl.get('store.vat') }}%</label></td>
+                <td ><input type="text" class="number-vat not_null large" name="vat" /></td>
+            </tr>
+            <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.vat_amount') }}</label></td>
+                <td ><input type="text" class="k-textbox convert_number not_null large disabled" readonly name="vat_amount" /></td>
+            </tr>
+            <tr>
                 <td class="row-label-medium"><label>{{ antl.get('store.total_amount') }}</label></td>
-                <td ><input type="text" class="k-textbox large disabled convert_number" readonly name="total_amount" /></td>
+                <td ><input type="text" class="k-textbox convert_number large disabled" readonly name="total" /></td>
             </tr>
-            <tr>
-                <td><label>{{ antl.get('store.collect') }}</label></td>
-                <td ><input type="checkbox" data-md-icheck="" class="not_clear not_null" name="collect" /></td>
-            </tr>
-            <tr>
-                <td class="row-label-medium"><label>{{ antl.get('store.collect_amount') }}</label></td>
-                <td ><input type="text" class="number-price not_null large disabled" readonly name="collect_amount" /></td>
-            </tr>
-
           </table>
             </li>
             <li>

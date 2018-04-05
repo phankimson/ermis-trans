@@ -41,5 +41,7 @@
   "sender_address" : " Nơi đi",
   "receiver_address" : "Nơi đén",
   "quantity" : "Số lượng",
-  "fee" : "Cước phí"
+  "fee" : "Cước phí",
+  "vat" : "Thuế",
+  "vat_amount" : "Tổng tiền thuế"
 }

@@ -41,5 +41,7 @@
   "sender_address" : "Sender address",
   "receiver_address" : "Receiver address",
   "quantity" : "Quantity",
-  "fee" : "Fee"
+  "fee" : "Fee",
+  "vat" : "Vat",
+  "vat_amount" : "Vat amount"
 }

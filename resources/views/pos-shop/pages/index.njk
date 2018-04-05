@@ -132,7 +132,7 @@
                           <tr>
                               <td class="row-label-medium"><label>{{ antl.get('store.city') }} </label></td>
                               <td >
-                              <select class="droplist large not_null" name="receiver_city">
+                              <select class="droplist large not_null not_clear" name="receiver_city">
                                     <option readonly selected value="0">--Select--</option>
                                         {% for x in city %}
                                         {% if x.code == '91' and inventory.code != 'C3' %}
@@ -149,7 +149,7 @@
                           <tr>
                               <td class="row-label-medium"><label>{{ antl.get('store.transport_station_receive') }} </label></td>
                               <td >
-                              <select class="droplist not_null large" name="transport_station_receive">
+                              <select class="droplist not_null large not_clear" name="transport_station_receive">
                                     <option readonly selected value="0">--Select--</option>
                                         {% for x in stock %}
                                         {% if x.code == 'C3' and inventory.code != 'C3' %}
@@ -259,6 +259,14 @@
                                             <textarea type="text" style="height : 100px" class="k-textbox large not_null" name="note" /></textarea>
                                             </td>
                                       </tr>
+                                      <tr>
+                                          <td><label>{{ antl.get('store.collect') }}</label></td>
+                                          <td ><input type="checkbox" data-md-icheck="" class="not_clear not_null" name="collect" /></td>
+                                      </tr>
+                                      <tr>
+                                          <td class="row-label-medium"><label>{{ antl.get('store.collect_amount') }}</label></td>
+                                          <td ><input type="text" class="number-price not_null large disabled" readonly name="collect_amount" /></td>
+                                      </tr>
                                   </table>
                                     </div>
                                     <div class="uk-row">
@@ -299,18 +307,17 @@
                                         <td ><input type="text" class="number-price not_null large" name="surcharge_amount" /></td>
                                     </tr>
                                     <tr>
+                                        <td><label>{{ antl.get('store.vat') }}%</label></td>
+                                        <td ><input type="text" class="number-vat not_null large" name="vat" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="row-label-medium"><label>{{ antl.get('store.vat_amount') }}</label></td>
+                                        <td ><input type="text" class="k-textbox not_null convert_number large disabled" readonly name="vat_amount" /></td>
+                                    </tr>
+                                    <tr>
                                         <td class="row-label-medium"><label>{{ antl.get('store.total_amount') }}</label></td>
-                                        <td ><input type="text" class="k-textbox large disabled" readonly name="total" /></td>
+                                        <td ><input type="text" class="k-textbox convert_number large disabled" readonly name="total" /></td>
                                     </tr>
-                                    <tr>
-                                        <td><label>{{ antl.get('store.collect') }}</label></td>
-                                        <td ><input type="checkbox" data-md-icheck="" class="not_clear not_null" name="collect" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="row-label-medium"><label>{{ antl.get('store.collect_amount') }}</label></td>
-                                        <td ><input type="text" class="number-price not_null large disabled" readonly name="collect_amount" /></td>
-                                    </tr>
-
                                   </table>
 
                                   <div id="action_button">

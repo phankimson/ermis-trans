@@ -67,7 +67,7 @@ var Ermis = function () {
             }
 
             if (col.key === 'text' || col.key === 'password' || col.key === 'number') {
-                if (jQuery('input[name="' + col.field + '"]').hasClass('number-price') || jQuery('input[name="' + col.field + '"]').hasClass('number')) {
+                if (jQuery('input[name="' + col.field + '"]').hasClass('number-price') || jQuery('input[name="' + col.field + '"]').hasClass('number')|| jQuery('input[name="' + col.field + '"]').hasClass('decimal')  || jQuery('input[name="' + col.field + '"]').hasClass('number-vat')) {
                     obj[col.field] = jQuery('input[name="' + col.field + '"]').data("kendoNumericTextBox").value();
                 } else {
                     obj[col.field] = jQuery('input[name="' + col.field + '"]').val().trim();
@@ -140,11 +140,12 @@ var Ermis = function () {
     };
 
     var initTotal = function(){
-      jQuery("input[name=fee],input[name=surcharge_amount]").on("blur",function(){
+      jQuery("input[name=fee],input[name=surcharge_amount],input[name=vat_amount]").on("blur",function(){
         var fee = jQuery("input[name='fee']").data("kendoNumericTextBox").value();
         var surcharge_amount = jQuery("input[name='surcharge_amount']").data("kendoNumericTextBox").value();
-        var total = fee + surcharge_amount;
-        jQuery("input[name=total_amount]").val(FormatNumber(total));
+        var vat_amount = ConvertNumber(jQuery("input[name=vat_amount]").val());
+        var total = fee + surcharge_amount + parseInt(vat_amount);
+        jQuery("input[name=total]").val(FormatNumber(total));
       })
     }
 
@@ -155,6 +156,18 @@ var Ermis = function () {
         var total = quantity * price;
         jQuery('input[name="fee"]').data("kendoNumericTextBox").value (total);
         jQuery("input[name=total_amount]").val(FormatNumber(total));
+      })
+    }
+
+    initChangeVat = function(){
+      jQuery("input[name='vat']").bind("blur",function(e){
+        var quantity = jQuery('input[name="quantity"]').data("kendoNumericTextBox").value();
+        var price = jQuery('input[name="price"]').data("kendoNumericTextBox").value();
+        var surcharge_amount = jQuery('input[name="surcharge_amount"]').data("kendoNumericTextBox").value();
+        var total = quantity * price + surcharge_amount;
+        var vat = total * jQuery('input[name="vat"]').data("kendoNumericTextBox").value() / 100
+        jQuery("input[name=vat_amount]").val(FormatNumber(vat));
+        jQuery("input[name=total]").val(FormatNumber(total+vat));
       })
     }
 
@@ -237,7 +250,7 @@ var Ermis = function () {
                     jQuery(v).val(FormatDate(result.data[jQuery(v).attr('name')]));
                   }else if(jQuery(v).hasClass('droplist')){
                     jQuery('.droplist[name="' + jQuery(v).attr('name')+ '"]').data('kendoDropDownList').value(result.data[jQuery(v).attr('name')]);
-                  }else if(jQuery(v).hasClass('number-price') || jQuery(v).hasClass('number') || jQuery(v).hasClass('decimal')){
+                  }else if(jQuery(v).hasClass('number-price') || jQuery(v).hasClass('number') || jQuery(v).hasClass('decimal')|| jQuery(v).hasClass('number-vat')){
                     var name = jQuery(v).attr('name');
                     if(name){
                       jQuery('input[name="' + name +'"]').data("kendoNumericTextBox").value(result.data[name]);
@@ -248,6 +261,8 @@ var Ermis = function () {
                          }else{
                            jQuery(v).parent().removeClass('checked')
                          }
+                  }else if (jQuery(v).hasClass('convert_number') ){
+                    jQuery(v).val(FormatNumber(result.data[jQuery(v).attr('name')]));
                   }else{
                     jQuery(v).val(result.data[jQuery(v).attr('name')]);
                   }
@@ -347,6 +362,14 @@ var Ermis = function () {
               step: 1
           });
       }
+      var initKendoUiNumberVat = function () {
+          $(".number-vat").kendoNumericTextBox({
+              format: "n0",
+              step: 1,
+              min : 0,
+              max : 100
+          });
+      }
       var initKendoUiDecimal = function () {
           $(".decimal").kendoNumericTextBox({
               format: "n2",
@@ -393,7 +416,9 @@ var Ermis = function () {
           initPaging();
           initStatus();
           initTotal();
+          initChangeVat();
           initKendoUiDecimal();
+          initKendoUiNumberVat();
           initChangePrice();
           initKendoDatePicker();
           initKendoUiDialog();

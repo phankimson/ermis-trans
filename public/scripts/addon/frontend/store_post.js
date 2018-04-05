@@ -115,6 +115,18 @@ var Ermis = function () {
     })
   }
 
+  initChangeVat = function(){
+    jQuery("input[name='vat']").bind("blur",function(e){
+      var quantity = jQuery('input[name="quantity"]').data("kendoNumericTextBox").value();
+      var price = jQuery('input[name="price"]').data("kendoNumericTextBox").value();
+      var surcharge_amount = jQuery('input[name="surcharge_amount"]').data("kendoNumericTextBox").value();
+      var total = quantity * price + surcharge_amount;
+      var vat = total * jQuery('input[name="vat"]').data("kendoNumericTextBox").value() / 100
+      jQuery("input[name=vat_amount]").val(FormatNumber(vat));
+      jQuery("input[name=total]").val(FormatNumber(total+vat));
+    })
+  }
+
 
   var initChangePaymentMethod = function(){
     jQuery("select[name='payment_method']").bind("change",function(e){
@@ -226,10 +238,11 @@ var Ermis = function () {
   //  });
 //  }
   var initTotal = function(){
-    jQuery("input[name=fee],input[name=surcharge_amount]").on("blur",function(){
+    jQuery("input[name=fee],input[name=surcharge_amount],input[name=vat_amount]").on("blur",function(){
       var fee = jQuery("input[name='fee']").data("kendoNumericTextBox").value();
       var surcharge_amount = jQuery("input[name='surcharge_amount']").data("kendoNumericTextBox").value();
-      var total = fee + surcharge_amount;
+      var vat_amount = ConvertNumber(jQuery("input[name=vat_amount]").val());
+      var total = fee + surcharge_amount + parseInt(vat_amount);
       jQuery("input[name=total]").val(FormatNumber(total));
     })
   }
@@ -570,6 +583,15 @@ var Ermis = function () {
       });
   }
 
+  var initKendoUiNumberVat = function () {
+      $(".number-vat").kendoNumericTextBox({
+          format: "n0",
+          step: 1,
+          min : 0,
+          max : 100
+      });
+  }
+
   var initKendoDatePicker = function () {
       jQuery(".date-picker").kendoDatePicker({
           format: "dd/MM/yyyy"
@@ -610,6 +632,7 @@ var Ermis = function () {
           initStatus(0);
           initKendoUiNumber();
           initKendoUiNumberPrice();
+          initKendoUiNumberVat();
           initKendoUiNumberic();
           initKendoDatePicker();
           initKendoUiPercent();
@@ -624,6 +647,7 @@ var Ermis = function () {
           //initChangeSale();
           initChangeCompany();
           initChangePrice();
+          initChangeVat();
         }
 
     };
