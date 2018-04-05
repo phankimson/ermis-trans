@@ -1439,7 +1439,7 @@
         var data = grid.dataSource.data();
         var total = 0;
         for (var i = 0; i < data.length; i++) {
-            if (data[i].vat > 0 && data[i].amount > 0) {
+            if (data[i].vat > 0 || data[i].amount > 0) {
                 var check = data[i].amount.toString().indexOf(",");
                 if (data[i].amount !== 0 && check !== -1) {
                     data[i].amount = data[i].amount.replace(/\,/g, "");
