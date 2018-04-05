@@ -28,5 +28,8 @@
     "role" : "Quyền",
     "view_more" : "Xem thêm",
     "settings" : "Cấu hình",
-    "zoom" : "Phóng to"
+    "zoom" : "Phóng to",
+    "chart" : "Biểu đồ",
+    "chart_of_expenses" : "Biểu đồ thu chi",
+    "chart_of_revenue" : "Biểu đồ doanh thu"
 }

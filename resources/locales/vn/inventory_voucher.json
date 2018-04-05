@@ -43,5 +43,6 @@
     "vat" :"VAT",
     "vat_amount" : "Tổng VAT",
     "money_list" : "Tiền kê",
-    "orther_amount" : "Phí khác"
+    "orther_amount" : "Phí khác",
+    "reasons" : "Lý do thu chi"
 }

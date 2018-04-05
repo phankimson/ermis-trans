@@ -10,6 +10,7 @@ const PrintTemplate = use('App/Model/PrintTemplate')  // EDIT
 const Voucher = use('App/Model/NumberIncreases')  // EDIT
 const General = use('App/Model/PosGeneral')  // EDIT
 const Detail = use('App/Model/PosCash')  // EDIT
+const Reasons = use('App/Model/Reasons')  // EDIT
 const VoucherMask = use('App/Classes/VoucherMask')  // EDIT
 const HistoryAction = use('App/Classes/HistoryAction')  // EDIT
 const Database = use('Database')
@@ -29,7 +30,8 @@ class PaymentCashVoucherController{
         const inventory = yield request.session.get('inventory')
         const voucher = yield Voucher.query().where('inventory',inventory).where('code','LIKE',this.voucher).first()
         const print = yield PrintTemplate.query().where('code', 'LIKE', this.print ).fetch()
-        const show = yield response.view('pos/pages/payment_cash_voucher', {key : this.key ,title: title , voucher : voucher, print : print.toJSON()})  // EDIT
+        const reasons = yield Reasons.query().where('active', 1).fetch()
+        const show = yield response.view('pos/pages/payment_cash_voucher', {key : this.key ,title: title , reasons : reasons.toJSON(), voucher : voucher, print : print.toJSON()})  // EDIT
         response.send(show)
     }
     * reference (request, response){
@@ -171,6 +173,7 @@ class PaymentCashVoucherController{
                     detail.lot_number = d.lot_number
                     detail.order = d.order
                     detail.contract = d.contract
+                    detail.reasons = d.reasons
                     detail.status = status
                     detail.active = 1
                     yield detail.save()

@@ -28,5 +28,8 @@
     "role" : "Role",
     "view_more" : "View more",
     "settings" : "Settings",
-    "zoom" : "Zoom"
+    "zoom" : "Zoom",
+    "chart" : "Charts",
+    "chart_of_expenses" : "Chart of expenses",
+    "chart_of_revenue" : "Chart of revenue"
 }

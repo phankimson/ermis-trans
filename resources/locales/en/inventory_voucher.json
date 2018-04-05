@@ -43,5 +43,7 @@
     "vat" :"VAT",
     "vat_amount" : "VAT amount",
     "money_list" : "Money list",
-    "orther_amount" : "Orther amount"
+    "orther_amount" : "Orther amount",
+    "reasons" : "Reason",
+    "charts" : "Charts"
 }
