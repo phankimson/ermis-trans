@@ -135,6 +135,7 @@ Route.group('trans-group', function () {
   Route.get('/login', 'PosHomeController.login')
   Route.get('/block', 'HomeController.block')
   Route.post('/login', 'PosUserController.login')
+  Route.post('/charts-get', 'PosHomeController.get')
   //Route.post('/login', 'PosUserController.login').middleware('recaptcha')
   Route.post('/profile', 'UserController.updateProfile')
   Route.post('/avatar-profile', 'UserController.updateAvatar')
@@ -189,6 +190,13 @@ Route.group('trans-group', function () {
   Route.post('/driver-delete', 'DriverController.delete')
   Route.get('/driver-downloadExcel', 'DriverController.downloadExcel')
   Route.post('/driver-import', 'DriverController.import')
+
+  // Driver
+  Route.get('/reasons', 'ReasonsController.show')
+  Route.post('/reasons-save', 'ReasonsController.save')
+  Route.post('/reasons-delete', 'ReasonsController.delete')
+  Route.get('/reasons-downloadExcel', 'ReasonsController.downloadExcel')
+  Route.post('/reasons-import', 'ReasonsController.import')
 
   // Sales Staff
   Route.get('/sales-staff', 'SalesStaffController.show')

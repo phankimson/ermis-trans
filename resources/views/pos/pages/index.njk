@@ -19,15 +19,63 @@
         <div class="uk-grid">
             <div class="uk-width-1-1">
                 <ul class="uk-tab" data-uk-tab="{connect:'#tabs_1_content'}" id="tabs_1">
-                    <li class="uk-active"><a href="#">{{ antl.get('index.menu') }}</a></li>
+                    <li class="uk-active"><a href="#">{{ antl.get('index.chart') }}</a></li>
                     <!--<li><a href="#">Thanh 1 <span class="material-icons">clear</span></a></li>
                     <li class="named_tab"><a href="#">Thanh 2</a></li>
                     <li class="uk-disabled"><a href="#">Thanh 3</a></li>-->
                 </ul>
                 <ul id="tabs_1_content" class="uk-switcher uk-margin">
-                    <div>
+                    <li>
+                    <div class="uk-grid" id="form-search">
+                        <div class="uk-width-medium-4-4">
+                        <div class="uk-grid" data-uk-grid-margin>
+                               <div class="uk-width-medium-1-4 uk-width-1-1">
+                                   <div class="uk-input-group">
+                                       <span class="uk-input-group-addon"><i class="uk-input-group-icon uk-icon-calendar"></i></span>
+                                       <label for="uk_dp_start">{{ antl.get('global.start_date') }}</label>
+                                       <input class="md-input" value="{{start_date}}" type="text" id="uk_dp_start">
+                                   </div>
+                               </div>
+                               <div class="uk-width-medium-1-4 uk-width-medium-1-1">
+                                   <div class="uk-input-group">
+                                       <span class="uk-input-group-addon"><i class="uk-input-group-icon uk-icon-calendar"></i></span>
+                                       <label for="uk_dp_end">{{ antl.get('global.end_date') }}</label>
+                                       <input class="md-input" value="{{end_date}}" type="text" id="uk_dp_end">
+                                   </div>
+                               </div>
 
+                                 <div class="uk-width-medium-1-4">
+                               <select data-md-selectize data-md-selectize-bottom data-uk-tooltip="{pos:'top'}" id="stock" title="All">
+                                  <option value="">All...</option>
+                                  {% for x in stock %}
+                                  <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                                  {% endfor %}
+                                </select>
+
+                                 </div>
+                                 <div class="uk-width-medium-1-4">
+                                   <a href="javascript:;" class="k-button k-primary" id="get_data" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">event_available</i>{{ antl.get('global.get_data') }}</a>
+                                   </div>
+
+                           </div>
+                        </div>
                     </div>
+                    <h3 style="text-align : center">{{ antl.get('index.chart_of_revenue') }}</h3>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-1">
+                            <div id="mg_chart_linked_full" class="mGraph"></div>
+                        </div>
+                    </div>
+                    <h3 style="text-align : center">{{ antl.get('index.chart_of_expenses') }}</h3>
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-medium-1-2">
+                            <div id="mg_chart_linked_revenue" class="mGraph"></div>
+                        </div>
+                        <div class="uk-width-medium-1-2">
+                            <div id="mg_chart_linked_cost" class="mGraph"></div>
+                        </div>
+                    </div>
+                    </li>
                     <!--<li>Content 2</li>
                     <li>Content 3</li>
                     <li>Content 4</li>-->
@@ -40,6 +88,13 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+jQuery(document).ready(function () {
+    Charts.m1 = {{ m1 | json | safe }};
+    Charts.m2 = {{ m2 | json | safe }};
+    Charts.m3 = {{ m3 | json | safe }};
+});
+</script>
  <!-- page specific plugins -->
       <!-- page specific plugins -->
             <!-- d3 -->
@@ -65,4 +120,5 @@
             <!--  dashbord functions -->
             <script src="{{ url('scripts/pages/dashboard.min.js') }}"></script>
             <script src="{{ url('scripts/addon/backend/index.js') }}"></script>
+            <script src="{{ url('scripts/addon/backend/charts.js') }}"></script>
 {% endblock %}
