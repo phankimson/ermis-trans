@@ -381,7 +381,7 @@ Route.post('/receipt-cash-voucher-reference', 'ReceiptCashVoucherController.refe
 Route.post('/receipt-cash-voucher-write', 'ReceiptCashGeneralController.write')
 Route.post('/receipt-cash-voucher-unwrite', 'ReceiptCashGeneralController.unwrite')
 Route.post('/receipt-cash-voucher-delete', 'ReceiptCashGeneralController.delete')
-Route.post('/receipt-cash-voucher-voucher-print', 'ReceiptCashGeneralController.prints')
+Route.post('/receipt-cash-voucher-print', 'ReceiptCashGeneralController.prints')
 
 // Payment cash General
 Route.get('/payment-cash-general', 'PaymentCashGeneralController.show')
@@ -465,6 +465,13 @@ Route.post('/payment-cash-voucher-voucher-print', 'PaymentCashGeneralController.
   Route.post('/status-goods-get', 'StatusGoodsController.get')
   Route.post('/status-goods-save', 'StatusGoodsController.save')
   Route.post('/status-goods-print', 'PosShopHomeController.prints')
+
+  Route.get('/tax-money', 'TaxMoneyController.show')
+  Route.post('/tax-money-save', 'TaxMoneyController.save')
+  Route.post('/tax-money-page', 'StatusGoodsController.page')
+  Route.post('/tax-money-filter', 'StatusGoodsController.filter')
+  Route.post('/tax-money-get', 'StatusGoodsController.get')
+  Route.post('/tax-money-print', 'PosShopHomeController.prints')
 
   Route.get('/barcode', 'PosBarcodeController.show')
   Route.get('/test', 'PosBarcodeController.test')

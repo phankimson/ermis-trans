@@ -15,7 +15,7 @@
                     <div class="uk-grid" data-uk-grid-margin="" id="form-action">
                         <div class="uk-width-medium-2-10">
                             <div class="uk-margin-small-top">
-                                <select name="field_search" id="field_search" data-md-selectize data-md-selectize-bottom>
+                                <select name="field_search" class="not_load" id="field_search" data-md-selectize data-md-selectize-bottom>
                                 <option value="code">{{ antl.get('store.voucher') }}</option>
                                 <option value="date_voucher">{{ antl.get('store.date_voucher') }}</option>
                                 <option value="name">{{ antl.get('store.name') }}</option>
@@ -27,11 +27,11 @@
                          </div>
                         <div class="uk-width-medium-2-10">
                             <label for="customer_search">{{ antl.get('action.search') }}</label>
-                            <input type="text" class="md-input" name="value_search">
+                            <input type="text" class="md-input not_load"  name="value_search">
                         </div>
                         <div class="uk-width-medium-2-10">
                             <div class="uk-margin-small-top">
-                                <select name="status_search" id="status_search" data-md-selectize multiple data-md-selectize-bottom>
+                                <select name="status_search" class="not_load" id="status_search" data-md-selectize multiple data-md-selectize-bottom>
                                     <option value="">{{ antl.get('inventory_voucher.status') }}</option>
                                     <option value="0">{{ antl.get('action.not_warehoused') }}</option>
                                     <option value="1">{{ antl.get('action.goods_in_sender') }}</option>
@@ -43,7 +43,7 @@
                          </div>
                         <div class="uk-width-medium-1-10">
                             <div class="uk-margin-top uk-text-nowrap">
-                                <input type="checkbox" name="active_search" data-md-icheck checked/>
+                                <input type="checkbox" class="not_load" name="active_search" data-md-icheck checked/>
                                 <label for="active_search" class="inline-label">{{ antl.get('action.active') }}</label>
                             </div>
                         </div>
@@ -335,8 +335,12 @@
                 <td ><input type="text" class="number-price not_null large" name="surcharge_amount" /></td>
             </tr>
             <tr>
+                <td class="row-label-medium"><label>{{ antl.get('store.money') }}</label></td>
+                <td ><input type="text" class="number-price not_null large disabled" readonly name="money" /></td>
+            </tr>
+            <tr>
                 <td><label>{{ antl.get('store.vat') }}%</label></td>
-                <td ><input type="text" class="number-vat not_null large" name="vat" /></td>
+                <td ><input type="text" class="number-vat not_null large disabled" readonly name="vat" /></td>
             </tr>
             <tr>
                 <td class="row-label-medium"><label>{{ antl.get('store.vat_amount') }}</label></td>

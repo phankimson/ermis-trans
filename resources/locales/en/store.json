@@ -43,5 +43,6 @@
   "quantity" : "Quantity",
   "fee" : "Fee",
   "vat" : "Vat",
-  "vat_amount" : "Vat amount"
+  "vat_amount" : "Vat amount",
+  "money" : "Money other"
 }

@@ -12,7 +12,7 @@ var Ermis = function () {
       jQuery.each(v, function (k, d) {
         var copy = jQuery(".uk-table tbody").find('tr:eq(0)').clone(true);
         copy.removeClass('hidden').removeClass('load');
-        copy.find('td').eq(0).text(moment(d.date_voucher, "YYYY-MM-DD").add('days', 1).format('DD/MM/YYYY'));
+        copy.find('td').eq(0).text(FormatDate(d.date_voucher));
         copy.find('td').eq(1).text(d.name);
         copy.find('td').eq(2).find('a').text(d.code);
         copy.find('td').eq(3).text(d.sender_fullname);
@@ -140,12 +140,8 @@ var Ermis = function () {
     };
 
     var initTotal = function(){
-      jQuery("input[name=fee],input[name=surcharge_amount],input[name=vat_amount]").on("blur",function(){
-        var fee = jQuery("input[name='fee']").data("kendoNumericTextBox").value();
-        var surcharge_amount = jQuery("input[name='surcharge_amount']").data("kendoNumericTextBox").value();
-        var vat_amount = ConvertNumber(jQuery("input[name=vat_amount]").val());
-        var total = fee + surcharge_amount + parseInt(vat_amount);
-        jQuery("input[name=total]").val(FormatNumber(total));
+      jQuery("input[name=fee],input[name=money],input[name=surcharge_amount],input[name=vat_amount]").on("blur",function(){
+        initCaculationVatTotal();
       })
     }
 
@@ -158,16 +154,18 @@ var Ermis = function () {
         jQuery("input[name=total_amount]").val(FormatNumber(total));
       })
     }
+    var initCaculationVatTotal = function(){
+      var fee = jQuery('input[name="fee"]').data("kendoNumericTextBox").value();
+      var surcharge_amount = jQuery('input[name="surcharge_amount"]').data("kendoNumericTextBox").value();
+      var money = jQuery('input[name="money"]').data("kendoNumericTextBox").value();
+      var vat = (surcharge_amount + money + fee) * jQuery('input[name="vat"]').data("kendoNumericTextBox").value() / 100;
+      jQuery("input[name=total]").val(FormatNumber(fee+money+surcharge_amount+vat));
+      jQuery("input[name=vat_amount]").val(FormatNumber(vat));
+    }
 
     initChangeVat = function(){
       jQuery("input[name='vat']").bind("blur",function(e){
-        var quantity = jQuery('input[name="quantity"]').data("kendoNumericTextBox").value();
-        var price = jQuery('input[name="price"]').data("kendoNumericTextBox").value();
-        var surcharge_amount = jQuery('input[name="surcharge_amount"]').data("kendoNumericTextBox").value();
-        var total = quantity * price + surcharge_amount;
-        var vat = total * jQuery('input[name="vat"]').data("kendoNumericTextBox").value() / 100
-        jQuery("input[name=vat_amount]").val(FormatNumber(vat));
-        jQuery("input[name=total]").val(FormatNumber(total+vat));
+        initCaculationVatTotal();
       })
     }
 
@@ -222,7 +220,9 @@ var Ermis = function () {
                           copy.find('td').eq(3).text(obj.sender_fullname);
                           copy.find('td').eq(4).text(obj.receiver_fullname);
                           copy.find('td').eq(5).text(obj.lot_number);
-                          copy.find('td').eq(7).text(FormatDropList(obj.transport_station_receive,'transport_station_receive'));
+                          if(obj.transport_station_receive){
+                            copy.find('td').eq(7).text(FormatDropList(obj.transport_station_receive,'transport_station_receive'));
+                          }
                           kendo.alert(result.message);
                         } else {
                            kendo.alert(result.message);

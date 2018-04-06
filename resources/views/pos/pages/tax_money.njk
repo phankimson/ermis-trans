@@ -1,0 +1,227 @@
+{% set moment = use('moment/moment') %}
+{% extends 'manage.layouts.default' %}
+
+{% block css %}
+<title>{{  shortif( inventory , inventory.name + ' - ' + company.name , antl.get('index.title') ) }}</title>
+    <link rel="stylesheet" href="{{ url('library/uniform/dist/css/default.css') }}" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="{{ url('css/addon/customize.css') }}" />
+    <link rel="stylesheet" href="{{ url('css/addon/approved.css') }}" />
+{% endblock %}
+{% block content %}
+        <div id="page_content_inner">
+
+            <div class="md-card">
+                <div class="md-card-content" >
+                    <div class="uk-grid" data-uk-grid-margin="" id="form-action">
+                        <div class="uk-width-medium-2-10">
+                            <div class="uk-margin-small-top">
+                                <select name="field_search" class="not_load" id="field_search" data-md-selectize data-md-selectize-bottom>
+                                <option value="code">{{ antl.get('store.voucher') }}</option>
+                                <option value="date_voucher">{{ antl.get('store.date_voucher') }}</option>
+                                <option value="name">{{ antl.get('store.name') }}</option>
+                                <option value="sender_fullname">{{ antl.get('return.sender') }}</option>
+                                <option value="receiver_fullname">{{ antl.get('return.receiver') }}</option>
+                                <option value="lot_number">{{ antl.get('store.lot_number') }}</option>
+                                </select>
+                            </div>
+                         </div>
+                        <div class="uk-width-medium-2-10">
+                            <label for="customer_search">{{ antl.get('action.search') }}</label>
+                            <input type="text" class="md-input not_load"  name="value_search">
+                        </div>
+                        <div class="uk-width-medium-2-10">
+                            <div class="uk-margin-small-top">
+                                <select name="status_search" class="not_load" id="status_search" data-md-selectize multiple data-md-selectize-bottom>
+                                    <option value="">{{ antl.get('inventory_voucher.status') }}</option>
+                                    <option value="0">{{ antl.get('action.not_warehoused') }}</option>
+                                    <option value="1">{{ antl.get('action.goods_in_sender') }}</option>
+                                    <option value="2">{{ antl.get('action.goods_in_vehicle') }}</option>
+                                    <option value="3">{{ antl.get('action.goods_in_receiver') }}</option>
+                                    <option value="4">{{ antl.get('action.goods_delivered') }}</option>
+                                </select>
+                            </div>
+                         </div>
+                        <div class="uk-width-medium-1-10">
+                            <div class="uk-margin-top uk-text-nowrap">
+                                <input type="checkbox" class="not_load" name="active_search" data-md-icheck checked/>
+                                <label for="active_search" class="inline-label">{{ antl.get('action.active') }}</label>
+                            </div>
+                        </div>
+                        <div class="uk-width-medium-2-10 uk-text-center">
+                            <a href="javascript:;" id="filter" class="md-btn md-btn-primary uk-margin-small-top">{{ antl.get('action.filter') }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-1-1">
+                            <div class="uk-overflow-container">
+                                <table class="uk-table uk-table-align-vertical">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ antl.get('store.date_voucher') }}</th>
+                                            <th>{{ antl.get('store.name') }}</th>
+                                            <th>{{ antl.get('store.voucher') }}</th>
+                                            <th>{{ antl.get('return.sender') }}</th>
+                                            <th>{{ antl.get('return.receiver') }}</th>
+                                            <th>{{ antl.get('store.lot_number') }}</th>
+                                            <th>{{ antl.get('store.transport_station_send') }}</th>
+                                            <th>{{ antl.get('store.transport_station_receive') }}</th>
+                                            <th>{{ antl.get('global.status') }}</th>
+                                            <th>{{ antl.get('action.active') }}</th>
+                                            <th>{{ antl.get('global.action') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="load hidden">
+                                        <td></td>
+                                        <td></td>
+                                        <td class="uk-text-large uk-text-nowrap"><a href="javascript:;"></a></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="uk-text-nowrap"></td>
+                                        <td class="uk-text-nowrap"></td>
+                                        <td class="uk-text-nowrap"><span class="uk-badge uk-badge-success"></span></td>
+                                        <td><i class="material-icons md-color-light-blue-600 md-24"></i></td>
+                                        <td class="uk-text-nowrap">
+                                            <a data-id="1" class="approved" href="javascript:;"><i class="material-icons md-24">colorize</i></a>
+                                            <a data-id="1" class="print" href="javascript:;"><i class="material-icons md-24">print</i></a>
+                                        </td>
+                                    </tr>
+                                    {% for d in data.data %}
+                                    <tr>
+                                        <td>{{ moment(d.date_voucher, "YYYY-MM-DD").format('DD/MM/YYYY') }}</td>
+                                        <td>{{d.name}}</td>
+                                        <td class="uk-text-large uk-text-nowrap"><a href="javascript:;">{{d.code}}</a></td>
+                                        <td>{{d.sender_fullname}}</td>
+                                        <td>{{d.receiver_fullname}}</td>
+                                        <td>{{d.lot_number}}</td>
+                                        <td>{{d.transport_station_send}}</td>
+                                        <td>{{d.transport_station_receive}}</td>
+                                        {% if d.status == 0 %}
+                                        <td class="uk-text-nowrap"><span class="uk-badge uk-badge-muted">{{ antl.get('action.not_warehoused') }}</span></td>
+                                        {% elseif d.status == 1 %}
+                                        <td class="uk-text-nowrap"><span class="uk-badge uk-badge-info">{{ antl.get('action.goods_in_sender') }}</span></td>
+                                        {% elseif d.status == 2 %}
+                                        <td class="uk-text-nowrap"><span class="uk-badge uk-badge-alert">{{ antl.get('action.goods_in_vehicle') }}</span></td>
+                                        {% elseif d.status == 3 %}
+                                        <td class="uk-text-nowrap"><span class="uk-badge uk-badge-info">{{ antl.get('action.goods_in_receiver') }}</span></td>
+                                        {% elseif d.status == 4 %}
+                                        <td class="uk-text-nowrap"><span class="uk-badge uk-badge-success">{{ antl.get('action.goods_delivered') }}</span></td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        {% if d.active == 1 %}
+                                        <td><i class="material-icons md-color-light-blue-600 md-24"></i></td>
+                                        {% else %}
+                                        <td></td>
+                                        {% endif %}
+                                        <td class="uk-text-nowrap">
+                                            <a data-id="{{d.id}}" class="approved" href="javascript:;"><i class="material-icons md-24">colorize</i></a>
+                                            <a data-id="{{d.id}}" class="print" href="javascript:;"><i class="material-icons md-24">print</i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                              <ul class="uk-pagination  uk-margin-medium-top uk-margin-medium-bottom" data-uk-pagination="{pages: {{data.page}} ,lblPrev : '<' ,lblNext : '>'}"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+          {% include 'pos.includes._TablePrintBill' %}
+
+
+        <!-- EDIT FORM -->
+        <div id="form-window-edit" style="display:none">
+        <ul class="uk-tab" data-uk-tab="{connect:'#tabs_anim', animation:'slide-left', swiping: false}">
+            <li class="uk-active"><a href="javascript:;">{{ antl.get('store.info') }}</a></li>
+        </ul>
+          <ul id="tabs_anim" class="uk-switcher uk-margin">
+          <li>
+          <table>
+          <tr>
+              <td class="row-label-medium"><label>{{ antl.get('surcharge.title') }}</label></td>
+              <td >
+              <select class="droplist large not_null" name="surcharge">
+                    <option readonly selected value="0">--Select--</option>
+                        {% for x in surcharge %}
+                        <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                        {% endfor %}
+                </select>
+              </td>
+          </tr>
+          <tr>
+          <td class="row-label-medium"><label>{{ antl.get('store.quantity') }}</label></td>
+          <td ><input type="text" class="decimal xmedium" name="quantity" />
+          <select class="droplist small not_null" name="unit_quantity">
+                <option readonly selected value="0">--Select--</option>
+                    {% for x in unit_quantity %}
+                    <option value="{{ x.id }}">{{ x.code }} - {{x.name}}</option>
+                    {% endfor %}
+            </select>
+            </td>
+          </tr>
+          <tr>
+              <td class="row-label-medium"><label>{{ antl.get('store.price') }}</label></td>
+              <td ><input type="text" class="number-price large" name="price" /></td>
+          </tr>
+
+          <tr>
+              <td class="row-label-medium"><label>{{ antl.get('store.fee') }}</label></td>
+              <td ><input type="text" class="number-price large" name="fee" /></td>
+          </tr>
+          <tr>
+              <td class="row-label-medium"><label>{{ antl.get('store.surcharge_amount') }}</label></td>
+              <td ><input type="text" class="number-price not_null large" name="surcharge_amount" /></td>
+          </tr>
+          <tr>
+              <td class="row-label-medium"><label>{{ antl.get('store.money') }}</label></td>
+              <td ><input type="text" class="number-price not_null large"  name="money" /></td>
+          </tr>
+          <tr>
+              <td><label>{{ antl.get('store.vat') }}%</label></td>
+              <td ><input type="text" class="number-vat not_null large"  name="vat" /></td>
+          </tr>
+          <tr>
+              <td class="row-label-medium"><label>{{ antl.get('store.vat_amount') }}</label></td>
+              <td ><input type="text" class="k-textbox convert_number not_null large"  name="vat_amount" /></td>
+          </tr>
+          <tr>
+              <td class="row-label-medium"><label>{{ antl.get('store.total_amount') }}</label></td>
+              <td ><input type="text" class="k-textbox convert_number large disabled" readonly name="total" /></td>
+          </tr>
+        </table>
+          </li>
+          </ul>
+          <div class="uk-margin" style="float : right">
+              <a href="javascript:;" class="k-button k-primary save" data-uk-tooltip title="{{ antl.get('action.save') }} (Alt+Ctrl+S)"><i class="md-18 material-icons md-color-white">save</i>{{ antl.get('action.save') }}</a>
+              <a href="javascript:;" class="k-button k-primary cancel" data-uk-tooltip title="{{ antl.get('action.cancel') }} (Alt+Ctrl+C)"><i class="md-18 material-icons md-color-white">cancel</i>{{ antl.get('action.cancel') }}</a>
+          </div>
+        </div>
+        <!-- EDIT FORM -->
+        {% endblock %}
+        {% block scripts %}
+        <script>
+        jQuery(document).ready(function () {
+            Ermis.per = JSON.parse('{{ permission | safe }}');
+            Ermis.link = "{{ key }}";
+            Ermis.room = "{{ room }}";
+        });
+        </script>
+        <script src="{{ url('library/kendoui/js/kendo.all.min.js') }}"></script>
+        <script src="{{ url('scripts/uikit.min.js') }}"></script>
+        <script src="{{ url('scripts/ukit_pagination.js') }}"></script>
+        <script src="{{ url('scripts/shortcuts.js') }}"></script>
+        <script src="{{ url('library/jquery.print/jQuery.print.js') }}"></script>
+        <script src="{{ url('scripts/addon/backend/status.js') }}"></script>
+        {% endblock %}

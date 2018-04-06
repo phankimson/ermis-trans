@@ -156,7 +156,8 @@ class PosShopHomeController{
         goods.price = data.price
         goods.fee = data.fee
         goods.surcharge_amount = data.surcharge_amount
-        goods.total_amount = (parseInt(data.fee) + parseInt(data.surcharge_amount?data.surcharge_amount:0))+parseInt(data.vat_amount)
+        goods.money = data.money
+        goods.total_amount = (parseInt(data.fee) + parseInt(data.money) + parseInt(data.surcharge_amount?data.surcharge_amount:0))+parseInt(data.vat_amount)
         goods.note = data.note
         goods.sender_fullname = data.sender_fullname
         goods.sender_phone = data.sender_phone

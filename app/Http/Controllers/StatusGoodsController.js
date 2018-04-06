@@ -45,6 +45,8 @@ class StatusGoodsController{
       const show = yield response.view('pos/pages/status_goods', {key : this.key ,title: title , unit : unit.toJSON() , unit_quantity : unit_quantity.toJSON() , data: data.toJSON(),sales_staff : sale_staff.toJSON(),city : city.toJSON(), subject : subject.toJSON() , surcharge : surcharge.toJSON() ,payment_method : payment_method.toJSON(),stock : stock.toJSON() })  // EDIT
       response.send(show)
   }
+
+
   * page (request, response){
     try{
       const page = JSON.parse(request.input('data'))
@@ -169,6 +171,7 @@ class StatusGoodsController{
     goods.price = data.price
     goods.fee = data.fee
     goods.surcharge_amount = data.surcharge_amount
+    goods.money = data.money
     goods.vat = data.vat
     goods.vat_amount = data.vat_amount
     goods.total_amount = data.total
@@ -195,7 +198,7 @@ class StatusGoodsController{
    general.subject = data.subject
    general.subject_key = this.subject_key
    general.total_number = data.quantity
-   general.total_amount = data.total_amount
+   general.total_amount = data.total
     yield general.save()
 
 

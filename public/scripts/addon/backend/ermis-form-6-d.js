@@ -14,7 +14,7 @@
     var myWindow4 = jQuery("#form-window-advance-teacher");
     var $kWindow4 = '';
     var dataSource = '';
-    var ds = '';
+    var ds = ''; var reference_id = '';
     var a = []; var b; var data = [];
     var status = 0;
     var voucher = ''; var storedarrId = [];
@@ -168,7 +168,6 @@
                     obj[col.field] = jQuery('input[name="' + col.field + '"]:checked').val();
                 }
             });
-
             var postdata = { data: JSON.stringify(obj) };
             RequestURLWaiting(Ermis.link+'-get', 'json', postdata, function (result) {
                 if (result.status === true) {
@@ -176,8 +175,8 @@
                     var ds = new kendo.data.DataSource({ data: result.data });
                     grid.setDataSource(ds);
                     grid.dataSource.page(1);
-                }else{
-                  kendo.alert(result.message);
+                }else {
+                    kendo.alert(result.message);
                 }
             }, true);
         });
@@ -231,7 +230,7 @@
         //grid.table.on("click", ".k-checkbox" , selectRow);
         $('#header-chb').change(function(ev){
             var checked = ev.target.checked;
-            $('#header-chb').find('.k-checkbox').each(function (idx, item) {
+            $kGridReference.find('.k-checkbox').not("#header-chb-b").each(function (idx, item) {
                 if(checked){
                     if(!$(item).closest('tr').is('.k-state-selected')){
                         $(item).click();
@@ -246,16 +245,24 @@
         });
 
         $(".choose_reference").bind("click", function () {
-            var checked = [];
-            for(var i in checkedIds){
-                if(checkedIds[i]){
-                    checked.push(i);
+            var checked = []; var vo = [];
+            for(var i of checkedData){
+              var grid = $kGrid.data("kendoGrid");
+              var dataItem  = grid.dataSource.get(i.id);
+              if(dataItem){
+                    reference_id = i.voucher+',';
+                    vo.push(i.id)
+              }else{
+                //i.quantity = 1 ;
+                i.vat = 0;
+                i.amount = i.total_amount;
+                grid.dataSource.insert(0 , i);
                 }
             }
-
-            alert(checked);
+            $kWindow2.close();
+            jQuery('input[name=reference]').val(vo);
         });
-        var checkedIds = {};
+        var checkedData = [];
 
         //on click of the checkbox:
         function selectRow() {
@@ -263,15 +270,15 @@
                 row = $(this).closest("tr"),
                 grid = $kGridReference.data("kendoGrid"),
                 dataItem = grid.dataItem(row);
-                checkedIds[dataItem.id] = checked;
-
-            if (checked) {
-                //-select the row
-                row.addClass("k-state-selected");
-            } else {
-                //-remove selection
-                row.removeClass("k-state-selected");
-            }
+                if (checked) {
+                   checkedData.push(dataItem)
+                    //-select the row
+                    row.addClass("k-state-selected");
+                } else {
+                    checkedData = checkedData.filter(x => x.id != dataItem.id)
+                    //-remove selection
+                    row.removeClass("k-state-selected");
+                }
         }
 
     };
@@ -549,6 +556,7 @@
         jQuery(".droplist").addClass('disabled');
         jQuery('input:checkbox').parent().addClass('disabled');
         jQuery('.date-picker').addClass('disabled');
+        reference_id = '';
         if (flag === 1) {//ADD
             jQuery('#add-top-menu-detail').show();
             localStorage.removeItem("dataId");
@@ -568,7 +576,7 @@
             jQuery(".droplist").removeClass('disabled');
             jQuery('input:checkbox').parent().removeClass('disabled');
             jQuery('.date-picker,.month-picker').removeClass('disabled');
-            jQuery('input[name!="__RequestVerificationToken"]').not('[type=radio]').not(".date-picker,.month-picker,.voucher").val("");
+            jQuery('input[name!="__RequestVerificationToken"]').not('[type=radio]').not(".date-picker,#start,#end,.month-picker,.voucher").val("");
             jQuery(".date-picker").val(kendo.toString(kendo.parseDate(new Date()), 'dd/MM/yyyy'));
             jQuery(".voucher").val(voucher);
             $kGrid.data('kendoGrid').dataSource.data([]);
@@ -620,7 +628,7 @@
                 jQuery('.print,.delete,.edit').addClass('disabled');
                 jQuery('.print,.delete,.edit').off('click');
             }
-            jQuery('input[name!="__RequestVerificationToken"]').not('[type=radio]').not(".date-picker,.month-picker,.voucher").val("");
+            jQuery('input[name!="__RequestVerificationToken"]').not('[type=radio]').not(".date-picker,#start,#end,.month-picker,.voucher").val("");
             $kGrid.data('kendoGrid').dataSource.data([]);
             $kGrid.addClass('disabled');
         } else if (flag === 5) { //BIND
@@ -905,9 +913,11 @@
     };
     var initFilterForm = function () {
         $kWindow.open();
+        jQuery('#search_data').click();
     };
     var initReferenceForm = function () {
         $kWindow2.open();
+        jQuery('#search_reference').click();
     };
     var initEmployeeForm = function () {
         $kWindow3.open();
@@ -925,8 +935,8 @@
                     var ds = new kendo.data.DataSource({ data: result.data, pageSize: 6, schema: { model: { fields: Ermis.field_advance_employee } } });
                     grid.setDataSource(ds);
                     grid.dataSource.page(1);
-                }else{
-                  kendo.alert(result.message);
+                }else {
+                    kendo.alert(result.message);
                 }
             }, true);
         });
@@ -942,8 +952,8 @@
                     var ds = new kendo.data.DataSource({ data: result.data, pageSize: 6, schema: { model: { fields: Ermis.field_advance_teacher } } });
                     grid.setDataSource(ds);
                     grid.dataSource.page(1);
-                }else{
-                  kendo.alert(result.message);
+                }else {
+                    kendo.alert(result.message);
                 }
             }, true);
         });
@@ -985,17 +995,17 @@
                     obj[col.field] = jQuery('input[name="' + col.field + '"]:checked').val();
                 }
             });
-
+            obj['subject'] = jQuery('input[name=subject]').val();
             var postdata = { data:JSON.stringify(obj) };
 
-            RequestURLWaiting(Ermis.link+'-GetReference', 'json', postdata, function (result) {
+            RequestURLWaiting(Ermis.link+'-reference', 'json', postdata, function (result) {
                 if (result.status === true) {
                     var grid = $kGridReference.data("kendoGrid");
                     var ds = new kendo.data.DataSource({ data: result.data, pageSize: 6, schema: { model: { fields: Ermis.field_reference } } });
                     grid.setDataSource(ds);
                     grid.dataSource.page(1);
-                }else{
-                  kendo.alert(result.message);
+                }else {
+                    kendo.alert(result.message);
                 }
             }, true);
         });
@@ -1050,10 +1060,14 @@
                 if (confirmed) {
                     var obj = {}; var crit = false;
                     obj.id = localStorage.dataId;
+                    obj.reference_id = reference_id;
                     obj.detail = $kGrid.data("kendoGrid").dataSource.data();
                     obj.type = jQuery('#tabstrip').find('.k-state-active').attr("data-search");
                     obj.total_number = ConvertNumber(jQuery('#quantity_total').html());
-                    obj.total_amount = ConvertNumber(jQuery('#amount_total').html());
+                    obj.total_amount = ConvertNumber(jQuery('#total_amount').html());
+                    obj.amount = ConvertNumber(jQuery('#amount').html());
+                    obj.vat_amount = ConvertNumber(jQuery('#vat_amount').html());
+                    obj.money_list = ConvertNumber(jQuery('#money_list').html());
                     obj.advance_employee = jQuery("input[name='advance_employee']").val();
                     obj.advance_teacher = jQuery("input[name='advance_teacher']").val();
                     obj.subject_key = jQuery('input[name="filter_type"]:checked').val();
@@ -1162,8 +1176,8 @@
                             if (storedarrId.length > 0) {
                                 storedarrId.length = storedarrId.length - 1;
                             }
-                        }else{
-                          kendo.alert(result.message);
+                        }else {
+                            kendo.alert(result.message);
                         }
                     }, true);
                     if (storedarrId.length > 0) {
@@ -1228,13 +1242,11 @@
                                 var decoded = $("<div/>").html(result.print_content).text();
                                 if (result.detail_content) {
                                     decoded = decoded.replace('<tr class="detail_content"></tr>', result.detail_content);
-                                }else if(result.section_content){
-                                    decoded = decoded.replace('<div class="section_content"></div>', result.section_content);
                                 }
                                 PrintForm(jQuery('#print'), decoded);
                                 jQuery('#print').html("");
-                            }else{
-                              kendo.alert(result.message);
+                            }else {
+                                kendo.alert(result.message);
                             }
                         }, true);
 
@@ -1342,27 +1354,25 @@
     };
 
     calculatePriceAggregate = function () {
-
         var grid = $kGrid.data("kendoGrid");
         var data = grid.dataSource.data();
         var total = 0;
         for (var i = 0; i < data.length; i++) {
-          var check = data[i].price.toString().indexOf(",");
-          if (data[i].price !== 0 && check !== -1) {
-              data[i].price = data[i].price.replace(/\,/g, "");
-          }
-          var check = data[i].purchase_price.toString().indexOf(",");
-          if (data[i].purchase_price !== 0 && check !== -1) {
-              data[i].purchase_price = data[i].purchase_price.replace(/\,/g, "");
-          }
-          if (data[i].quantity > 0 && data[i].price > 0) {
+            if (data[i].quantity > 0 && data[i].price > 0) {
+                var check = data[i].price.toString().indexOf(",");
+                if (data[i].price !== 0 && check !== -1) {
+                    data[i].price = data[i].price.replace(/\,/g, "");
+                }
                 total += data[i].quantity * data[i].price;
             }else if(data[i].quantity > 0 && data[i].purchase_price > 0){
+              var check = data[i].purchase_price.toString().indexOf(",");
+              if (data[i].purchase_price !== 0 && check !== -1) {
+                  data[i].purchase_price = data[i].purchase_price.replace(/\,/g, "");
+              }
                 total += data[i].quantity * data[i].purchase_price;
             }
         }
-            return kendo.toString(total, 'n0');
-
+        return kendo.toString(total, 'n0');
     };
 
     calculatePriceBind = function (data) {
@@ -1388,6 +1398,56 @@
         }
         amount = quantity * price;
         return kendo.toString(amount, 'n0');
+    };
+
+    calculateAmountVAT = function (amount, vat) {
+        var check = amount.toString().indexOf(",");
+        if (amount !== 0 && check !== -1) {
+            amount = amount.replace(/\,/g, "");
+        }
+        var vat_amount = amount * vat /100 ;
+        return kendo.toString(vat_amount, 'n0');
+    };
+
+    calculateAmountTotal = function (amount, vat , money_list) {
+        var check = amount.toString().indexOf(",");
+        if (amount !== 0 && check !== -1) {
+            amount = amount.replace(/\,/g, "");
+        }
+        var total = amount +(amount * vat /100 ) + money_list;
+        return kendo.toString(total, 'n0');
+    };
+
+    calculateAmountVATAggregate = function () {
+        var grid = $kGrid.data("kendoGrid");
+        var data = grid.dataSource.data();
+        var total = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].vat > 0 && data[i].amount > 0) {
+                var check = data[i].amount.toString().indexOf(",");
+                if (data[i].amount !== 0 && check !== -1) {
+                    data[i].amount = data[i].amount.replace(/\,/g, "");
+                }
+                total += data[i].vat * data[i].amount /100;
+            }
+        }
+        return kendo.toString(total, 'n0');
+    };
+
+    calculateAmountTotalAggregate = function () {
+        var grid = $kGrid.data("kendoGrid");
+        var data = grid.dataSource.data();
+        var total = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].vat > 0 || data[i].amount > 0) {
+                var check = data[i].amount.toString().indexOf(",");
+                if (data[i].amount !== 0 && check !== -1) {
+                    data[i].amount = data[i].amount.replace(/\,/g, "");
+                }
+                total += data[i].amount + (data[i].vat * data[i].amount /100) + data[i].money_list;
+            }
+        }
+        return kendo.toString(total, 'n0');
     };
 
     Onchange = function (e) {
@@ -1503,7 +1563,7 @@
        a[b] = data;
        if (ID > 0 || ID != "") {
            var result = $.grep(eval(a[b]), function (n, i) {
-               return n.id === ID.toString();
+               return n.id === ID;
            });
            if (result.length > 0) {
                value = result[0].code;

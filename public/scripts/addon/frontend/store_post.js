@@ -115,15 +115,18 @@ var Ermis = function () {
     })
   }
 
+  initCaculationVatTotal = function(){
+    var fee = jQuery('input[name="fee"]').data("kendoNumericTextBox").value();
+    var surcharge_amount = jQuery('input[name="surcharge_amount"]').data("kendoNumericTextBox").value();
+    var money = jQuery('input[name="money"]').data("kendoNumericTextBox").value();
+    var vat = (surcharge_amount + fee + money) * jQuery('input[name="vat"]').data("kendoNumericTextBox").value() / 100;
+    jQuery("input[name=total]").val(FormatNumber(fee+ money+surcharge_amount+vat));
+    jQuery("input[name=vat_amount]").val(FormatNumber(vat));
+  }
+
   initChangeVat = function(){
     jQuery("input[name='vat']").bind("blur",function(e){
-      var quantity = jQuery('input[name="quantity"]').data("kendoNumericTextBox").value();
-      var price = jQuery('input[name="price"]').data("kendoNumericTextBox").value();
-      var surcharge_amount = jQuery('input[name="surcharge_amount"]').data("kendoNumericTextBox").value();
-      var total = quantity * price + surcharge_amount;
-      var vat = total * jQuery('input[name="vat"]').data("kendoNumericTextBox").value() / 100
-      jQuery("input[name=vat_amount]").val(FormatNumber(vat));
-      jQuery("input[name=total]").val(FormatNumber(total+vat));
+      initCaculationVatTotal();
     })
   }
 
@@ -238,12 +241,8 @@ var Ermis = function () {
   //  });
 //  }
   var initTotal = function(){
-    jQuery("input[name=fee],input[name=surcharge_amount],input[name=vat_amount]").on("blur",function(){
-      var fee = jQuery("input[name='fee']").data("kendoNumericTextBox").value();
-      var surcharge_amount = jQuery("input[name='surcharge_amount']").data("kendoNumericTextBox").value();
-      var vat_amount = ConvertNumber(jQuery("input[name=vat_amount]").val());
-      var total = fee + surcharge_amount + parseInt(vat_amount);
-      jQuery("input[name=total]").val(FormatNumber(total));
+    jQuery("input[name=fee],input[name=surcharge_amount],input[name=money],input[name=vat_amount]").on("blur",function(){
+    initCaculationVatTotal();
     })
   }
 

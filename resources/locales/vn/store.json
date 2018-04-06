@@ -43,5 +43,6 @@
   "quantity" : "Số lượng",
   "fee" : "Cước phí",
   "vat" : "Thuế",
-  "vat_amount" : "Tổng tiền thuế"
+  "vat_amount" : "Tổng tiền thuế",
+  "money" : "Tiền kê"
 }
