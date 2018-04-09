@@ -38,7 +38,7 @@ class PaymentCashVoucherController{
       try {
       const data = JSON.parse(request.input('data'))
       const arr  = yield General.query().where('pos_general.type', 3)
-      .where('pos_general.subject_key','customer')
+      .where('pos_general.subject_key','suplier')
       .where('pos_general.subject',data.subject)
       .innerJoin('customer','customer.id','pos_general.subject')
       .where('pos_general.reference_by',0)

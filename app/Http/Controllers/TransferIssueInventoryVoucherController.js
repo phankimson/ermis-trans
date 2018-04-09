@@ -171,8 +171,8 @@ class TransferIssueInventoryVoucherController{
                  }
                  //Lấy giá trị subject
                  const trs = yield Transport.findBy('id',data.transport)
-                 if(trs.suplier){
-                   general.subject = trs.subject
+                 if(trs){
+                   general.subject = trs.suplier
                    general.subject_key = 'suplier'
                  }
                   general.inventory = inventory

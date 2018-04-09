@@ -58,8 +58,8 @@ class ReportDetailDebtSuplierController{
      })
 
      for(var d of detail.toJSON()){
-       var a = (d.type == 1)? d.total_amount : 0
-       var b = (d.type == 7)? d.total_amount : 0
+       var a = (d.type == 3)? d.total_amount : 0
+       var b = (d.type == 8)? d.total_amount : 0
        // Số đầu kỳ
          arr.push({
            id : d.id,

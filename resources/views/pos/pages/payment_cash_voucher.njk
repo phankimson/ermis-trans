@@ -181,8 +181,8 @@
                                     {"field" : "name","title" :"{{ antl.get('inventory_voucher.name_subject') }}" },
                                     {"field" : "address","title" :"{{ antl.get('inventory_voucher.address') }}" }]
 
-            Ermis.columns_reference = [{title: 'Select All',headerTemplate: '<input type="checkbox" id="header-chb" class="k-checkbox"><label class="k-checkbox-label" for="header-chb"></label>',template: function(dataItem){return '<input type="checkbox" id="${dataItem.id}" class="k-checkbox"><label class="k-checkbox-label" for="${dataItem.ProductID}"></label>'},width: 80},
-                                                    {"field" : "date_voucher","title" : "{{ antl.get('inventory_voucher.date_voucher') }}" },
+            Ermis.columns_reference = [{title: 'Select All',headerTemplate: '<input type="checkbox" id="header-chb" class="k-checkbox"><label class="k-checkbox-label" for="header-chb"></label>',template: function(dataItem){return '<input type="checkbox" id="d-'+dataItem.id+'" class="k-checkbox"><label class="k-checkbox-label" for="d-'+dataItem.id+'"></label>'},width: 80},
+                                                    {"field" : "date_voucher","title" : "{{ antl.get('inventory_voucher.date_voucher') }}"  ,template: '#= FormatDate(date_voucher)#'},
                                                     {"field" : "voucher","title" : "{{ antl.get('inventory_voucher.voucher') }}" },
                                                     {"field" : "description","title" : "{{ antl.get('inventory_voucher.description') }}" },
                                                     {"field" : "subject","title" :  "{{ antl.get('inventory_voucher.subject') }}" } ]
