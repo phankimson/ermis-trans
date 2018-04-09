@@ -318,7 +318,7 @@ var Ermis = function () {
                $kprint.find('.receiver_transport_code').text(result.data.receiver_transport_code);
               $kprint.find('.name').text(result.data.name);
               $kprint.find('.unit_quantity').text(result.data.unit_quantity);
-              $kprint.find('.quantity').text(result.data.quantity);
+              $kprint.find('.quantity').text(FormatNumber(result.data.quantity));
               $kprint.find('.price').text(FormatNumber(result.data.price));
               $kprint.find('.fee').text(FormatNumber(result.data.fee));
               $kprint.find('.unit').text(result.data.unit);
