@@ -367,6 +367,7 @@ var Ermis = function () {
            }else{
              $kprint.find('.company_name').text(result.data.sender_fullname);
            }
+            $kprint.find('.sender_transport_code').text(result.data.sender_transport_code);
             $kprint.find('.sender_fullname').text(result.data.sender_fullname);
             $kprint.find('.sender_company').text(result.data.sender_company);
             $kprint.find('.sender_phone').text(result.data.sender_phone);
@@ -378,6 +379,7 @@ var Ermis = function () {
             $kprint.find('.receiver_email').text(result.data.receiver_email);
             $kprint.find('.receiver_address').text(result.data.receiver_address);
             $kprint.find('.receiver_city').text(FormatDropList(result.data.receiver_city,'receiver_city'));
+            $kprint.find('.receiver_transport_code').text(result.data.receiver_transport_code);
             $kprint.find('.name').text(result.data.name);
             $kprint.find('.unit_quantity').text(result.data.unit_quantity);
             $kprint.find('.quantity').text(result.data.quantity);

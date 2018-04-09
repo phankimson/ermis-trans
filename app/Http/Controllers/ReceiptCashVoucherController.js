@@ -166,11 +166,7 @@ class ReceiptCashVoucherController{
                     }
                     detail.general_id = general.id
                     detail.description = d.description
-                    detail.amount = d.amount
-                    detail.vat = d.vat
-                    detail.vat_amount = d.amount * d.vat /100
-                    detail.money_list = d.money_list
-                    detail.total_amount = d.amount + (d.amount * d.vat /100) + d.money_list
+                    detail.total_amount = d.amount
                     detail.invoice = d.invoice
                     detail.lot_number = d.lot_number
                     detail.order = d.order
@@ -212,7 +208,7 @@ class ReceiptCashVoucherController{
             response.json({ status: false  , message: Antl.formatMessage('messages.update_fail')})
             }
         } catch (e) {
-        response.json({ status: false , message: Antl.formatMessage('messages.update_error')})
+        response.json({ status: false , message: Antl.formatMessage('messages.update_error') + ' ' +e.message})
         }
     }
     * bind (request, response){

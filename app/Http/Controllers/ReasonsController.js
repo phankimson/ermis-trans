@@ -10,7 +10,7 @@ class ReasonsController{
   constructor () {
       this.type = ""  // EDIT
       this.key = "reasons"  // EDIT
-      this.menu = "pos_reasons"  // EDIT
+      this.menu = "trans_reasons"  // EDIT
       this.download = "Reasons.xlsx"  // EDIT
       this.room = "reasons"  // EDIT
     }

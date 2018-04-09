@@ -16,7 +16,7 @@ class PosBarcodeController{
   }
   * test (request, response){
       const title = Antl.formatMessage('barcode.title')  // EDIT
-      const show = yield response.view('pos/pages/test2')  // EDIT
+      const show = yield response.view('pos/pages/test3')  // EDIT
       response.send(show)
   }
 }

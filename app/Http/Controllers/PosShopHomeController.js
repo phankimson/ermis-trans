@@ -157,7 +157,7 @@ class PosShopHomeController{
         goods.fee = data.fee
         goods.surcharge_amount = data.surcharge_amount
         goods.money = data.money
-        goods.total_amount = (parseInt(data.fee) + parseInt(data.money) + parseInt(data.surcharge_amount?data.surcharge_amount:0))+parseInt(data.vat_amount)
+        goods.total_amount = (parseInt(data.fee) + parseInt(data.money?data.money:0) + parseInt(data.surcharge_amount?data.surcharge_amount:0))+parseInt(data.vat_amount)
         goods.note = data.note
         goods.sender_fullname = data.sender_fullname
         goods.sender_phone = data.sender_phone
@@ -288,8 +288,10 @@ class PosShopHomeController{
           .leftJoin('unit','unit.id','goods.unit')
           .leftJoin('unit as u','u.id','goods.unit_quantity')
           .leftJoin('payment_method','payment_method.id','payment.type')
+          .innerJoin('inventory as in1','in1.id','goods.transport_station_send')
+          .leftJoin('inventory as in2','in2.id','goods.transport_station_receive')
           .where('goods.id',data)
-          .select('goods.*','customer.name as company_name','customer.address as company_address','sales_staff.name as sale_staff','users.fullname as user_name','unit.name as unit','payment_method.name as payment_method','u.name as unit_quantity')
+          .select('goods.*','customer.name as company_name','customer.address as company_address','sales_staff.name as sale_staff','users.fullname as user_name','unit.name as unit','payment_method.name as payment_method','u.name as unit_quantity','in1.name as sender_transport_code','in2.name as receiver_transport_code')
           .first()
           arr.print = arr.print + 1
           yield arr.save()

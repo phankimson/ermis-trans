@@ -202,7 +202,7 @@
             Ermis.field = {
                 detail : {field :"detail" ,defaultValue: 0},
                 reasons : { field : "reasons",type:"number"},
-                total_amount : {field : "total_amount",type:"number" ,editable: false, validation: { min: 0, required: true }},
+                total_amount : {field : "total_amount",type:"number" , validation: { min: 0, required: true }},
             };
             Ermis.aggregate = [ { field: "description", aggregate: "count" },
                                 { field: "total_amount", aggregate: "sum" }];
