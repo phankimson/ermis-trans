@@ -216,6 +216,7 @@ var Ermis = function () {
                         if (result.status === true) {
                           $kWindow1.close();
                           var copy = jQuery(".approved[data-id='"+dataId+"']").parents("tr").eq(0);
+                          copy.find('td').eq(0).text(FormatDate(obj.date_voucher));
                           copy.find('td').eq(1).text(obj.name);
                           copy.find('td').eq(3).text(obj.sender_fullname);
                           copy.find('td').eq(4).text(obj.receiver_fullname);

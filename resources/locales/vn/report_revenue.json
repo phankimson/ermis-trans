@@ -2,6 +2,8 @@
     "title": "Báo cáo doanh thu",
     "revenue" : "Doanh thu",
     "code_customer" : "Mã khách hàng",
+    "code_suplier" : "Mã nhà cung cấp",
+    "transport" : "Vận tải",
     "cost" : "Giá vốn",
     "profit" : "Doanh thu",
     "sale_staff" : "Nhân viên sale"

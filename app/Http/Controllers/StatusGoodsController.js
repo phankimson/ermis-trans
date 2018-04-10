@@ -192,8 +192,13 @@ class StatusGoodsController{
     goods.status = status
     yield goods.save()
 
-   const detail = yield PosDetail.query().where('id',data.id).first()
+   const detail = yield PosDetail.query()
+   .innerJoin('pos_general','pos_general.id','pos_detail.general')
+   .where('pos_general.type',1)
+   .where('pos_detail.item_id',data.id).first()
+
    const general = yield PosGeneral.query().where('id',detail.general).first()
+   general.date_voucher = moment(data.date_voucher, 'DD-MM-YYYY').format('YYYY-MM-DD')
    general.traders = data.sender_fullname
    general.subject = data.subject
    general.subject_key = this.subject_key

@@ -204,9 +204,6 @@
                 total_amount : {field : "total_amount",type:"number" , validation: { min: 0, required: true }},
             };
             Ermis.aggregate = [ { field: "description", aggregate: "count" },
-                                { field: "amount", aggregate: "sum" } ,
-                                { field: "vat_amount", aggregate: "sum" },
-                                { field: "money_list", aggregate: "sum" },
                                 { field: "total_amount", aggregate: "sum" }];
             Ermis.voucher  =  {{ voucher | json | safe }};
         });

@@ -1065,11 +1065,6 @@ var Ermis = function () {
                     obj.type = jQuery('#tabstrip').find('.k-state-active').attr("data-search");
                     obj.total_number = ConvertNumber(jQuery('#quantity_total').html());
                     obj.total_amount = ConvertNumber(jQuery('#total_amount').html());
-                    obj.amount = ConvertNumber(jQuery('#amount').html());
-                    obj.vat_amount = ConvertNumber(jQuery('#vat_amount').html());
-                    obj.money_list = ConvertNumber(jQuery('#money_list').html());
-                    obj.advance_employee = jQuery("input[name='advance_employee']").val();
-                    obj.advance_teacher = jQuery("input[name='advance_teacher']").val();
                     obj.subject_key = jQuery('input[name="filter_type"]:checked').val();
                     jQuery.each(data.columns, function (k, col) {
                         if (col.null === true && !jQuery('input[name="' + col.field + '"]').val()) {

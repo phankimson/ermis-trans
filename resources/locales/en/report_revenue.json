@@ -2,6 +2,8 @@
     "title": "Report revenue",
     "revenue" : "Revenue",
     "code_customer" : "Code customer",
+    "code_suplier" : "Code suplier",
+    "transport" : "Transport",
     "cost" : "cost",
     "profit" : "profit",
     "sale_staff" : "Sale staff"

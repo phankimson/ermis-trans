@@ -193,6 +193,7 @@ class TransferIssueInventoryVoucherController{
                   general.status = status
                   general.active = 1
                   yield general.save()
+                  var revenue = 0
                   for(var d of data.detail){
                     var detail = []
                     if(d.detail){
@@ -211,6 +212,8 @@ class TransferIssueInventoryVoucherController{
                     yield rg.save()
                     //
 
+                    revenue += parseInt(goods.total_amount)
+
                     detail.general = general.id
                     detail.item_id = d.item_id
                     detail.name = d.name
@@ -218,11 +221,16 @@ class TransferIssueInventoryVoucherController{
                     detail.code = d.code
                     detail.quantity = d.quantity
                     detail.lot_number = d.lot_number
+                    detail.revenue = goods.total_amount
                     detail.status = status
                     detail.active = 1
                     yield detail.save()
                     removeId.push(detail.id)
                   }
+
+                  general.revenue = revenue
+                  yield general.save()
+
                   var remove = yield Detail.query().where("general",general.id).whereNotIn('id',removeId).fetch()
                   for(var r of remove.toJSON()){
                     const r_detail = yield Detail.find(r.id)
