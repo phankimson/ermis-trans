@@ -229,6 +229,7 @@ class TransferIssueInventoryVoucherController{
                   }
 
                   general.revenue = revenue
+                  general.profit = revenue - general.total_amount
                   yield general.save()
 
                   var remove = yield Detail.query().where("general",general.id).whereNotIn('id',removeId).fetch()

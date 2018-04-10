@@ -39,7 +39,7 @@ class ReportTransportRevenueController{
         .TypeWhere('pos_general.active',data.active)
         .select('suplier.code as code_suplier','transport.code as transport')
         .groupBy('pos_general.transport')
-        .sum('pos_general.total_amount as cost','pos_general.revenue as revenue')
+        .sum('pos_general.total_amount as cost').sum('pos_general.revenue as revenue').sum('pos_general.profit as profit')
         .fetch()
         response.json({ status: true , data : arr.toJSON()})
       }catch(e){
