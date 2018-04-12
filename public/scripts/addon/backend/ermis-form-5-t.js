@@ -85,11 +85,11 @@
                     jQuery.each(source, function (e, v) {
                         arrId[e] = v.id;
                         if (v.id === selectedItem.id) {
-                            localStorage.current = e;
+                            sessionStorage.current = e;
                         }
                     });
-                    localStorage.arrId =  JSON.stringify(arrId);
-                    localStorage.dataId = selectedItem.id;
+                    sessionStorage.arrId =  JSON.stringify(arrId);
+                    sessionStorage.dataId = selectedItem.id;
                     window.location = Ermis.action.new;
                 } else {
                     kendo.alert(transText.please_select_line_view);
