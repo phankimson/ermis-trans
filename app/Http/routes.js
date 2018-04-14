@@ -445,6 +445,9 @@ Route.post('/payment-cash-voucher-voucher-print', 'PaymentCashGeneralController.
   // Report Transport
   Route.get('/report-revenue-transport', 'ReportTransportRevenueController.show')
   Route.post('/report-revenue-transport-get', 'ReportTransportRevenueController.get')
+  // Report Area
+  Route.get('/report-revenue-customer', 'ReportRevenueCustomerController.show')
+  Route.post('/report-revenue-customer-get', 'ReportRevenueCustomerController.get')
 
   // Report Area
   Route.get('/report-list-transport', 'ReportListTransportController.show')
