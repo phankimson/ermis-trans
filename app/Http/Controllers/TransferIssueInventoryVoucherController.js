@@ -238,6 +238,7 @@ class TransferIssueInventoryVoucherController{
 
                     const goods = yield Goods.find(r_detail.item_id)
                     goods.inventory = goods.transport_station_send
+                    goods.status = 1
                     yield goods.save()
 
                     yield r_detail.delete()

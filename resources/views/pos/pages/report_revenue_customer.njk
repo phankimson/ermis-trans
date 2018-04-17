@@ -92,19 +92,24 @@
                        data-show-columns="true">
                     <thead>
                     <tr>
-                      <th data-formatter="runningFormatter" >#</th>
-                      <th data-field="date_voucher" data-formatter="DateFormatter" data-sortable="true">{{ antl.get('inventory_voucher.date_voucher') }}</th>
-                      <th data-field="company_name" data-sortable="true">{{ antl.get('report_revenue.company_name') }}</th>
-                      <th data-field="transport_code" data-sortable="true" >{{ antl.get('store.transport_code') }}</th>
-                      <th data-field="quantity" data-sortable="true" >{{ antl.get('store.quantity') }}</th>
-                      <th data-field="price" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.price') }}</th>
-                      <th data-field="surcharge_amount" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.surcharge_amount') }}</th>
-                      <th data-field="surcharge" data-sortable="true">{{ antl.get('surcharge.title') }}</th>
-                      <th data-field="total_amount" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.total_amount') }}</th>
-                      <th data-field="total_amount" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.total_amount') }}</th>
-                        </tr>
-                        </thead>
-                    </table>
+                          <th data-formatter="runningFormatter" >#</th>
+                          <th data-field="date_voucher" data-formatter="DateFormatter" data-sortable="true">{{ antl.get('inventory_voucher.date_voucher') }}</th>
+                          <th data-field="code" data-sortable="true">{{ antl.get('report_revenue.voucher') }}</th>
+                          <th data-field="company_name" data-sortable="true">{{ antl.get('report_revenue.company_name') }}</th>
+                          <th data-field="transport_code" data-sortable="true" >{{ antl.get('report_revenue.transport_code') }}</th>
+                          <th data-field="quantity" data-sortable="true" >{{ antl.get('store.quantity') }}</th>
+                          <th data-field="price" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.price') }}</th>
+                          <th data-field="surcharge_amount" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.surcharge_amount') }}</th>
+                          <th data-field="surcharge" data-sortable="true">{{ antl.get('surcharge.title') }}</th>
+                          <th data-field="total_amount" data-sortable="true" data-footer-formatter="sumFormatter" data-formatter="priceFomatter">{{ antl.get('store.total_amount') }}</th>
+                          <th data-field="invoice" data-sortable="true">{{ antl.get('report_revenue.invoice') }}</th>
+                          <th data-field="already_collected" data-sortable="true"  data-footer-formatter="sumFormatter"  data-formatter="priceFomatter">{{ antl.get('report_revenue.already_collected') }}</th>
+                          <th data-field="suplier" data-sortable="true">{{ antl.get('report_revenue.suplier') }}</th>
+                          <th data-field="name" data-sortable="true">{{ antl.get('store.name') }}</th>
+                          <th data-field="sale_staff" data-sortable="true">{{ antl.get('report_revenue.sale_staff') }}</th>
+                    </tr>
+                  </thead>
+                </table>
                 </div>
             </div>
         </div>
@@ -117,20 +122,30 @@
         Ermis.link = "{{ key }}";
         Ermis.room = "{{ room }}";
             Ermis.field = {
-                revenue :   {type:"number"},
-                cost:    {type:"number" },
-                profit:    {type:"number" },
+                price :   {type:"number"},
+                surcharge_amount:    {type:"number" },
+                total_amount:    {type:"number" },
             };
-            Ermis.columns    =   [{ "field" : "code_customer","title" :"{{ antl.get('report_revenue.code_customer') }}" ,"width" : "150px",aggregates: ['count'], footerTemplate: "<p>Total Count: #=count#</p>"},
-                                  { "field" : "revenue","title" :"{{ antl.get('report_revenue.revenue') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
-                                  { "field" : "cost","title" :"{{ antl.get('report_revenue.cost') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
-                                  { "field" : "profit","title" :"{{ antl.get('report_revenue.profit') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 ,footerTemplate: "#=FormatNumber(sum)#" },
+            Ermis.columns    =   [ { "field" : "date_voucher","title" :"{{ antl.get('store.date_voucher') }}" ,"width" : "150px" , template : "#=FormatDate(date_voucher) #"},
+                                  { "field" : "code","title" :"{{ antl.get('store.voucher') }}" ,"width" : "150px"},
+                                  { "field" : "company_name","title" :"{{ antl.get('report_revenue.company_name') }}" ,"width" : "150px",aggregates: ['count'], footerTemplate: "<p>Total Count: #=count#</p>"},
+                                  { "field" : "transport_code","title" :"{{ antl.get('report_revenue.transport_code') }}" ,"width" : "150px"},
+                                  { "field" : "quantity","title" :"{{ antl.get('store.quantity') }}" ,"width" : "150px"},
+                                  { "field" : "price","title" :"{{ antl.get('store.price') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0 , template : "#=FormatNumber(price) #",footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "surcharge_amount","title" :"{{ antl.get('store.surcharge_amount') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0  , template : "#=FormatNumber(surcharge_amount) #",footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "surcharge","title" :"{{ antl.get('surcharge.title') }}" ,"width" : "150px"},
+                                  { "field" : "total_amount","title" :"{{ antl.get('store.total_amount') }}" ,"width" : "150px" ,aggregates: ['sum'], format: "{0:n0}" ,decimals: 0, template : "#=FormatNumber(total_amount) #" ,footerTemplate: "#=FormatNumber(sum)#" },
+                                  { "field" : "invoice","title" :"{{ antl.get('report_revenue.invoice') }}" ,"width" : "150px"},
+                                  { "field" : "already_collected","title" :"{{ antl.get('report_revenue.already_collected') }}" ,"width" : "150px",aggregates: ['sum'], format: "{0:n0}" ,decimals: 0, template : "#=FormatNumber(already_collected) #" ,footerTemplate: "#=FormatNumber(sum)#"},
+                                  { "field" : "suplier","title" :"{{ antl.get('report_revenue.suplier') }}" ,"width" : "150px"},
+                                  { "field" : "name","title" :"{{ antl.get('store.name') }}" ,"width" : "150px"},
                                   { "field" : "sale_staff","title" :"{{ antl.get('report_revenue.sale_staff') }}" ,"width" : "150px"},
             ];
-            Ermis.aggregate = [ { field: "code_customer", aggregate: "count" },
-                             { field: "revenue", aggregate: "sum" },
-                             { field: "cost", aggregate: "sum" },
-                             { field: "profit", aggregate: "sum" }];
+            Ermis.aggregate = [ { field: "company_name", aggregate: "count" },
+                          { field: "price", aggregate: "sum" },
+                          { field: "already_collected", aggregate: "sum" },
+                          { field: "surcharge_amount", aggregate: "sum" },
+                          { field: "total_amount", aggregate: "sum" }];
         });
     </script>
     {% endblock %}

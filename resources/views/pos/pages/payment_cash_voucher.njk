@@ -189,6 +189,7 @@
 
 
             Ermis.columns    = [{"field" :"detail", hidden : true},
+                                {"field" :"reference_get", hidden : true},
                                 { "field" : "description","title" : "{{ antl.get('inventory_voucher.description') }}" ,"width" : "200px" ,aggregates: ['count'], footerTemplate: "<p>Total Count: #=count#</p>" , set : "2" },
                                 { "field" : "total_amount","title" : "{{ antl.get('inventory_voucher.total_amount') }}" ,"width" : "150px" ,template: '#= FormatNumber(total_amount)#',footerTemplate: "<p id='total_amount'>#=FormatNumber(sum)#</p>"  },
                                 { "field" : "reasons","title" : "{{ antl.get('inventory_voucher.reasons') }}" ,"width" : "150px" ,  editor: SleItemsDropDownEditor ,template : "#=getItemName(reasons,'Ermis.reasons','reasons')#"},

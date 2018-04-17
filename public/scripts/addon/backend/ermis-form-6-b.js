@@ -57,7 +57,7 @@
                 $kGrid.addClass('disabled');
                 calculatePriceBind(result.detail);
             } else {
-                initStatus(4);
+                initStatus(7);
             }
         }, true);
     };
@@ -471,8 +471,8 @@
         shortcut.remove(key + "S");
         shortcut.remove(key + "C");
         shortcut.remove(key + "D");
-        shortcut.remove(key + ">");
-        shortcut.remove(key + "<");
+        shortcut.remove(key + ".");
+        shortcut.remove(key + ",");
         jQuery('.add,.edit,.delete,.back,.forward,.print,.cancel,.save,.choose,.cancel-window,.filter,.reference,.write_item,.unwrite_item,.advance_teacher,.advance_employee').addClass('disabled');
         jQuery('.add,.edit,.delete,.back,.forward,.print-item,.cancel,.save,.choose,.cancel-window,.filter,.reference,.write_item,.unwrite_item,.advance_teacher,.advance_employee').off('click');
         jQuery('input,textarea').not('.header_main_search_input').not('#files').not('.k-filter-menu input').addClass('disabled');
@@ -508,8 +508,8 @@
             jQuery('.add,.edit,.print,.back,.forward,.delete').removeClass('disabled');
             shortcut.add(key + "A", function (e) { initAdd(e); });
             shortcut.add(key + "E", function (e) { initEdit(e); });
-            shortcut.add(key + "<", function (e) { initBack(e); });
-            shortcut.add(key + ">", function (e) { initForward(e); });
+            shortcut.add(key + ",", function (e) { initBack(e); });
+            shortcut.add(key + ".", function (e) { initForward(e); });
             jQuery('.add').on('click', initAdd);
             jQuery('.edit').on('click', initEdit);
             jQuery('.print-item').on('click', initPrint);
@@ -539,8 +539,8 @@
             jQuery('.add,.edit,.print,.back,.forward,.delete').removeClass('disabled');
             shortcut.add(key + "A", function (e) { initAdd(e); });
             shortcut.add(key + "E", function (e) { initEdit(e); });
-            shortcut.add(key + "<", function (e) { initBack(e); });
-            shortcut.add(key + ">", function (e) { initForward(e); });
+            shortcut.add(key + ",", function (e) { initBack(e); });
+            shortcut.add(key + ".", function (e) { initForward(e); });
             jQuery('.add').on('click', initAdd);
             jQuery('.edit').on('click', initEdit);
             jQuery('.print-item').on('click', initPrint);
@@ -559,8 +559,8 @@
             jQuery('.add,.edit,.print,.back,.forward,.delete').removeClass('disabled');
             shortcut.add(key + "A", function (e) { initAdd(e); });
             shortcut.add(key + "E", function (e) { initEdit(e); });
-            shortcut.add(key + "<", function (e) { initBack(e); });
-            shortcut.add(key + ">", function (e) { initForward(e); });
+            shortcut.add(key + ",", function (e) { initBack(e); });
+            shortcut.add(key + ".", function (e) { initForward(e); });
             jQuery('.add').on('click', initAdd);
             jQuery('.edit').on('click', initEdit);
             jQuery('.print-item').on('click', initPrint);
@@ -570,8 +570,8 @@
         } else if (flag === 6) { //Write = 1
             jQuery('.add,.print,.back,.forward').removeClass('disabled');
             shortcut.add(key + "A", function (e) { initAdd(e); });
-            shortcut.add(key + "<", function (e) { initBack(e); });
-            shortcut.add(key + ">", function (e) { initForward(e); });
+            shortcut.add(key + ",", function (e) { initBack(e); });
+            shortcut.add(key + ".", function (e) { initForward(e); });
             jQuery('.add').on('click', initAdd);
             jQuery('.print-item').on('click', initPrint);
             jQuery('.back').on('click', initBack);
@@ -580,6 +580,10 @@
                 jQuery('.print,.delete,.edit').addClass('disabled');
                 jQuery('.print,.delete,.edit').off('click');
             }
+        }else if (flag === 7) {
+            jQuery('.add').removeClass('disabled');
+            shortcut.add(key + "A", function (e) { initAdd(e); });
+            jQuery('.add').on('click', initAdd);
         }
     };
 

@@ -1,5 +1,5 @@
 'use strict'
-const Goods = use('App/Model/Goods')  // EDIT
+const PosDetail = use('App/Model/PosDetail')  // EDIT
 const Antl = use('Antl')
 const Helpers = use('Helpers')
 const Option = use('App/Model/Option')  // EDIT
@@ -29,17 +29,21 @@ class ReportRevenueCustomerController{
      try {
         const data = JSON.parse(request.input('data'))
         // Lấy số đầu kỳ
-        const arr = yield Goods.query()
-        .whereBetween('goods.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+        const arr = yield PosDetail.query()
+        .innerJoin('pos_general','pos_general.id','pos_detail.general')
+        .innerJoin('goods','goods.id','pos_detail.item_id')
+        .where('pos_general.type',1)
+        .whereBetween('pos_general.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
         .innerJoin('payment','payment.goods','goods.id')
         .innerJoin('customer','customer.id','payment.subject')
         .innerJoin('sales_staff','sales_staff.id','payment.sales_staff')
-        .TypeWhere('payment.subject',data.subject).where('payment.subject_key',this.subject_key)
+        .leftJoin('transport','transport.id','pos_general.transport')
+        .leftJoin('suplier','suplier.id','transport.suplier')
+        .leftJoin('pos_cash','pos_cash.reference_get','pos_detail.general')
+        .TypeWhere('pos_general.subject',data.subject).where('pos_general.subject_key',this.subject_key)
         .TypeWhere('payment.sales_staff',data.sale_staff)
         .TypeWhere('goods.active',data.active)
-        .select('customer.code as code_customer','sales_staff.name as sale_staff')
-        .groupBy('payment.subject')
-        .sum('goods.total_amount as revenue')
+        .select('goods.*','customer.name as company_name','sales_staff.name as sale_staff','transport.code as transport_code','suplier.name as suplier','pos_cash.invoice','pos_cash.total_amount as already_collected')
         .fetch()
         response.json({ status: true , data : arr.toJSON()})
       }catch(e){

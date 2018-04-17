@@ -161,7 +161,7 @@ class StatusGoodsController{
     }
 
     goods.name = data.name
-    goods.date_voucher = moment(data.date_voucher, 'DD-MM-YYYY').format('YYYY-MM-DD')
+    goods.date_voucher = moment(data.date_voucher, 'DD/MM/YYYY').format('YYYY-MM-DD')
     goods.transport_station_receive = data.transport_station_receive
     goods.quantity = data.quantity
     goods.unit_quantity = data.unit_quantity
@@ -198,7 +198,7 @@ class StatusGoodsController{
    .where('pos_detail.item_id',data.id).first()
 
    const general = yield PosGeneral.query().where('id',detail.general).first()
-   general.date_voucher = moment(data.date_voucher, 'DD-MM-YYYY').format('YYYY-MM-DD')
+   general.date_voucher = moment(data.date_voucher, 'DD/MM/YYYY').format('YYYY-MM-DD')
    general.traders = data.sender_fullname
    general.subject = data.subject
    general.subject_key = this.subject_key

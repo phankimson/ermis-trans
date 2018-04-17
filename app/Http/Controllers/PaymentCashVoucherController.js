@@ -167,6 +167,7 @@ class PaymentCashVoucherController{
                     detail.order = d.order
                     detail.contract = d.contract
                     detail.reasons = d.reasons
+                    detail.reference_get = d.reference_get
                     detail.status = status
                     detail.active = 1
                     yield detail.save()

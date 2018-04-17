@@ -6,5 +6,10 @@
     "transport" : "Transport",
     "cost" : "cost",
     "profit" : "profit",
-    "sale_staff" : "Sale staff"
+    "sale_staff" : "Sale staff",
+    "company_name" : "Company",
+    "transport_code" : "Transport code",
+    "invoice" : "Invoice",
+    "already_collected" : "Already collected",
+    "suplier" : "Suplier"
 }

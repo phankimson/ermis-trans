@@ -6,5 +6,10 @@
     "transport" : "Vận tải",
     "cost" : "Giá vốn",
     "profit" : "Lợi nhuận",
-    "sale_staff" : "Nhân viên sale"
+    "sale_staff" : "Nhân viên sale",
+    "company_name" : "Công ty",
+    "transport_code" : "Số xe",
+    "invoice" : "Hóa đơn",
+    "already_collected" : "Đã thanh toán",
+    "suplier" : "NCC xe"
 }

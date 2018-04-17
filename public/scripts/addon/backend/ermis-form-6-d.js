@@ -64,7 +64,7 @@
                 $kGrid.addClass('disabled');
                 calculatePriceBind(result.detail);
             } else {
-                initStatus(4);
+                initStatus(7);
             }
         }, true);
     };
@@ -250,17 +250,19 @@
         $(".choose_reference").bind("click", function () {
             var checked = []; var vo = [];
             for(var i of checkedData){
-              var grid = $kGrid.data("kendoGrid");
+              var grid = $kGridReference.data("kendoGrid");
               var dataItem  = grid.dataSource.get(i.id);
-              if(dataItem){
-                    reference_id = i.voucher+',';
-                    vo.push(i.id)
+              if(!dataItem){
+                    reference_id += i.id+',';
+                    vo.push(i.voucher);
+                    //i.quantity = 1 ;
+                    i.reasons = 0;
+                    i.reference_get = i.id;
+                    i.amount = i.total_amount;
+                    grid.dataSource.insert(0 , i);
               }else{
-                //i.quantity = 1 ;
-                i.vat = 0;
-                i.amount = i.total_amount;
-                grid.dataSource.insert(0 , i);
-                }
+                vo.push(i.voucher);
+              }
             }
             $kWindow2.close();
             jQuery('input[name=reference]').val(vo);
@@ -551,8 +553,8 @@
         shortcut.remove(key + "S");
         shortcut.remove(key + "C");
         shortcut.remove(key + "D");
-        shortcut.remove(key + ">");
-        shortcut.remove(key + "<");
+        shortcut.remove(key + ",");
+        shortcut.remove(key + ".");
         jQuery('.add,.edit,.delete,.back,.forward,.print,.cancel,.save,.choose,.cancel-window,.filter,.reference,.write_item,.unwrite_item,.advance_teacher,.advance_employee').addClass('disabled');
         jQuery('.add,.edit,.delete,.back,.forward,.print-item,.cancel,.save,.choose,.cancel-window,.filter,.reference,.write_item,.unwrite_item,.advance_teacher,.advance_employee').off('click');
         jQuery('input,textarea').not('.header_main_search_input').not('#files').not('.k-filter-menu input').addClass('disabled');
@@ -588,8 +590,8 @@
             jQuery('.add,.edit,.print,.back,.forward,.delete').removeClass('disabled');
             shortcut.add(key + "A", function (e) { initAdd(e); });
             shortcut.add(key + "E", function (e) { initEdit(e); });
-            shortcut.add(key + "<", function (e) { initBack(e); });
-            shortcut.add(key + ">", function (e) { initForward(e); });
+            shortcut.add(key + ",", function (e) { initBack(e); });
+            shortcut.add(key + ".", function (e) { initForward(e); });
             jQuery('.add').on('click', initAdd);
             jQuery('.edit').on('click', initEdit);
             jQuery('.print-item').on('click', initPrint);
@@ -619,8 +621,8 @@
             jQuery('.add,.edit,.print,.back,.forward,.delete').removeClass('disabled');
             shortcut.add(key + "A", function (e) { initAdd(e); });
             shortcut.add(key + "E", function (e) { initEdit(e); });
-            shortcut.add(key + "<", function (e) { initBack(e); });
-            shortcut.add(key + ">", function (e) { initForward(e); });
+            shortcut.add(key + ",", function (e) { initBack(e); });
+            shortcut.add(key + ".", function (e) { initForward(e); });
             jQuery('.add').on('click', initAdd);
             jQuery('.edit').on('click', initEdit);
             jQuery('.print-item').on('click', initPrint);
@@ -639,8 +641,8 @@
             jQuery('.add,.edit,.print,.back,.forward,.delete').removeClass('disabled');
             shortcut.add(key + "A", function (e) { initAdd(e); });
             shortcut.add(key + "E", function (e) { initEdit(e); });
-            shortcut.add(key + "<", function (e) { initBack(e); });
-            shortcut.add(key + ">", function (e) { initForward(e); });
+            shortcut.add(key + ",", function (e) { initBack(e); });
+            shortcut.add(key + ".", function (e) { initForward(e); });
             jQuery('.add').on('click', initAdd);
             jQuery('.edit').on('click', initEdit);
             jQuery('.print-item').on('click', initPrint);
@@ -650,8 +652,8 @@
         } else if (flag === 6) { //Write = 1
             jQuery('.add,.print,.back,.forward').removeClass('disabled');
             shortcut.add(key + "A", function (e) { initAdd(e); });
-            shortcut.add(key + "<", function (e) { initBack(e); });
-            shortcut.add(key + ">", function (e) { initForward(e); });
+            shortcut.add(key + ",", function (e) { initBack(e); });
+            shortcut.add(key + ".", function (e) { initForward(e); });
             jQuery('.add').on('click', initAdd);
             jQuery('.print-item').on('click', initPrint);
             jQuery('.back').on('click', initBack);
@@ -660,6 +662,10 @@
                 jQuery('.print,.delete,.edit').addClass('disabled');
                 jQuery('.print,.delete,.edit').off('click');
             }
+        }else if (flag === 7) {
+            jQuery('.add').removeClass('disabled');
+            shortcut.add(key + "A", function (e) { initAdd(e); });
+            jQuery('.add').on('click', initAdd);
         }
     };
 
@@ -965,6 +971,10 @@
     var initGetDataReference = function () {
         jQuery('#get_data').on('click', function () {
             var obj = {}; var crit = true;
+            reference_id = "";
+            jQuery('input[name=reference]').val("");
+            $kGrid.data("kendoGrid").dataSource.data([]);
+            checkedData = [];
             var filter = GetAllDataForm('#form-window-reference', 2);
             jQuery.each(filter.columns, function (k, col) {
                 if (col.key === 'text' || col.key === 'password' || col.key === 'number') {
