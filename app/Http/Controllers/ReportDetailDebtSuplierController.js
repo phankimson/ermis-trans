@@ -6,6 +6,7 @@ const Option = use('App/Model/Option')  // EDIT
 const Suplier = use('App/Model/Suplier')  // EDIT
 const Data = use('App/Model/PosGeneral')  // EDIT
 const Detail = use('App/Model/PosCash')  // EDIT
+const Initial = use('App/Model/Initial')  // EDIT
 
 var moment = require('moment')
 
@@ -26,6 +27,8 @@ class ReportDetailDebtSuplierController{
   * get (request, response) {
      try {
         const data = JSON.parse(request.input('data'))
+        // Số đầu kỳ
+       const opening_balance = yield Initial.query().where('item',d.id).where('type',2).sum('debt_account as q').sum('credit_account as a')
         // Lấy số đầu kỳ
         const opening_debt = yield Data.query()
        .where('subject',data.subject).where('subject_key',this.subject_key).where('active',data.active).where('type',3)
@@ -80,7 +83,7 @@ class ReportDetailDebtSuplierController{
        date_voucher : null,
        debt : 0,
        credit : 0,
-       closing : opening_debt[0].q - opening_credit[0].q + debt - credit
+       closing : opening_balance[0].q + opening_debt[0].q - opening_credit[0].q + debt - credit - opening_balance[0].a
      })
 
         response.json({ status: true , data : arr})

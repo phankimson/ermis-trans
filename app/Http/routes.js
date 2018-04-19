@@ -213,6 +213,18 @@ Route.group('trans-group', function () {
   Route.post('/unit-import', 'UnitController.import')
   Route.post('/unit-get', 'UnitController.get')
 
+  // Initial balance
+  Route.get('/initial', 'InitialController.show')
+  Route.post('/initial-save', 'InitialController.save')
+  Route.post('/initial-cancel', 'InitialController.cancel')
+  Route.post('/initial-load', 'InitialController.load')
+  //Route.get('/initial-downloadExcel1', 'InitialController.downloadExcelGoods')
+  Route.get('/initial-downloadExcel2', 'InitialController.downloadExcelSuplier')
+  Route.get('/initial-downloadExcel3', 'InitialController.downloadExcelCustomer')
+  //Route.post('/initial-import1', 'InitialController.importGoods')
+  Route.post('/initial-import2', 'InitialController.importSuplier')
+  Route.post('/initial-import3', 'InitialController.importCustomer')
+
     // Type
   //Route.get('/type', 'TypeController.show')
   //Route.post('/type-save', 'TypeController.save')
