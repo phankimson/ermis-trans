@@ -44,5 +44,9 @@
   "fee" : "Cước phí",
   "vat" : "Thuế",
   "vat_amount" : "Tổng tiền thuế",
-  "money" : "Tiền kê"
+  "money" : "Tiền kê",
+  "unit" : "Đơn vị tính",
+  "invoice" : "Hóa đơn",
+  "invoice_down_cont" : "Hóa đơn hạ cont",
+  "invoice_up_cont" : "Hóa đơn tăng cont"
 }

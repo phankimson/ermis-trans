@@ -46,9 +46,11 @@
             <a href="javascript:;" class="k-button uk-alert-success row-padding-bottom-small get_report" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">event_note</i>{{ antl.get('global.report') }}</a>
             <a href="javascript:;" class="k-button k-primary row-padding-bottom-small get_data" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">event_available</i>{{ antl.get('global.get_data') }}</a>
             <a href="javascript:;" class="k-button uk-alert-warning btn-hide" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">exit_to_app</i>{{ antl.get('global.hidden_condition') }}</a>
+            <a href="javascript:;" class="k-button uk-alert-danger btn_export" data-uk-tooltip=""><i class="md-18 material-icons md-color-white">cloud_upload</i> {{ antl.get('action.export') }}</a>
         </div>
 
     </div>
+      <div id="export"></div>
     <div class="uk-width-medium-1-4">
 
     </div>
@@ -94,6 +96,7 @@
 </div>
 {% endblock %}
 {% block scripts_add %}
+    <script src="{{ url('scripts/addon/backend/ermis-add-6.js') }}"></script>
     <script>
         jQuery(document).ready(function () {
           Ermis.per = JSON.parse('{{ permission | safe }}');

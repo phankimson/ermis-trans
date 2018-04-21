@@ -12,5 +12,6 @@
   "sender" : "Khách hàng gửi",
   "sender1" : "Người gửi",
   "receiver" : "Người nhận",
-  "code" : "Mã hàng gửi"
+  "code" : "Mã hàng gửi",
+  "updated_at" : "Ngày cập nhật"
 }

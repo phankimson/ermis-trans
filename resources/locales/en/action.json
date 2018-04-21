@@ -41,5 +41,6 @@
     "goods_delivered" : "Goods delivered",
     "filter" : "Filter",
     "approved_all" : "Approved all",
-    "created_at" : "Created at"
+    "created_at" : "Created at",
+    "pageview" : "Page find"
 }

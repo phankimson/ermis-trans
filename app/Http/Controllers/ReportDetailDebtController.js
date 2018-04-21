@@ -7,8 +7,13 @@ const Customer = use('App/Model/Customer')  // EDIT
 const Data = use('App/Model/PosGeneral')  // EDIT
 const Detail = use('App/Model/PosCash')  // EDIT
 const Initial = use('App/Model/Initial')  // EDIT
+const Goods = use('App/Model/Goods')  // EDIT
+
+const Docso = use('App/Classes/docso')
 
 var moment = require('moment')
+var fs = require('fs')
+var XlsxTemplate = require('xlsx-template')
 
 class ReportDetailDebtController{
   constructor () {
@@ -16,6 +21,7 @@ class ReportDetailDebtController{
       this.key = "report-detail-debt"  // EDIT
       this.room = "report-debt"  // EDIT
       this.subject_key = "customer"  // EDIT
+      this.download = "Template2.xlsx"  // EDIT
     }
   * show (request, response){
       const title = Antl.formatMessage('report_detail_debt.title')  // EDIT
@@ -28,7 +34,7 @@ class ReportDetailDebtController{
      try {
         const data = JSON.parse(request.input('data'))
         // Số đầu kỳ
-       const opening_balance = yield Initial.query().where('item',d.id).where('type',3).sum('debt_account as q').sum('credit_account as a')
+       const opening_balance = yield Initial.query().where('item',data.subject).where('type',3).sum('debt_account as q').sum('credit_account as a')
         // Lấy số đầu kỳ
         const opening_debt = yield Data.query()
        .where('subject',data.subject).where('subject_key',this.subject_key).where('active',data.active).where('type',1)
@@ -90,6 +96,137 @@ class ReportDetailDebtController{
       }catch(e){
         response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message})
       }
+  }
+
+  * excel (request, response) {
+    try {
+     const result = JSON.parse(request.input('data'))
+     const detail = yield Goods.query()
+     .whereBetween('goods.date_voucher',[moment(result.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(result.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+     .innerJoin('payment','payment.goods','goods.id')
+     .innerJoin('pos_detail','pos_detail.item_id','goods.id')
+     .innerJoin('pos_general','pos_general.id','pos_detail.general')
+     .leftJoin('unit','unit.id','goods.unit_quantity')
+     .leftJoin('transport','transport.id','pos_general.transport')
+     .leftJoin('surcharge','surcharge.id','goods.surcharge')
+     .leftJoin('pos_cash','pos_cash.reference_get','pos_detail.general')
+     .TypeWhere('payment.subject',result.subject)
+     .where('payment.subject_key',this.subject_key)
+     .TypeWhere('goods.active',result.active)
+     .select('goods.*','transport.code as transport_code','surcharge.name as surcharge','unit.name as unit','pos_cash.total_amount as paid')
+     .fetch()
+
+     const customer = yield Customer.query().where('customer.id',result.subject)
+     .innerJoin('payment_method','payment_method.id','customer.payment_method')
+     .leftJoin('sales_staff','sales_staff.id','customer.sales_staff')
+     .select('customer.*','payment_method.name as payment_method','sales_staff.name as sales_staff')
+     .first()
+
+     let hs = new Docso()
+     // Load an XLSX file into memory
+     fs.readFile(Helpers.storagePath(this.download), function(err, data) {
+
+         // Create a template
+         var template = new XlsxTemplate(data);
+         // Replacements take place on first sheet
+         var sheetNumber = 1;
+
+         // Set up some placeholder values matching the placeholders in the template
+         var values = {}
+         var arr = []
+         var i = 1
+         var total_remaining = 0
+         var total_vat = 0
+         var rest_payable = 0
+        for(let w of detail.toJSON()){
+              var a = {}
+               a.stt = i
+               a.date_voucher = moment(w.date_voucher,'YYYY-MM-DD').format('DD/MM/YYYY')
+               a.code = w.code
+               a.transport_code = w.transport_code
+               a.quantity = w.quantity
+               a.unit = w.unit
+               a.fee = w.fee
+               a.surcharge_amount = w.surcharge_amount
+               a.total_amount = w.total_amount
+               a.paid = w.paid ? w.paid : 0
+               a.remaining = a.total_amount - a.paid
+
+          total_remaining += a.remaining
+          total_vat += w.vat_amount
+          rest_payable += w.vat_amount + a.remaining
+          arr.push(a)
+          i++
+        }
+
+         if(customer){
+           values = {
+                  start_date : moment(result.start_date,'YYYY-MM-DD').format('DD/MM/YYYY'),
+                  end_date : moment(result.end_date,'YYYY-MM-DD').format('DD/MM/YYYY'),
+                  sales_staff : customer.sales_staff,
+                   customer_code : customer.code,
+                   customer_name : customer.name,
+                   customer_address : customer.address,
+                   customer_phone : customer.phone,
+                   customer_taxcode : customer.tax_code,
+                   customer_fax : customer.fax,
+                   customer_contact : customer.full_name_contact,
+                   customer_contact_phone : customer.telephone1_contact,
+                   customer_payment_method : customer.payment_method,
+                   detail : arr,
+                   total_remaining : total_remaining,
+                  total_vat : total_vat,
+                  rest_payable : rest_payable,
+                  rest_payable_letter : hs.docso.doc(rest_payable) +" đồng",
+               };
+
+         }else{
+
+           values = {
+                   start_date : result.start_date,
+                   end_date : result.end_date,
+                   sales_staff : "",
+                   customer_code : "",
+                   customer_name : "",
+                   customer_address : "",
+                   customer_phone : "",
+                   customer_taxcode : "",
+                   customer_fax : "",
+                   customer_contact : "",
+                   customer_contact_phone : "",
+                   customer_payment_method : "",
+                   detail : arr,
+                   total_remaining : total_remaining,
+                  total_vat : total_vat,
+                  rest_payable : rest_payable,
+                  rest_payable_letter : hs.docso.doc(rest_payable) +" đồng",
+               };
+
+         }
+
+         // Perform substitution
+         template.substitute(sheetNumber, values);
+
+         // Get binary data
+       var output = template.generate();
+       var filePath = Helpers.storagePath('Temp/Template2.xlsx')
+
+        fs.writeFile(filePath, output, 'binary', function(err){
+            if(err) console.log(err);
+        });
+
+         // ...
+
+     })
+
+      response.json({ status: true })
+    }catch(e){
+      response.json({ status: false , error : true ,  message: Antl.formatMessage('messages.error') + ' '+e.message })
+    }
+  }
+
+  * downloadExcel (request, response){
+    response.download(Helpers.storagePath('Temp/'+this.download))
   }
 
 }

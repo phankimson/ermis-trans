@@ -44,5 +44,9 @@
   "fee" : "Fee",
   "vat" : "Vat",
   "vat_amount" : "Vat amount",
-  "money" : "Money other"
+  "money" : "Money other",
+  "unit" : "Unit",
+  "invoice" : "Invoice",
+  "invoice_down_cont" : "Invoice down cont",
+  "invoice_up_cont" : "Invoice up cont"
 }

@@ -60,6 +60,9 @@ class TaxMoneyController{
     goods.vat = data.vat
     goods.vat_amount = data.vat_amount
     goods.total_amount = data.total
+    goods.invoice = data.invoice
+    goods.invoice_up_cont = data.invoice_up_cont
+    goods.invoice_down_cont = data.invoice_down_cont
     yield goods.save()
 
    const detail = yield PosDetail.query().where('id',data.id).first()

@@ -31,6 +31,7 @@
         jQuery("#transport_station_receive").text(data1.transport_station_receive);
         jQuery("#sender_fullname").text(data1.sender_fullname);
         jQuery("#receiver_fullname").text(data1.receiver_fullname);
+        jQuery("#updated_at").text(FormatDate(data1.updated_at));
         jQuery(".step").iCheck('uncheck');
         if(data.length > 0){
           jQuery.each(data,function(k,v){

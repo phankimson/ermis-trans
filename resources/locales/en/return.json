@@ -12,5 +12,6 @@
   "sender" : "Sender",
   "sender1" : "Sender",
   "receiver" : "Receiver",
-  "code" : "Code goods sender"
+  "code" : "Code goods sender",
+  "updated_at" : "Updated"
 }

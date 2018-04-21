@@ -331,6 +331,7 @@ Route.group('trans-group', function () {
     Route.post('/transfer-receipt-inventory-voucher-bind', 'TransferReceiptInventoryVoucherController.bind')
     Route.post('/transfer-receipt-inventory-voucher-print', 'TransferReceiptInventoryGeneralController.prints')
     Route.post('/transfer-receipt-inventory-voucher-scan', 'TransferReceiptInventoryVoucherController.scan')
+   Route.post('/transfer-receipt-inventory-voucher-find', 'TransferReceiptInventoryGeneralController.get')
 
     // Transfer Issue Inventory General
   Route.get('/tranfer-issue-inventory-general', 'TransferIssueInventoryGeneralController.show')
@@ -353,6 +354,7 @@ Route.group('trans-group', function () {
   Route.post('/transfer-issue-inventory-voucher-unwrite', 'TransferIssueInventoryGeneralController.unwrite')
   Route.post('/transfer-issue-inventory-voucher-delete', 'TransferIssueInventoryGeneralController.delete')
   Route.post('/transfer-issue-inventory-voucher-print', 'TransferIssueInventoryGeneralController.prints')
+  Route.post('/transfer-issue-inventory-voucher-find', 'TransferIssueInventoryGeneralController.get')
 
   // Transfer Issue Plan General
 Route.get('/tranfer-issue-plan-general', 'TransferIssuePlanGeneralController.show')
@@ -373,6 +375,7 @@ Route.post('/transfer-issue-plan-voucher-write', 'TransferIssuePlanGeneralContro
 Route.post('/transfer-issue-plan-voucher-unwrite', 'TransferIssuePlanGeneralController.unwrite')
 Route.post('/transfer-issue-plan-voucher-delete', 'TransferIssuePlanGeneralController.delete')
 Route.post('/transfer-issue-plan-voucher-print', 'TransferIssuePlanGeneralController.prints')
+Route.post('/transfer-issue-plan-voucher-find', 'TransferIssuePlanGeneralController.get')
 
 
   // Receipt cash General
@@ -394,6 +397,7 @@ Route.post('/receipt-cash-voucher-write', 'ReceiptCashGeneralController.write')
 Route.post('/receipt-cash-voucher-unwrite', 'ReceiptCashGeneralController.unwrite')
 Route.post('/receipt-cash-voucher-delete', 'ReceiptCashGeneralController.delete')
 Route.post('/receipt-cash-voucher-print', 'ReceiptCashGeneralController.prints')
+Route.post('/receipt-cash-voucher-find', 'ReceiptCashGeneralController.get')
 
 // Payment cash General
 Route.get('/payment-cash-general', 'PaymentCashGeneralController.show')
@@ -413,7 +417,8 @@ Route.post('/payment-cash-voucher-reference', 'PaymentCashVoucherController.refe
 Route.post('/payment-cash-voucher-write', 'PaymentCashGeneralController.write')
 Route.post('/payment-cash-voucher-unwrite', 'PaymentCashGeneralController.unwrite')
 Route.post('/payment-cash-voucher-delete', 'PaymentCashGeneralController.delete')
-Route.post('/payment-cash-voucher-voucher-print', 'PaymentCashGeneralController.prints')
+Route.post('/payment-cash-voucher-print', 'PaymentCashGeneralController.prints')
+Route.post('/payment-cash-voucher-find', 'PaymentCashGeneralController.get')
 
   // Report Shift Revenue
   Route.get('/report-shift-revenue', 'ReportShiftRevenueController.show')
@@ -429,6 +434,8 @@ Route.post('/payment-cash-voucher-voucher-print', 'PaymentCashGeneralController.
   // Report Detail Debt
   Route.get('/report-detail-debt', 'ReportDetailDebtController.show')
   Route.post('/report-detail-debt-get', 'ReportDetailDebtController.get')
+  Route.post('/report-detail-debt-excel', 'ReportDetailDebtController.excel')
+  Route.get('/report-detail-debt-downloadExcel', 'ReportDetailDebtController.downloadExcel')
   // Report Detail Debt
   Route.get('/report-general-debt', 'ReportGeneralDebtController.show')
   Route.post('/report-general-debt-get', 'ReportGeneralDebtController.get')
@@ -436,6 +443,7 @@ Route.post('/payment-cash-voucher-voucher-print', 'PaymentCashGeneralController.
   // Report Detail Debt Suplier
   Route.get('/report-detail-debt-suplier', 'ReportDetailDebtSuplierController.show')
   Route.post('/report-detail-debt-suplier-get', 'ReportDetailDebtSuplierController.get')
+
   // Report Detail Debt Suplier
   Route.get('/report-general-debt-suplier', 'ReportGeneralDebtSuplierController.show')
   Route.post('/report-general-debt-suplier-get', 'ReportGeneralDebtSuplierController.get')
@@ -468,6 +476,10 @@ Route.post('/payment-cash-voucher-voucher-print', 'PaymentCashGeneralController.
   // Report Customer
   Route.get('/report-list-customer', 'ReportListCustomerController.show')
   Route.post('/report-list-customer-get', 'ReportListCustomerController.get')
+
+  // Report Customer
+  Route.get('/report-list-suplier', 'ReportListSuplierController.show')
+  Route.post('/report-list-suplier-get', 'ReportListSuplierController.get')
 
   // Report Detail Debt
   Route.get('/history-goods', 'HistoryGoodsController.show')
@@ -536,6 +548,8 @@ Route.group('pos-shop-group', function () {
     Route.post('/transfer-issue-inventory-voucher-unwrite', 'TransferIssueInventoryGeneralController.unwrite')
     Route.post('/transfer-issue-inventory-voucher-delete', 'TransferIssueInventoryGeneralController.delete')
     Route.post('/transfer-issue-inventory-voucher-print', 'TransferIssueInventoryGeneralController.prints')
+    Route.post('/transfer-issue-inventory-voucher-find', 'TransferIssueInventoryGeneralController.get')
+
 
     // Transfer Receipt Inventory General
     Route.get('/tranfer-receipt-inventory-general', 'TransferReceiptInventoryGeneralController.show')
@@ -549,6 +563,7 @@ Route.group('pos-shop-group', function () {
     Route.post('/transfer-receipt-inventory-voucher-bind', 'TransferReceiptInventoryVoucherController.bind')
     Route.post('/transfer-receipt-inventory-voucher-print', 'TransferReceiptInventoryGeneralController.prints')
     Route.post('/transfer-receipt-inventory-voucher-scan', 'TransferReceiptInventoryVoucherController.scan')
+    Route.post('/transfer-receipt-inventory-voucher-find', 'TransferReceiptInventoryGeneralController.get')
 
     // Report Shift Revenue
     Route.get('/report-shift-revenue', 'ReportShiftRevenueController.show')

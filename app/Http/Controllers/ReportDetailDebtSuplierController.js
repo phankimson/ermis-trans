@@ -28,7 +28,7 @@ class ReportDetailDebtSuplierController{
      try {
         const data = JSON.parse(request.input('data'))
         // Số đầu kỳ
-       const opening_balance = yield Initial.query().where('item',d.id).where('type',2).sum('debt_account as q').sum('credit_account as a')
+       const opening_balance = yield Initial.query().where('item',data.subject).where('type',2).sum('debt_account as q').sum('credit_account as a')
         // Lấy số đầu kỳ
         const opening_debt = yield Data.query()
        .where('subject',data.subject).where('subject_key',this.subject_key).where('active',data.active).where('type',3)
@@ -57,7 +57,7 @@ class ReportDetailDebtSuplierController{
        date_voucher : null,
        debt : 0,
        credit : 0,
-       closing : opening_debt[0].q - opening_credit[0].q
+       closing : opening_balance[0].q+opening_debt[0].q - opening_credit[0].q-opening_balance[0].a
      })
 
      for(var d of detail.toJSON()){

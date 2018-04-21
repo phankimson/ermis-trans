@@ -109,7 +109,7 @@ class ReportListFreightController{
          var total_fee_ =  detail.toJSON().reduce((p, c) => p + c.fee, 0)
          var total_surchange_amount_ = detail.toJSON().reduce((p, c) => p + c.surchange_amount, 0)
          var total_amount_ = detail.toJSON().reduce((p, c) => p + c.total_amount, 0)
-         var vat = detail.toJSON().reduce((p, c) => p + c.total_amount, 0) * 0.1
+         var vat = detail.toJSON().reduce((p, c) => p + c.vat_amount, 0)
          var total_include_vat = detail.toJSON().reduce((p, c) => p + c.total_amount, 0) * 1.1
          if(customer){
            values = {
