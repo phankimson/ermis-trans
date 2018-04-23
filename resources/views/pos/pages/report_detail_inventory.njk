@@ -43,7 +43,10 @@
         <tr>
         <td><label class="row-padding-right-small">{{ antl.get('inventory_voucher.item_name') }}</label></td>
         <td>
-        <select class="droplist xlarge" id="item" name="item">
+        <select class="droplist xlarge" name="item">
+          {% asyncAll x in item %}
+            <option value="{{ x.id }}" >{{ x.code }} - {{x.name}}</option>
+          {% endall %}
         </select>
         </td>
         </tr>
@@ -120,7 +123,6 @@
           Ermis.per = JSON.parse('{{ permission | safe }}');
           Ermis.link = "{{ key }}";
           Ermis.room = "{{ room }}";
-          Ermis.item = {{ item | json | safe }};
             Ermis.field = {
                 quantity_receipt :   {type:"number"},
                 quantity_issue:    {type:"number" },

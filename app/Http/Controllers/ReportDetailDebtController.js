@@ -103,21 +103,29 @@ class ReportDetailDebtController{
      const result = JSON.parse(request.input('data'))
      const detail = yield Goods.query()
      .whereBetween('goods.date_voucher',[moment(result.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(result.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
-     .innerJoin('payment','payment.goods','goods.id')
      .innerJoin('pos_detail','pos_detail.item_id','goods.id')
      .innerJoin('pos_general','pos_general.id','pos_detail.general')
      .leftJoin('unit','unit.id','goods.unit_quantity')
      .leftJoin('transport','transport.id','pos_general.transport')
      .leftJoin('surcharge','surcharge.id','goods.surcharge')
      .leftJoin('pos_cash','pos_cash.reference_get','pos_detail.general')
-     .TypeWhere('payment.subject',result.subject)
-     .where('payment.subject_key',this.subject_key)
+     .TypeWhere('pos_general.subject',result.subject)
+     .where('pos_general.subject_key',this.subject_key)
      .TypeWhere('goods.active',result.active)
      .select('goods.*','transport.code as transport_code','surcharge.name as surcharge','unit.name as unit','pos_cash.total_amount as paid')
      .fetch()
 
+     const receipt = yield Data.query()
+     .whereBetween('date_voucher',[moment(result.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(result.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
+     .TypeWhere('subject',result.subject)
+     .where('subject_key',this.subject_key)
+     .TypeWhere('active',result.active)
+     .where('reference','')
+     .where('type',7)
+     .fetch()
+
      const customer = yield Customer.query().where('customer.id',result.subject)
-     .innerJoin('payment_method','payment_method.id','customer.payment_method')
+     .leftJoin('payment_method','payment_method.id','customer.payment_method')
      .leftJoin('sales_staff','sales_staff.id','customer.sales_staff')
      .select('customer.*','payment_method.name as payment_method','sales_staff.name as sales_staff')
      .first()
@@ -138,6 +146,7 @@ class ReportDetailDebtController{
          var total_remaining = 0
          var total_vat = 0
          var rest_payable = 0
+         var remaining = 0
         for(let w of detail.toJSON()){
               var a = {}
                a.stt = i
@@ -150,13 +159,52 @@ class ReportDetailDebtController{
                a.surcharge_amount = w.surcharge_amount
                a.total_amount = w.total_amount
                a.paid = w.paid ? w.paid : 0
-               a.remaining = a.total_amount - a.paid
+               remaining += a.total_amount - a.paid
+               a.remaining = remaining
 
-          total_remaining += a.remaining
           total_vat += w.vat_amount
+          arr.push(a)
+          i++
+        }
+
+        for(let w of receipt.toJSON()){
+              var a = {}
+               a.stt = i
+               a.date_voucher = moment(w.date_voucher,'YYYY-MM-DD').format('DD/MM/YYYY')
+               a.code = ""
+               a.transport_code = ""
+               a.quantity = ""
+               a.unit = ""
+               a.fee = ""
+               a.surcharge_amount = ""
+               a.total_amount = ""
+               a.paid = w.total_amount
+               remaining += a.total_amount - a.paid
+               a.remaining = remaining
+
           rest_payable += w.vat_amount + a.remaining
           arr.push(a)
           i++
+        }
+          total_remaining = remaining
+          rest_payable = total_remaining+ total_vat
+
+        if( i == 2 ){
+          var a = {}
+           a.stt = ""
+           a.date_voucher = ""
+           a.code = ""
+           a.name = ""
+           a.lot_number = ""
+           a.sender_address = ""
+           a.receiver_address = ""
+           a.quantity = ""
+           a.unit = ""
+           a.price = ""
+           a.fee = ""
+           a.surcharge_amount = ""
+           a.total_amount = ""
+           arr.push(a)
         }
 
          if(customer){

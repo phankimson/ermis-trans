@@ -33,13 +33,12 @@ class ReportListFreightController{
         // Lấy số đầu kỳ
         const arr = yield Goods.query()
         .whereBetween('goods.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
-        .innerJoin('payment','payment.goods','goods.id')
         .innerJoin('pos_detail','pos_detail.item_id','goods.id')
         .innerJoin('pos_general','pos_general.id','pos_detail.general')
         .leftJoin('transport','transport.id','pos_general.transport')
         .leftJoin('surcharge','surcharge.id','goods.surcharge')
-        .TypeWhere('payment.subject',data.subject)
-        .where('payment.subject_key',this.subject_key)
+        .TypeWhere('pos_general.subject',data.subject)
+        .where('pos_general.subject_key',this.subject_key)
         .TypeWhere('goods.active',data.active)
         .select('goods.*','transport.code as transport_code','surcharge.name as surcharge')
         .fetch()
@@ -54,13 +53,12 @@ class ReportListFreightController{
      const data = JSON.parse(request.input('data'))
      const detail = yield Goods.query()
      .whereBetween('goods.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
-     .innerJoin('payment','payment.goods','goods.id')
      .innerJoin('pos_detail','pos_detail.item_id','goods.id')
      .innerJoin('pos_general','pos_general.id','pos_detail.general')
      .leftJoin('transport','transport.id','pos_general.transport')
      .leftJoin('surcharge','surcharge.id','goods.surcharge')
-     .TypeWhere('payment.subject',data.subject)
-     .where('payment.subject_key',this.subject_key)
+     .TypeWhere('pos_general.subject',data.subject)
+     .where('pos_general.subject_key',this.subject_key)
      .TypeWhere('goods.active',data.active)
      .select('goods.*','transport.code as transport_code','surcharge.name as surcharge')
      .fetch()
@@ -79,21 +77,60 @@ class ReportListFreightController{
      const data = JSON.parse(request.input('data'))
      const detail = yield Goods.query()
      .whereBetween('goods.date_voucher',[moment(data.start_date , "YYYY-MM-DD").format('YYYY-MM-DD'),moment(data.end_date , "YYYY-MM-DD").format('YYYY-MM-DD') ])
-     .innerJoin('payment','payment.goods','goods.id')
      .innerJoin('pos_detail','pos_detail.item_id','goods.id')
      .innerJoin('pos_general','pos_general.id','pos_detail.general')
      .leftJoin('unit','unit.id','goods.unit_quantity')
      .leftJoin('transport','transport.id','pos_general.transport')
      .leftJoin('surcharge','surcharge.id','goods.surcharge')
-     .TypeWhere('payment.subject',data.subject)
-     .where('payment.subject_key',this.subject_key)
+     .TypeWhere('pos_general.subject',data.subject)
+     .where('pos_general.subject_key',this.subject_key)
      .TypeWhere('goods.active',data.active)
      .select('goods.*','transport.code as transport_code','surcharge.name as surcharge','unit.name as unit')
      .fetch()
+
      const customer = yield Customer.query().where('customer.id',data.subject)
-     .innerJoin('payment_method','payment_method.id','customer.payment_method')
+     .leftJoin('payment_method','payment_method.id','customer.payment_method')
      .select('customer.*','payment_method.name as payment_method')
      .first()
+
+     var arr = []
+     var i = 1
+     for(let w of detail.toJSON()){
+           var a = {}
+            a.stt = i
+            a.date_voucher = moment(w.date_voucher,'YYYY-MM-DD').format('DD/MM/YYYY')
+            a.code = w.code
+            a.name = w.name
+            a.lot_number = w.lot_number
+            a.sender_address = w.sender_address
+            a.receiver_address = w.receiver_address
+            a.quantity = w.quantity
+            a.unit = w.unit
+            a.price = w.price
+            a.fee = w.fee
+            a.surcharge_amount = w.surcharge_amount
+            a.total_amount = w.total_amount
+       arr.push(a)
+       i++
+     }
+     if( i == 2 ){
+       var a = {}
+        a.stt = ""
+        a.date_voucher = ""
+        a.code = ""
+        a.name = ""
+        a.lot_number = ""
+        a.sender_address = ""
+        a.receiver_address = ""
+        a.quantity = ""
+        a.unit = ""
+        a.price = ""
+        a.fee = ""
+        a.surcharge_amount = ""
+        a.total_amount = ""
+        arr.push(a)
+     }
+
      let hs = new Docso()
      // Load an XLSX file into memory
      fs.readFile(Helpers.storagePath(this.download), function(err, data) {
@@ -110,7 +147,7 @@ class ReportListFreightController{
          var total_surchange_amount_ = detail.toJSON().reduce((p, c) => p + c.surchange_amount, 0)
          var total_amount_ = detail.toJSON().reduce((p, c) => p + c.total_amount, 0)
          var vat = detail.toJSON().reduce((p, c) => p + c.vat_amount, 0)
-         var total_include_vat = detail.toJSON().reduce((p, c) => p + c.total_amount, 0) * 1.1
+         var total_include_vat = detail.toJSON().reduce((p, c) => p + c.total_amount, 0) + vat
          if(customer){
            values = {
                    customer_code : customer.code,
@@ -122,7 +159,7 @@ class ReportListFreightController{
                    customer_contact : customer.full_name_contact,
                    customer_contact_phone : customer.telephone1_contact,
                    customer_payment_method : customer.payment_method,
-                   detail : detail.toJSON(),
+                   detail : arr,
                    total_quantity_ : total_quantity_,
                    total_fee_ : total_fee_,
                    total_surchange_amount_ : total_surchange_amount_,
@@ -144,7 +181,7 @@ class ReportListFreightController{
                    customer_contact : "",
                    customer_contact_phone : "",
                    customer_payment_method : "",
-                   detail : detail.toJSON(),
+                   detail : arr,
                    total_quantity_ : total_quantity_,
                    total_fee_ : total_fee_,
                    total_surchange_amount_ : total_surchange_amount_,
