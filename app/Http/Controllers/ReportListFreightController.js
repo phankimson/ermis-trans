@@ -95,6 +95,7 @@ class ReportListFreightController{
 
      var arr = []
      var i = 1
+    var total_surchange_amount_ = 0
      for(let w of detail.toJSON()){
            var a = {}
             a.stt = i
@@ -109,7 +110,9 @@ class ReportListFreightController{
             a.price = w.price
             a.fee = w.fee
             a.surcharge_amount = w.surcharge_amount
+            a.vat_amount = w.vat_amount
             a.total_amount = w.total_amount
+            total_surchange_amount_ += a.surcharge_amount
        arr.push(a)
        i++
      }
@@ -127,6 +130,7 @@ class ReportListFreightController{
         a.price = ""
         a.fee = ""
         a.surcharge_amount = ""
+        a.vat_amount = ""
         a.total_amount = ""
         arr.push(a)
      }
@@ -144,10 +148,10 @@ class ReportListFreightController{
          var values = {}
          var total_quantity_ = detail.toJSON().reduce((p, c) => p + c.quantity, 0)
          var total_fee_ =  detail.toJSON().reduce((p, c) => p + c.fee, 0)
-         var total_surchange_amount_ = detail.toJSON().reduce((p, c) => p + c.surchange_amount, 0)
          var total_amount_ = detail.toJSON().reduce((p, c) => p + c.total_amount, 0)
          var vat = detail.toJSON().reduce((p, c) => p + c.vat_amount, 0)
-         var total_include_vat = detail.toJSON().reduce((p, c) => p + c.total_amount, 0) + vat
+
+
          if(customer){
            values = {
                    customer_code : customer.code,
@@ -165,8 +169,7 @@ class ReportListFreightController{
                    total_surchange_amount_ : total_surchange_amount_,
                    total_amount_ : total_amount_,
                    vat : vat,
-                   total_include_vat : total_include_vat,
-                   amount_letter : hs.docso.doc(total_include_vat) +" đồng",
+                   amount_letter : hs.docso.doc(total_amount_) +" đồng",
                };
 
          }else{
@@ -187,8 +190,7 @@ class ReportListFreightController{
                    total_surchange_amount_ : total_surchange_amount_,
                    total_amount_ : total_amount_,
                    vat : vat,
-                   total_include_vat : total_include_vat,
-                   amount_letter : hs.docso.doc(total_include_vat) +" đồng",
+                   amount_letter : hs.docso.doc(total_amount_) +" đồng",
                };
 
          }

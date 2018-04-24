@@ -112,7 +112,7 @@ class ReportDetailDebtController{
      .TypeWhere('pos_general.subject',result.subject)
      .where('pos_general.subject_key',this.subject_key)
      .TypeWhere('goods.active',result.active)
-     .select('goods.*','transport.code as transport_code','surcharge.name as surcharge','unit.name as unit','pos_cash.total_amount as paid')
+     .select('goods.*','pos_general.description','transport.code as transport_code','surcharge.name as surcharge','unit.name as unit','pos_cash.total_amount as paid')
      .fetch()
 
      const receipt = yield Data.query()
@@ -152,10 +152,12 @@ class ReportDetailDebtController{
                a.stt = i
                a.date_voucher = moment(w.date_voucher,'YYYY-MM-DD').format('DD/MM/YYYY')
                a.code = w.code
+               a.description = w.description
                a.transport_code = w.transport_code
                a.quantity = w.quantity
                a.unit = w.unit
                a.fee = w.fee
+               a.vat_amount = w.vat_amount
                a.surcharge_amount = w.surcharge_amount
                a.total_amount = w.total_amount
                a.paid = w.paid ? w.paid : 0
@@ -171,28 +173,30 @@ class ReportDetailDebtController{
               var a = {}
                a.stt = i
                a.date_voucher = moment(w.date_voucher,'YYYY-MM-DD').format('DD/MM/YYYY')
+               a.description = w.description
                a.code = ""
                a.transport_code = ""
                a.quantity = ""
                a.unit = ""
                a.fee = ""
+               a.vat_amount = ""
                a.surcharge_amount = ""
                a.total_amount = ""
                a.paid = w.total_amount
                remaining += a.total_amount - a.paid
                a.remaining = remaining
-
-          rest_payable += w.vat_amount + a.remaining
+               
           arr.push(a)
           i++
         }
           total_remaining = remaining
-          rest_payable = total_remaining+ total_vat
+          rest_payable = total_remaining
 
         if( i == 2 ){
           var a = {}
            a.stt = ""
            a.date_voucher = ""
+           a.description = ""
            a.code = ""
            a.name = ""
            a.lot_number = ""
@@ -202,6 +206,7 @@ class ReportDetailDebtController{
            a.unit = ""
            a.price = ""
            a.fee = ""
+           a.vat_amount = ""
            a.surcharge_amount = ""
            a.total_amount = ""
            arr.push(a)
@@ -222,9 +227,9 @@ class ReportDetailDebtController{
                    customer_contact_phone : customer.telephone1_contact,
                    customer_payment_method : customer.payment_method,
                    detail : arr,
-                   total_remaining : total_remaining,
+                   total_remaining : total_remaining - total_vat,
                   total_vat : total_vat,
-                  rest_payable : rest_payable,
+                  rest_payable : total_remaining,
                   rest_payable_letter : hs.docso.doc(rest_payable) +" đồng",
                };
 
@@ -244,9 +249,9 @@ class ReportDetailDebtController{
                    customer_contact_phone : "",
                    customer_payment_method : "",
                    detail : arr,
-                   total_remaining : total_remaining,
+                   total_remaining : total_remaining - total_vat,
                   total_vat : total_vat,
-                  rest_payable : rest_payable,
+                  rest_payable : total_remaining,
                   rest_payable_letter : hs.docso.doc(rest_payable) +" đồng",
                };
 

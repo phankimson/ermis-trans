@@ -170,6 +170,12 @@ class TransferIssueInventoryGeneralController{
             yield arr.delete()
             // DETAIL
               for(let d of detail){
+
+                const goods = yield Goods.find(d.item_id)
+                goods.inventory = goods.transport_station_send
+                goods.status = 1
+                yield goods.save()
+
                 yield d.delete()
               }
 
@@ -237,35 +243,36 @@ class TransferIssueInventoryGeneralController{
           response.json({ status: true , print_content: template , detail_content : detail_content})
         }else if(data.voucher == 9){
           const general = yield General.query()
-          .innerJoin('transport','transport.id','pos_general.transport')
-          .innerJoin('driver','driver.id','pos_general.driver')
+          .leftJoin('transport','transport.id','pos_general.transport')
+          .leftJoin('driver','driver.id','pos_general.driver')
           .select('pos_general.*','driver.name as driver','transport.code as transport_name','driver.phone','driver.identity_card','driver.date_identity_card','driver.place_identity_card','transport.owner')
           .where('pos_general.id',data.id).first()
+
           const detail = yield Detail.query()
           .innerJoin('goods','goods.id','pos_detail.item_id')
-          .innerJoin('payment','payment.goods','goods.id')
+          .leftJoin('unit','unit.id','goods.unit_quantity')
+          .leftJoin('payment','payment.goods','goods.id')
+          .leftJoin('payment_method','payment_method.id','payment.type')
           .leftJoin('customer','payment.subject','customer.id')
           .where('payment.subject_key','customer')
           .where("pos_detail.general",data.id).orderBy('pos_detail.id', 'desc')
-          .select('pos_detail.item_id','goods.*','customer.name as customer_name','pos_detail.quantity')
+          .select('pos_detail.item_id','goods.*','customer.name as customer_name','pos_detail.quantity','unit.name as unit_quantity','payment_method.name as payment_method')
           .fetch()
-
             var detail_content = ''
-            var l = 1
             var total = 0
-            var parcel_volumes = 0
+            var l = 1
                 for(let d of detail){
-                  var amount = (d.collect == 1)?d.total_amount: 0
-                  total += amount
-                  parcel_volumes += d.parcel_volumes
                   detail_content += "<tr>"
                   detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="22" align="center" valign=middle sdval="1" sdnum="1033;"><font face="Times New Roman" color="#000000">'+l+'</font></td>'
-                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><font face="Times New Roman" color="#000000"><br>'+d.customer_name+'</font></td>'
-                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=7 align="center" valign=bottom><font face="Times New Roman" color="#000000"><br>'+d.code+'-'+d.name+'</font></td>'
-                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><font face="Times New Roman" color="#000000"><br>'+d.quantity+'</font></td>'
-                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=2 align="center" valign=bottom><font face="Times New Roman" color="#000000"><br>'+Antl.formatNumber(amount)+'</font></td>'
+                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left" valign=bottom><font face="Times New Roman" color="#000000">'+d.customer_name+'</font></td>'
+                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom><font face="Times New Roman" color="#000000">'+d.code+'-'+d.name+'</font></td>'
+                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left" valign=bottom><font face="Times New Roman" color="#000000">'+d.sender_phone+'-'+d.receiver_address+'</font></td>'
+                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><font face="Times New Roman" color="#000000">'+d.quantity+' '+d.unit_quantity+'</font></td>'
+                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><font face="Times New Roman" color="#000000">'+Antl.formatNumber(d.total_amount)+'</font></td>'
+                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><font face="Times New Roman" color="#000000">'+d.payment_method+'</font></td>'
                   detail_content += "</tr>"
                   l++
+                  total += d.total_amount
                 }
                 let hs = new Docso()
                 var reps = {
@@ -274,16 +281,15 @@ class TransferIssueInventoryGeneralController{
                     "{year}": moment(general.date_voucher , "YYYY-MM-DD").format('YYYY'),
                     "{voucher}" : general.voucher,
                     "{number}" : general.total_number,
-                    "{transport_name}" : general.transport_name,
-                    "{transport_owner}" : general.owner,
-                    "{driver_name}" : general.drive,
+                    "{transport_name}" : general.transport_name?general.transport_name:"",
+                    "{transport_owner}" : general.owner?general.owner:"",
+                    "{driver_name}" : general.driver?general.driver:"",
                     "{driver_phone}" : general.phone,
                     "{driver_identity_card}" : general.identity_card,
                     "{date_identity_card}" : moment(general.date_identity_card , "YYYY-MM-DD").format('DD/MM/YYYY'),
                     "{place_identity_card}" : general.place_identity_card,
-                    "{total_amount}" : Antl.formatNumber(general.total_amount),
-                    "{parcel_volumes}" : Antl.formatNumber(parcel_volumes),
-                    "{total}" : total,
+                    "{total_amount}" : Antl.formatNumber(total),
+                    "{total_quantity}" : general.total_number,
                     "{amount_letter}" : hs.docso.doc(total) +" đồng",
                   };
 
@@ -294,13 +300,13 @@ class TransferIssueInventoryGeneralController{
             response.json({ status: true , print_content: template , detail_content : detail_content})
         }else if(data.voucher == 10){
           const general = yield General.query()
-          .innerJoin('transport','transport.id','pos_general.transport')
-          .innerJoin('driver','driver.id','pos_general.driver')
+          .leftJoin('transport','transport.id','pos_general.transport')
+          .leftJoin('driver','driver.id','pos_general.driver')
           .select('pos_general.*','driver.name as driver','transport.weight','transport.size','transport.code as transport_name','driver.phone','driver.identity_card','driver.date_identity_card','driver.place_identity_card','transport.owner')
           .where('pos_general.id',data.id).first()
           const detail = yield Detail.query()
           .innerJoin('goods','goods.id','pos_detail.item_id')
-          .innerJoin('payment','payment.goods','goods.id')
+          .leftJoin('payment','payment.goods','goods.id')
           .leftJoin('customer','payment.subject','customer.id')
           .where('payment.subject_key','customer')
           .where("pos_detail.general",data.id).orderBy('pos_detail.id', 'desc')
