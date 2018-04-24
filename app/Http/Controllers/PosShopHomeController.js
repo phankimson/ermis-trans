@@ -109,8 +109,9 @@ class PosShopHomeController{
         // lưu khách lẻ
         if(data.subject == 0){
           var customer = yield Customer.query().where('name',data.sender_fullname).first()
+          var sede = yield SenderReceiver.query().where('fullname',data.receiver_fullname).first()
           var distric = yield Distric.query().where('city',data.sender_city).first()
-          if(!customer){
+          if(!sede){
             var cus = new SenderReceiver()
             cus.type = 1
             cus.code = 'R'+num
@@ -123,6 +124,23 @@ class PosShopHomeController{
             cus.active = 1
             yield cus.save()
           }
+          if(!customer){
+            var cus = new Customer()
+            cus.code = 'KL'+num
+            cus.name = 'Khách lẻ '+data.sender_fullname
+            cus.name_en = 'KL.'+data.sender_fullname
+            cus.address = data.sender_address
+            cus.email = data.sender_email
+            cus.regions = data.sender_city
+            cus.distric = distric.id
+            cus.phone = data.sender_phone
+            cus.full_name_contact = data.sender_fullname
+            cus.telephone1_contact = data.sender_phone
+            cus.payment_method = data.payment_method
+            cus.active = 1
+            yield cus.save()
+          }
+
         }
         // Lưu người nhận
           var sede = yield SenderReceiver.query().where('fullname',data.receiver_fullname).first()

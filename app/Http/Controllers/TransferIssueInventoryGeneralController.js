@@ -262,9 +262,10 @@ class TransferIssueInventoryGeneralController{
             var total = 0
             var l = 1
                 for(let d of detail){
+                  var name = d.customer_name?d.customer_name:d.sender_fullname
                   detail_content += "<tr>"
                   detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="22" align="center" valign=middle sdval="1" sdnum="1033;"><font face="Times New Roman" color="#000000">'+l+'</font></td>'
-                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left" valign=bottom><font face="Times New Roman" color="#000000">'+d.customer_name+'</font></td>'
+                  detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left" valign=bottom><font face="Times New Roman" color="#000000">'+name+'</font></td>'
                   detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan=4 align="center" valign=bottom><font face="Times New Roman" color="#000000">'+d.code+'-'+d.name+'</font></td>'
                   detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="left" valign=bottom><font face="Times New Roman" color="#000000">'+d.sender_phone+'-'+d.receiver_address+'</font></td>'
                   detail_content += '<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign=bottom><font face="Times New Roman" color="#000000">'+d.quantity+' '+d.unit_quantity+'</font></td>'

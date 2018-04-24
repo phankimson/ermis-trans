@@ -69,5 +69,6 @@
   "payment_success" : "Payment success",
   "already_paid" : "Already paid",
   "please_tick_barcode" : "Please tick barcode permission",
-  "other_can_not_choose" : "Other can not choose"
+  "other_can_not_choose" : "Other can not choose",
+  "please_fill_form_detail" : "Please fill form detail"
 }

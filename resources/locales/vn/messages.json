@@ -70,5 +70,6 @@
     "payment_success" : "Thanh toán thành công",
     "already_paid" : "Bill đã thanh toán",
     "please_tick_barcode" : "Xin vui lòng tick barcode phân quyền",
-    "other_can_not_choose" : "Khác chành không thể chọn ."
+    "other_can_not_choose" : "Khác chành không thể chọn .",
+    "please_fill_form_detail" : "Vui lòng điền chi tiết"
 }
