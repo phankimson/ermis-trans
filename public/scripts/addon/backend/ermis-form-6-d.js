@@ -683,6 +683,7 @@
         jQuery('input,textarea').not(".start,.end").not('.header_main_search_input').not('#files').not('.k-filter-menu input').addClass('disabled');
         reference_id = '';
         jQuery('.choose_voucher').on('click', initChooseVoucher);
+        jQuery('.cancel-window').on('click', initClose);
         shortcut.add(key + "I", function (e) { initChooseVoucher(e); });
         if (flag === 1) {//ADD
             jQuery('#add-top-menu-detail').show();

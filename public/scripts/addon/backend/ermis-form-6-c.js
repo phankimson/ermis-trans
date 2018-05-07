@@ -614,13 +614,14 @@
         shortcut.remove(key + "I");
         jQuery('.add,.edit,.delete,.back,.forward,.print,.cancel,.save,.choose,.filter,.pageview,.reference,.write_item,.unwrite_item,.advance_teacher,.advance_employee').addClass('disabled');
         jQuery('.add,.edit,.delete,.back,.forward,.print-item,.cancel,.save,.choose,.pageview,.filter,.reference,.write_item,.unwrite_item,.advance_teacher,.advance_employee').off('click');
-        jQuery('input,textarea').not('.header_main_search_input').not('#files').not('.k-filter-menu input').addClass('disabled');
+        jQuery('input,textarea').not(".start,.end").not('.header_main_search_input').not('#files').not('.k-filter-menu input').addClass('disabled');
         jQuery(".droplist").addClass('disabled');
         jQuery('input:checkbox').parent().addClass('disabled');
         jQuery('.date-picker').not(".start,.end").addClass('disabled');
         jQuery(".k-input").not(".start,.end").addClass('disabled');
         reference_id = 0 ;
         jQuery('.choose_voucher').on('click', initChooseVoucher);
+        jQuery('.cancel-window').on('click', initClose);
         shortcut.add(key + "I", function (e) { initChooseVoucher(e); });
         if (flag === 1) {//ADD
             jQuery('#add-top-menu-detail').show();

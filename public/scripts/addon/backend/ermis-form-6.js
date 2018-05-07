@@ -681,6 +681,7 @@ var Ermis = function () {
         jQuery('.date-picker').not(".start,.end").addClass('disabled');
         reference_id = '';
         jQuery('.choose_voucher').on('click', initChooseVoucher);
+        jQuery('.cancel-window').on('click', initClose);
         shortcut.add(key + "I", function (e) { initChooseVoucher(e); });
         if (flag === 1) {//ADD
             jQuery('#add-top-menu-detail').show();
