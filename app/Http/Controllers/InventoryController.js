@@ -17,7 +17,7 @@ class InventoryController{
       const data = yield Data.query().orderBy('id', 'desc').fetch()
       const company = yield Company.query().where('active',1).fetch()
       const city = yield City.query().where('active',1).fetch()
-      const show = yield response.view('manage/pages/inventory', {key : this.key , city : city.toJSON(),title: title , data: data.toJSON() , company : company.toJSON()})  // EDIT
+      const show = yield response.view('manage/pages/inventory', {key : this.key,room : this.room , city : city.toJSON(),title: title , data: data.toJSON() , company : company.toJSON()})  // EDIT
       response.send(show)
   }
 

@@ -42,7 +42,7 @@ class StatusGoodsController{
       const surcharge = yield Surcharge.query().where('active',1).fetch()
       const unit = yield Unit.query().where('type',1).where('active',1).fetch()
       const unit_quantity = yield Unit.query().where('type',2).where('active',1).fetch()
-      const show = yield response.view('pos/pages/status_goods', {key : this.key ,title: title , unit : unit.toJSON() , unit_quantity : unit_quantity.toJSON() , data: data.toJSON(),sales_staff : sale_staff.toJSON(),city : city.toJSON(), subject : subject.toJSON() , surcharge : surcharge.toJSON() ,payment_method : payment_method.toJSON(),stock : stock.toJSON() })  // EDIT
+      const show = yield response.view('pos/pages/status_goods', {key : this.key ,room : this.room ,title: title , unit : unit.toJSON() , unit_quantity : unit_quantity.toJSON() , data: data.toJSON(),sales_staff : sale_staff.toJSON(),city : city.toJSON(), subject : subject.toJSON() , surcharge : surcharge.toJSON() ,payment_method : payment_method.toJSON(),stock : stock.toJSON() })  // EDIT
       response.send(show)
   }
 

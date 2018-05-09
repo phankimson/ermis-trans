@@ -22,7 +22,7 @@ class ReportRevenueController{
       const start_date = moment().subtract((date_range.value - 1), 'days').format('DD/MM/YYYY')
       const subject = yield Customer.query().where('active',1).fetch()
       const sale_staff = yield SalesStaff.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/report_revenue', {key : this.key ,title: title, sale_staff : sale_staff.toJSON(), start_date:start_date  , end_date:end_date , subject:subject.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/report_revenue', {key : this.key ,room : this.room,title: title, sale_staff : sale_staff.toJSON(), start_date:start_date  , end_date:end_date , subject:subject.toJSON()})  // EDIT
       response.send(show)
   }
   * get (request, response) {

@@ -39,7 +39,7 @@ class InitialController{
         .select("suplier.id","suplier.code","suplier.name","suplier.tax_code","suplier.address","initial.debt_account","initial.credit_account").fetch()
 
       const stock = yield Stock.query().where('active',1).orderBy('id', 'desc').fetch()
-      const show = yield response.view('pos/pages/initial', {key : this.key ,title: title , data2: data2,data3: data3, stock : stock.toJSON() })  // EDIT
+      const show = yield response.view('pos/pages/initial', {key : this.key ,room : this.room,title: title , data2: data2,data3: data3, stock : stock.toJSON() })  // EDIT
       response.send(show)
   }
   * cancel (request, response){

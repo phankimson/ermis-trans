@@ -17,7 +17,7 @@ class ReportListTransportController{
   * show (request, response){
       const title = Antl.formatMessage('report_list_transport.title')  // EDIT
       const subject = yield Suplier.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/report_list_transport', {key : this.key ,title: title, subject:subject.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/report_list_transport', {key : this.key ,room : this.room,title: title, subject:subject.toJSON()})  // EDIT
       response.send(show)
   }
   * get (request, response) {

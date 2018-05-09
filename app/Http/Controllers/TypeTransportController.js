@@ -18,7 +18,7 @@ class TypeTransportController{
       const title = Antl.formatMessage('type_transport.title')  // EDIT
       const data = yield Data.query().orderBy('id', 'desc').fetch()
       const suplier = yield Suplier.query().orderBy('id', 'desc').fetch()
-      const show = yield response.view('pos/pages/type_transport', {key : this.key, suplier: suplier.toJSON() ,title: title , data: data.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/type_transport', {key : this.key ,room : this.room, suplier: suplier.toJSON() ,title: title , data: data.toJSON()})  // EDIT
       response.send(show)
   }
 

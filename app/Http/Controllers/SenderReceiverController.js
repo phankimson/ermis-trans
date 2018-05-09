@@ -22,7 +22,7 @@ class SenderReceiverController{
       const distric = yield Distric.query().where('active',1).fetch()
       const customer = yield Customer.query().where('active',1).fetch()
       const city = yield City.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/sender_receiver', {key : this.key ,title: title, customer : customer.toJSON(), city : city.toJSON(),distric : distric.toJSON() , data: data.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/sender_receiver', {key : this.key ,room : this.room ,title: title, customer : customer.toJSON(), city : city.toJSON(),distric : distric.toJSON() , data: data.toJSON()})  // EDIT
       response.send(show)
   }
   * get (request, response){

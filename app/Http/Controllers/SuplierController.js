@@ -26,7 +26,7 @@ class SuplierController{
       const distric = yield Distric.query().where('active',1).fetch()
       const city = yield City.query().where('active',1).fetch()
       const payment_method = yield PaymentMethod.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/suplier', {key : this.key ,title: title ,payment_method:payment_method.toJSON() ,city : city.toJSON(),distric : distric.toJSON(), data: data.toJSON() , group : group.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/suplier', {key : this.key ,room : this.room ,title: title ,payment_method:payment_method.toJSON() ,city : city.toJSON(),distric : distric.toJSON(), data: data.toJSON() , group : group.toJSON()})  // EDIT
       response.send(show)
   }
 

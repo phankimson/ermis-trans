@@ -22,7 +22,7 @@ class AttachFileController{
       const title = Antl.formatMessage('attach_file.title')  // EDIT
       const data = yield Data.query().orderBy('id', 'desc').fetch()
       const subject = yield Customer.query().orderBy('id', 'desc').fetch()
-      const show = yield response.view('pos/pages/attach_file', {key : this.key,subject : subject.toJSON() ,title: title , data: data.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/attach_file', {key : this.key,room : this.room,subject : subject.toJSON() ,title: title , data: data.toJSON()})  // EDIT
       response.send(show)
   }
 

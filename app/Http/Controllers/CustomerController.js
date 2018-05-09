@@ -31,7 +31,7 @@ class CustomerController{
       const distric = yield Distric.query().where('active',1).fetch()
       const city = yield City.query().where('active',1).fetch()
       const payment_method = yield PaymentMethod.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/customer', {key : this.key ,title: title ,payment_method:payment_method.toJSON() ,city : city.toJSON(),distric : distric.toJSON(),sales_staff : sales_staff.toJSON(), data: data.toJSON() , group : group.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/customer', {key : this.key ,room : this.room ,title: title ,payment_method:payment_method.toJSON() ,city : city.toJSON(),distric : distric.toJSON(),sales_staff : sales_staff.toJSON(), data: data.toJSON() , group : group.toJSON()})  // EDIT
       response.send(show)
   }
 

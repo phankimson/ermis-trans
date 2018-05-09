@@ -17,7 +17,7 @@ class ReportListCustomerController{
   * show (request, response){
       const title = Antl.formatMessage('report_list_customer.title')  // EDIT
       const sales = yield SalesStaff.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/report_list_customer', {key : this.key ,title: title, sales:sales.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/report_list_customer', {key : this.key ,room : this.room ,title: title, sales:sales.toJSON()})  // EDIT
       response.send(show)
   }
   * get (request, response) {

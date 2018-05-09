@@ -18,7 +18,7 @@ class DistricController{
       const title = Antl.formatMessage('distric.title')  // EDIT
       const data = yield Data.query().orderBy('id', 'desc').fetch()
       const city = yield City.query().orderBy('id', 'desc').where('active',1).fetch()
-      const show = yield response.view('pos/pages/distric', {key : this.key ,title: title , data: data.toJSON() , city : city.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/distric', {key : this.key ,room : this.room ,title: title , data: data.toJSON() , city : city.toJSON()})  // EDIT
       response.send(show)
   }
 

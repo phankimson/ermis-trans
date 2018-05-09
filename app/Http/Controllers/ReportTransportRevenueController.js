@@ -22,7 +22,7 @@ class ReportTransportRevenueController{
       const start_date = moment().subtract((date_range.value - 1), 'days').format('DD/MM/YYYY')
       const subject = yield Suplier.query().where('active',1).fetch()
       const transport = yield Transport.query().where('active',1).fetch()
-      const show = yield response.view('pos/pages/report_transport_revenue', {key : this.key ,title: title, transport : transport.toJSON(), start_date:start_date  , end_date:end_date , subject:subject.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/report_transport_revenue', {key : this.key ,room : this.room ,title: title, transport : transport.toJSON(), start_date:start_date  , end_date:end_date , subject:subject.toJSON()})  // EDIT
       response.send(show)
   }
   * get (request, response) {

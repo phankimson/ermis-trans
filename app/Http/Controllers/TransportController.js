@@ -23,7 +23,7 @@ class TypeTransportController{
       const data = yield Data.query().orderBy('id', 'desc').fetch()
       const type = yield Type.query().orderBy('id', 'desc').where('active',1).fetch()
       const suplier = yield Suplier.query().orderBy('id', 'desc').where('active',1).fetch()
-      const show = yield response.view('pos/pages/transport', {key : this.key ,title: title, suplier : suplier.toJSON() , type_transport : type.toJSON() , data: data.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/transport', {key : this.key ,room : this.room ,title: title, suplier : suplier.toJSON() , type_transport : type.toJSON() , data: data.toJSON()})  // EDIT
       response.send(show)
   }
 

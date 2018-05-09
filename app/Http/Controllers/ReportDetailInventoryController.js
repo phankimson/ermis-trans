@@ -23,7 +23,7 @@ class ReportDetailInventoryController{
       const item = yield Goods.query().where('active',1)
       .select('id','code','name as name')
       .fetch()
-      const show = yield response.view('pos/pages/report_detail_inventory', {key : this.key ,title: title , end_date:end_date , start_date :start_date , item : item.toJSON() , stock : stock.toJSON()})  // EDIT
+      const show = yield response.view('pos/pages/report_detail_inventory', {key : this.key ,room : this.room ,title: title , end_date:end_date , start_date :start_date , item : item.toJSON() , stock : stock.toJSON()})  // EDIT
       response.send(show)
   }
   * get (request, response) {
